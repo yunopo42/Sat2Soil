@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "title": "Sat2Soil — Uydudan tarlana",
+    "description": "NASA Dünya gözlem verileriyle tarla ölçeğinde karar desteği: su, ürün rotasyonu, iklim uyumu ve dijital ikiz senaryoları."
+  },
+  "common": {
+    "brand": "Sat2Soil",
+    "devPreview": "Geliştirme önizlemesi — henüz canlı NASA verisi gösterilmiyor.",
+    "languageSwitcher": "Dil",
+    "backHome": "Ana sayfaya dön"
+  },
+  "locale": {
+    "en": "English",
+    "tr": "Türkçe"
+  },
+  "landing": {
+    "eyebrow": "NASA Space Apps Challenge 2026",
+    "title": "Uydudan tarlana, veriden karara.",
+    "lead": "Sat2Soil, NASA Dünya gözlem verilerini tek bir tarla için açık ve açıklanabilir kararlara dönüştürür: su, ürün rotasyonu ve iklim uyumu.",
+    "ctaPrimary": "Demoyu Başlat",
+    "ctaSecondary": "Nasıl çalışır?",
+    "howTitle": "Nasıl çalışır?",
+    "steps": {
+      "data": {
+        "title": "Açıkça etiketlenmiş NASA verisi",
+        "body": "Tarlanın konumu için NASA POWER iklim serileri; her grafikte kaynak, birim, dönem ve grid çözünürlüğü yazılı."
+      },
+      "decide": {
+        "title": "Su ve ürün rotasyonu",
+        "body": "Mevcut planını alternatif bir rotasyonla karşılaştır; her varsayım ve belirsizlik açıkça yazılı."
+      },
+      "device": {
+        "title": "Sahada ölçüm konsepti",
+        "body": "AgriSpray, gelecekteki taşınabilir cihazın neler katabileceğini gösterir. Bugün değerleri simüledir ve her zaman öyle etiketlenir."
+      }
+    }
+  },
+  "demo": {
+    "title": "Demo",
+    "comingSoon": "Tarla seçimi Faz 3'te geliyor: Konya Ovası'ndaki örnek tarlayı aç ya da kendi tarlanı çiz."
+  },
+  "dataSource": {
+    "live_nasa": "NASA · canlı",
+    "cached_nasa": "NASA · önbellek",
+    "demo_sample": "Örnek",
+    "manual_user": "Kullanıcı girdisi",
+    "simulated_device": "Simüle cihaz",
+    "derived_indicator": "Türetilmiş",
+    "scenario_estimate": "Senaryo tahmini",
+    "unavailable": "Veri yok"
+  }
+}

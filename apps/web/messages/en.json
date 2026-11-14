@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "title": "Sat2Soil — From Satellite to Soil",
+    "description": "Field-scale decision support built on NASA Earth observation data: water, crop rotation, climate fit and digital twin scenarios."
+  },
+  "common": {
+    "brand": "Sat2Soil",
+    "devPreview": "Development preview — no live NASA data is shown yet.",
+    "languageSwitcher": "Language",
+    "backHome": "Back to home"
+  },
+  "locale": {
+    "en": "English",
+    "tr": "Türkçe"
+  },
+  "landing": {
+    "eyebrow": "NASA Space Apps Challenge 2026",
+    "title": "From Satellite to Soil, From Data to Decisions.",
+    "lead": "Sat2Soil turns NASA Earth observation data into clear, explainable decisions for a single field: water, crop rotation and climate fit.",
+    "ctaPrimary": "Start demo",
+    "ctaSecondary": "How it works",
+    "howTitle": "How it works",
+    "steps": {
+      "data": {
+        "title": "NASA data, clearly labelled",
+        "body": "Climate series from NASA POWER for your field's location, with source, unit, period and grid resolution on every chart."
+      },
+      "decide": {
+        "title": "Water and crop rotation",
+        "body": "Compare your current plan with an alternative rotation, with every assumption and uncertainty spelled out."
+      },
+      "device": {
+        "title": "Field measurement concept",
+        "body": "AgriSpray shows what a future portable device could add. Its readings are simulated today and always marked that way."
+      }
+    }
+  },
+  "demo": {
+    "title": "Demo",
+    "comingSoon": "Field selection arrives in phase 3: open the sample field in the Konya Plain or draw your own."
+  },
+  "dataSource": {
+    "live_nasa": "NASA · live",
+    "cached_nasa": "NASA · cached",
+    "demo_sample": "Sample",
+    "manual_user": "User input",
+    "simulated_device": "Simulated device",
+    "derived_indicator": "Derived",
+    "scenario_estimate": "Scenario estimate",
+    "unavailable": "No data"
+  }
+}

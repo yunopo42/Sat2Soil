@@ -1,6 +1,6 @@
 # CLAUDE.md — Sat2Soil
 
-> **Durum: v0.2 · 2026-11-14** — D-013…D-017 kullanıcı tarafından kararlaştırıldı; D-001…D-012 öneri durumunda.
+> **Durum: v0.3 · 2026-11-14** — D-001…D-015 ve D-017 kabul edildi, D-016 (mobil) ertelendi. Faz 0 tamamlandı.
 > Kararların tamamı `docs/DECISIONS.md` içinde; bu dosya onların kısa özetidir.
 
 **Sat2Soil** — NASA Space Apps Challenge 2026.
@@ -63,7 +63,7 @@ Demo tarlası: **Konya Ovası** (D-013). Arayüz dili: **İngilizce varsayılan 
 
 | Katman | Seçim |
 |---|---|
-| Web | Next.js (App Router) · TypeScript · Tailwind CSS v4 · Vercel |
+| Web | Next.js 16.4 (App Router, Turbopack, `cacheComponents`) · React 19.3 · TypeScript 5.9 · Tailwind CSS 4.3 · Vercel |
 | Motion | Motion for React (`motion/react`); basit hover/focus CSS |
 | Landing 3D | three.js + @react-three/fiber + drei — yalnız `/`, lazy-load, kademeli kalite |
 | Harita | MapLibre GL JS + react-map-gl · çizim: terra-draw · önizleme alanı: turf |
@@ -72,24 +72,37 @@ Demo tarlası: **Konya Ovası** (D-013). Arayüz dili: **İngilizce varsayılan 
 | Grafik | visx (bilimsel figür stili, motion ile tam kontrol) |
 | Veri | TanStack Query · Zod · `packages/contracts` (OpenAPI'den üretilen tipler) |
 | UI primitive | Radix Primitives + kendi tokenlarımız (hazır tema yok) · ikon: Phosphor |
-| API | FastAPI · Pydantic v2 · httpx + tenacity · psycopg 3 · PyJWT · slowapi · uv · Render |
+| API | Python 3.13 · FastAPI · Pydantic v2 + pydantic-settings · uv · Render (sonraki fazlarda: httpx/tenacity, psycopg 3, PyJWT, slowapi) |
 | DB | Supabase PostgreSQL + PostGIS · Supabase Storage · migration: `supabase/migrations` (tek kaynak) |
-| Test | Vitest · Playwright + axe · pytest + respx |
-| Monorepo | pnpm workspaces (Turborepo yok) |
+| Test | Vitest · pytest (+ httpx2 TestClient) · sonra Playwright + axe |
+| Monorepo | pnpm 12 workspaces (Turborepo yok) · Node ≥ 24 |
+
+### Next.js 16 kuralları (eğitim verisinden farklı!)
+
+- Next kodu yazmadan önce ilgili rehberi `apps/web/node_modules/next/dist/docs/` içinden oku.
+- `middleware.ts` yok → **`src/proxy.ts`**. Tailwind, PostCSS ile değil `@tailwindcss/turbopack` loader'ıyla yüklenir.
+- `cacheComponents: true`: kök layout `src/app/[locale]/layout.tsx`; `generateStaticParams` zorunlu; `app/layout.tsx` ekleme
+  (ikinci kök layout olur).
+- Locale **`next/root-params`** ile okunur (`src/i18n/request.ts`). `setRequestLocale` ve `params.locale` kullanma;
+  sunucuda `getLocale()` / `getTranslations()`, istemcide `useLocale()` / `useTranslations()`.
+- Link ve yönlendirme yalnız `@/i18n/navigation`'dan. `/` = EN (öneksiz), `/tr` = TR; tarayıcı dili algılanmaz.
+- Tailwind varsayılan paleti kapalı (`--color-*: initial`); yalnız `src/styles/globals.css` tokenları kullanılır.
+- Yol uyarısı: repo yolundaki Türkçe "İ" ESLint ignore desenlerini bozuyor; bu yüzden `lint` yalnız `src/`'yi tarar.
 
 ## 5. Repo yapısı (hedef)
 
 ```
-/                     CLAUDE.md · README.md · TASK_MASTER.md · .env.example · pnpm-workspace.yaml
+/                     CLAUDE.md · README.md · TASK_MASTER.md · package.json · pnpm-workspace.yaml
 docs/                 ürün/tasarım/veri belgeleri · DECISIONS.md · MOTION_STORYBOARD.md · assets/
-apps/web/             Next.js — src/app/(marketing) ve src/app/(app) route grupları
+apps/web/             Next.js — src/app/[locale]/{(marketing),(app)} · src/i18n · src/components · src/styles
+                      messages/{en,tr}.json · .env.example
 apps/mobile/          yalnız task.md — mobil ertelendi (D-016)
-services/api/         FastAPI — app/{core,api/v1,adapters,engines,repositories,models} · tests/
+services/api/         FastAPI — app/{core,api,models} (+ adapters, engines, repositories fazlarla) · tests/ · .env.example
 supabase/             migrations/ · seed.sql
 packages/contracts/   OpenAPI → TS tipleri + Zod · DataSource enum
 ```
 
-Rotalar: `/` → `/demo` → `/fields/[id]` (harita) → `/climate` → `/planning/water` · `/planning/rotation`
+Rotalar (TR'de `/tr` önekiyle): `/` → `/demo` → `/fields/[id]` (harita) → `/climate` → `/planning/water` · `/planning/rotation`
 → `/twin` → `/spray` → `/summary`. Harita `fields/[id]/layout.tsx` içinde kalıcıdır, sayfalar arasında yeniden yüklenmez.
 
 ## 6. Veri kaynağı tipleri (tek enum — D-001)
@@ -121,11 +134,23 @@ Rotalar: `/` → `/demo` → `/fields/[id]` (harita) → `/climate` → `/planni
 
 ## 9. Komutlar
 
-_Faz 0 sonrasında doldurulacak (dev, build, lint, typecheck, test, contracts:gen)._
+Kökten çalıştır (`pnpm install` ve `uv sync --directory services/api` sonrası):
+
+| Komut | Ne yapar |
+|---|---|
+| `pnpm dev` | Web, http://localhost:3000 |
+| `pnpm api:dev` | API, http://localhost:8000 (`/health`, `/docs`) |
+| `pnpm build` | Web production build |
+| `pnpm lint` · `pnpm typecheck` · `pnpm test` | ESLint · `next typegen` + tsc · Vitest |
+| `pnpm api:lint` · `pnpm api:format` · `pnpm api:test` | ruff check · ruff format · pytest |
+| `pnpm check` | Hepsini sırayla (commit öncesi) |
+
+Deploy ayarları (kullanıcı bağlar): Vercel root `apps/web`. Render root `services/api`, start komutu
+`uvicorn app.main:app --host 0.0.0.0 --port $PORT`, sağlık kontrolü `/health`. Env adları `*.env.example` dosyalarında.
 
 ## 10. Güncel durum
 
-- **Faz:** Planlama tamam, Faz 0 onayı bekleniyor. Uygulama kodu yok. GitHub'da yalnız planlama belgeleri var.
-  Supabase/Vercel/Render bağlı değil. Hiçbir P0 kapısı tamamlanmadı.
+- **Faz:** Faz 0 (iskelet) tamam — yer tutucu landing + `/demo` (EN/TR), FastAPI `/health`, ortak `DataSource` listesi.
+  Sıradaki: Faz 1 tasarım sistemi (G0). Supabase/Vercel/Render bağlı değil. Hiçbir P0 kapısı tamamlanmadı.
 - **Faz sırası:** 0 iskelet → 1 tasarım sistemi (G0) → 2 API + NASA POWER → 3 demo + harita + ilk canlı yayın
   → 4 NASA veri merkezi → 5 su + rotasyon → 6 dijital ikiz → 7 AgriSpray → 8 sinematik landing → 9 özet + QA. Mobil ertelendi.

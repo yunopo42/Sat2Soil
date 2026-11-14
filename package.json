@@ -1,0 +1,22 @@
+{
+  "name": "sat2soil",
+  "private": true,
+  "description": "Sat2Soil — NASA Space Apps Challenge 2026. From Satellite to Soil, From Data to Decisions.",
+  "scripts": {
+    "dev": "pnpm --filter @sat2soil/web dev",
+    "build": "pnpm --filter @sat2soil/web build",
+    "start": "pnpm --filter @sat2soil/web start",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "api:dev": "uv run --directory services/api uvicorn app.main:app --reload --port 8000",
+    "api:test": "uv run --directory services/api pytest",
+    "api:lint": "uv run --directory services/api ruff check .",
+    "api:format": "uv run --directory services/api ruff format .",
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm api:lint && pnpm api:test"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@12.10.1"
+}

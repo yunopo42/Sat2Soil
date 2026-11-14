@@ -1,0 +1,19 @@
+{
+  "name": "@sat2soil/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared data contracts between the Sat2Soil web app and API (D-001, D-002).",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3"
+  }
+}

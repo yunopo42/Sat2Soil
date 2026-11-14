@@ -7,26 +7,26 @@ Bir karar `KABUL` olunca `CLAUDE.md` güncellenir.
 
 ## A. Çelişkiler
 
-### D-001 · Kaynak tipi enum'u tekleştirilir — `ÖNERİ`
+### D-001 · Kaynak tipi enum'u tekleştirilir — `KABUL`
 - **Çelişki:** `ANALYSIS_AI.md`: `live_nasa | cached_nasa | manual_user | simulated_device | actual_device_future | derived_indicator | scenario_estimate | unavailable`.
   `apps/web/task.md` W00.4: `manual`, `not_available`. `NASA_DATA.md`: `demo_sample`. `UI_UX_DESIGN.md`: `Örnek` etiketi.
 - **Karar:** `live_nasa · cached_nasa · demo_sample · manual_user · simulated_device · derived_indicator · scenario_estimate · unavailable`
   (+ `actual_device_future` rezerve). `packages/contracts` tek kaynak; UI etiketleri bu enum'dan türetilir.
 
-### D-002 · Alan adları tekleştirilir — `ÖNERİ`
+### D-002 · Alan adları tekleştirilir — `KABUL`
 - **Çelişki:** zaman: `observed_at/fetched_at` (ARCHITECTURE, B06) vs `valid_time/retrieved_at` (D05, NASA_DATA).
   Workspace: `demo_workspace_id` vs `workspace_id`. AgriSpray: `computation_kind` vs cihaz JSON'da `analysis_kind`.
   Kaynak alanı: `source_type` vs `data_status`.
 - **Karar:** `observed_at`, `fetched_at`, `workspace_id`, `computation_kind`, `source_type` her katmanda aynı.
   API sözleşmesi (`Field.rotation_history[]`) ile DB (`crop_seasons` tablosu) farklı şekilde olabilir; eşleme repository katmanında.
 
-### D-003 · Su ve rotasyon: tek "Planlama" bölümü, iki alt rota — `ÖNERİ`
+### D-003 · Su ve rotasyon: tek "Planlama" bölümü, iki alt rota — `KABUL`
 - **Çelişki:** Kullanıcı brifi su yönetimi ve ürün rotasyonunu ayrı bölüm sayar; `UI_UX_DESIGN.md` tek `/planning` sayfası
   ve sol rail'de **en fazla 5** başlık ister.
 - **Karar:** `/fields/[id]/planning/water` ve `/fields/[id]/planning/rotation` — ayrı, linklenebilir sayfalar; rail'de tek
   "Planlama" başlığı altında sekme. Rail: Tarla · NASA Verisi · Planlama · Dijital İkiz · AgriSpray. Özet üst barda.
 
-### D-004 · Sinematik 3D landing — `ÖNERİ`
+### D-004 · Sinematik 3D landing — `KABUL`
 - **Çelişki:** Yeni brif: Dünya + iki uydu + kameranın tarlaya inişi. `UI_UX_DESIGN.md` S-01: sağda gerçek UI önizlemesi,
   "dekoratif ve düşük yoğunlukta" animasyon; motion yasakları: sürekli hareketli arka plan, aşırı parallax.
 - **Karar:** Landing hero bu yasaklardan **tek istisna**, şu kurallarla:
@@ -36,12 +36,12 @@ Bir karar `KABUL` olunca `CLAUDE.md` güncellenir.
   4. `prefers-reduced-motion` / WebGL yok / düşük cihaz → statik poster + opacity geçişleri.
   5. İnişin son karesi S-01'in istediği gerçek UI önizlemesine dönüşür (poligon çizgisi 700ms bir kez çizilir).
 
-### D-005 · G0 kapısı: Figma yerine kod-öncelikli tasarım sistemi — `ÖNERİ`
+### D-005 · G0 kapısı: Figma yerine kod-öncelikli tasarım sistemi — `KABUL`
 - **Çelişki:** `TASK_MASTER.md` G0 ve `UI_UX_DESIGN.md` teslimleri Figma frame'leri ister; yeni brif doğrudan web geliştirmesini önceliklendirir.
 - **Karar:** G0 = canlı `/styleguide` sayfası (token, bileşen, rozet, grafik, boş/yükleniyor/hata durumları) +
   `docs/MOTION_STORYBOARD.md` (eleman · tetik · süre · easing · reduced-motion alternatifi). Kullanıcı bunları onaylayınca G0 kapanır.
 
-### D-006 · Lacivert token ve renk semantiği — `ÖNERİ`
+### D-006 · Lacivert token ve renk semantiği — `KABUL`
 - **Boşluk:** Belge paletinde lacivert yok; brif "kontrollü lacivert/uzay referansı" ister.
 - **Karar:** `navy-900 #0E2240`, `navy-600 #2B4C7E` eklenir. Lacivert = uydudan gelen veri, yeşil = tarla/karar, amber = simüle/uyarı.
 - **Kontrast notu:** belgedeki `#B66A28` beyaz zeminde ≈4.1:1 → küçük metinde WCAG AA'yı geçmez. Dolgu/kenarlık için kalır;
@@ -49,27 +49,27 @@ Bir karar `KABUL` olunca `CLAUDE.md` güncellenir.
 
 ## B. Boşluklar / teknik netleştirmeler
 
-### D-007 · POWER parametre listesi genişletilir — `ÖNERİ` (N01'de doğrulanacak)
+### D-007 · POWER parametre listesi genişletilir — `KABUL` (N01'de doğrulanacak)
 - `NASA_DATA.md` şablonu FAO-56 Penman-Monteith ET0 için yetersiz: `T2M_MAX`, `T2M_MIN` eksik; rakım yanıt geometrisinden alınır.
 - **Karar:** `T2M, T2M_MAX, T2M_MIN, PRECTOTCORR, RH2M, WS2M, ALLSKY_SFC_SW_DWN`, `community=AG`. Parametre ve birimler
   geliştirme öncesi gerçek yanıtla doğrulanır; doğrulanamazsa su analizi "basitleştirilmiş yağış/iklim göstergesi" olarak kalır.
 
-### D-008 · Tarayıcı Supabase'e bağlanmaz — `ÖNERİ`
+### D-008 · Tarayıcı Supabase'e bağlanmaz — `KABUL`
 - `ARCHITECTURE.md` + D11: RLS default-deny, tüm erişim API'den. Sonuç: Vercel'de Supabase anahtarı **yok**;
   web yalnız `NEXT_PUBLIC_API_BASE_URL` bilir. Görseller API'nin ürettiği süreli URL ile servis edilir.
 
-### D-009 · Demo oturumu Bearer token ile — `ÖNERİ`
+### D-009 · Demo oturumu Bearer token ile — `KABUL`
 - Web (`*.vercel.app`) ile API (`*.onrender.com`) farklı site → API'nin çerezi üçüncü taraf çerez olur, Safari engeller.
 - **Karar:** `POST /v1/demo/session` kısa ömürlü imzalı token döner; web `Authorization: Bearer` ile gönderir. Token yalnız kendi demo workspace'ine yazabilir.
 
-### D-010 · Migration tek kaynak: `supabase/migrations` — `ÖNERİ`
+### D-010 · Migration tek kaynak: `supabase/migrations` — `KABUL`
 - Alembic kullanılmaz. Backend şemayı SQL migration'lardan okur; seed `supabase/seed.sql`.
 
-### D-011 · Grid hücresi haritada gösterilir — `ÖNERİ`
+### D-011 · Grid hücresi haritada gösterilir — `KABUL`
 - NASA veri ekranında tarlanın etrafına POWER grid hücresinin sınırı çizilir: "Bu veri şu alanı temsil eder, tarlan burada."
   `NASA_DATA.md`'deki "saha içi ölçüm değildir" uyarısının görsel karşılığı. Önbellek anahtarı da bu hücredir.
 
-### D-012 · Render/Supabase ücretsiz katman riskleri — `ÖNERİ`
+### D-012 · Render/Supabase ücretsiz katman riskleri — `KABUL`
 - Render free servis boşta uyur (ilk istek ~30–60 sn). Supabase free proje uzun süre kullanılmazsa durdurulur.
 - **Karar:** UI'da "API uyanıyor" durumu + açık etiketli önbellek/örnek fallback (Q13); jüri öncesi ısıtma isteği;
   ücretli plan kararı kullanıcıda.

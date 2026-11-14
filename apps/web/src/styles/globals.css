@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+/*
+ * Sat2Soil design tokens (CLAUDE.md §7, docs/DECISIONS.md D-006).
+ * Tailwind's default palette is cleared so only these colours can be used.
+ * Phase 1 expands this into the full design system.
+ */
+@theme {
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --color-bg: #f7f9f5;
+  --color-surface: #ffffff;
+  --color-surface-2: #eff2ee;
+  --color-line: #e6ece8;
+  --color-ink: #173b32;
+  --color-ink-muted: #5a6b64;
+
+  /* Soil: the field and the farmer's decision */
+  --color-green-600: #2d7a53;
+  --color-green-200: #a9d7a9;
+
+  /* Satellite: NASA-sourced data and the space reference */
+  --color-navy-900: #0e2240;
+  --color-navy-600: #2b4c7e;
+
+  /* Simulated or warning. amber-600 for fills/borders only; amber-700 for text (WCAG AA) */
+  --color-amber-600: #b66a28;
+  --color-amber-700: #8f5119;
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+:root {
+  color-scheme: light;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-green-600);
+  outline-offset: 2px;
+}
