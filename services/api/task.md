@@ -14,9 +14,9 @@
 
 ## Tarla / analiz [P0]
 - [ ] B09 `/fields` CRUD; geçerli Polygon/MultiPolygon, lon/lat sırası, alan ha hesabı PostGIS ile; invalid reject.
-- [ ] B10 Su koşulları hesaplama endpoint'i: günlük yağış ve seçilen ürün varsayımları; hesap yöntemi açıklama.
-- [ ] B11 Rotasyon 2+ senaryo, ürün kısıtları, dayanak veriler ve belirsizlik notu.
-- [ ] B12 Dijital ikiz snapshot ve comparison JSON; gerçek gözlem ile türetilmiş/varsayımsal ayrımı.
+- [x] B10 Su koşulları hesaplama endpoint'i: günlük yağış ve seçilen ürün varsayımları; hesap yöntemi açıklama.
+- [x] B11 Rotasyon 2+ senaryo, ürün kısıtları, dayanak veriler ve belirsizlik notu.
+- [x] B12 Dijital ikiz snapshot ve comparison JSON; gerçek gözlem ile türetilmiş/varsayımsal ayrımı.
 - [ ] B13 Simüle cihaz seed API; `source_type=simulated_device` ve `computation_kind=mock` zorunlu.
 - [ ] B14 AgriSpray raporu: püskürtme/çevresel/bitki görseli ayrı; kesin biyolojik etkinlik iddiası yok.
 

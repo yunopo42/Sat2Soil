@@ -128,3 +128,58 @@ class RotationOut(BaseModel):
 
 class CompareIn(BaseModel):
     plans: list[list[str]] = Field(min_length=1, max_length=3)
+
+
+class TwinOutcome(BaseModel):
+    """One past season's weather replayed for the rest of this season."""
+
+    sowing_year: int
+    precip_mm: float
+    etc_mm: float
+    deficit_mm: float
+    coverage_pct: float | None
+
+
+class TwinDayOut(BaseModel):
+    date: date
+    kc: float
+    observed: bool
+    balance_mm: float | None
+    p10: float | None
+    p50: float | None
+    p90: float | None
+    etc_cum_mm: float
+
+
+class TwinScenarioOut(BaseModel):
+    key: Literal["a", "b"]
+    plan: Literal["current", "suggested", "custom"]
+    crop: str
+    status: Literal["ok", "no_history"]
+    sowing: date | None = None
+    harvest: date | None = None
+    in_season: bool = False
+    observed_until: date | None = None
+    observed_precip_mm: float | None = None
+    observed_etc_mm: float | None = None
+    observed_missing_days: int = 0
+    analog_count: int = 0
+    outcomes: dict[str, TwinOutcome] = Field(default_factory=dict)
+    days: list[TwinDayOut] = Field(default_factory=list)
+
+
+class TwinOut(BaseModel):
+    field_id: str
+    source_type: DataSource = DataSource.SCENARIO_ESTIMATE
+    observed_source_type: DataSource
+    method: str = (
+        "Observed NASA POWER season so far + the rest of the season replayed from each of the "
+        "past seasons (analog years); dry/normal/wet = P10/P50/P90 of the season-end balance"
+    )
+    latest_observed: date
+    history_start: date
+    history_end: date
+    scenarios: list[TwinScenarioOut]
+    data_sources: list[DataSourceRef]
+    assumptions: list[str]
+    uncertainty_note: str

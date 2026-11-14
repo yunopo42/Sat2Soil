@@ -16,6 +16,7 @@ from app.engines.rotation import (
     evaluate_plan,
     suggest_plan,
 )
+from app.engines.scenario import TwinSeason, daily_climate, twin_season
 from app.models.agronomy import (
     CompareIn,
     Conditions,
@@ -25,6 +26,10 @@ from app.models.agronomy import (
     PlanOut,
     RotationOut,
     RuleOut,
+    TwinDayOut,
+    TwinOut,
+    TwinOutcome,
+    TwinScenarioOut,
     WaterBalanceOut,
     WaterDay,
     WaterTotals,
@@ -33,6 +38,7 @@ from app.models.agronomy import (
 from app.repositories.fields import FieldRecord
 from app.services.agronomy import (
     INPUT_PARAMETERS,
+    TWIN_HISTORY_YEARS,
     FieldClimate,
     balance_for,
     crop_climates,
@@ -54,6 +60,15 @@ WATER_ASSUMPTIONS = [
     "no_soil_storage",
     "rain_not_effective",
     "not_prescription",
+]
+TWIN_ASSUMPTIONS = [
+    "grid_cell_climate",
+    "analog_years",
+    "fao56_typical_kc",
+    "sowing_date_assumed",
+    "no_soil_storage",
+    "rainfed_only",
+    "not_forecast",
 ]
 ROTATION_ASSUMPTIONS = [
     "grid_cell_climate",
@@ -288,3 +303,106 @@ async def compare_rotation(
             raise HTTPException(status_code=422, detail=[f"Invalid plan: {plan}"])
     labels = ["current", "custom", "custom"]
     return await _rotation(record, service, list(zip(labels, body.plans, strict=False)))
+
+
+def _r(value: float | None, digits: int = 1) -> float | None:
+    return None if value is None else round(value, digits)
+
+
+def twin_out(key: str, plan: str, crop: str, season: TwinSeason | None) -> TwinScenarioOut:
+    if season is None:
+        return TwinScenarioOut(key=key, plan=plan, crop=crop, status="no_history")  # type: ignore[arg-type]
+    return TwinScenarioOut(
+        key=key,  # type: ignore[arg-type]
+        plan=plan,  # type: ignore[arg-type]
+        crop=crop,
+        status="ok",
+        sowing=season.sowing,
+        harvest=season.harvest,
+        in_season=season.in_season,
+        observed_until=season.observed_until,
+        observed_precip_mm=round(season.observed_precip_mm, 1) if season.in_season else None,
+        observed_etc_mm=round(season.observed_etc_mm, 1) if season.in_season else None,
+        observed_missing_days=season.observed_missing_days,
+        analog_count=len(season.analogs),
+        outcomes={
+            name: TwinOutcome(
+                sowing_year=o.sowing_year,
+                precip_mm=round(o.precip_mm, 1),
+                etc_mm=round(o.etc_mm, 1),
+                deficit_mm=round(o.deficit_mm, 1),
+                coverage_pct=_r(o.coverage_pct),
+            )
+            for name, o in season.outcomes.items()
+        },
+        days=[
+            TwinDayOut(
+                date=d.day,
+                kc=round(d.kc, 3),
+                observed=d.observed,
+                balance_mm=_r(d.balance_mm),
+                p10=_r(d.p10),
+                p50=_r(d.p50),
+                p90=_r(d.p90),
+                etc_cum_mm=round(d.etc_cum_mm, 1),
+            )
+            for d in season.days
+        ],
+    )
+
+
+@router.get(
+    "/fields/{field_id}/twin",
+    response_model=TwinOut,
+    summary="Digital twin: observed season so far + past seasons replayed for two crop plans",
+)
+@limiter.limit(NASA_LIMIT)
+async def twin(
+    request: Request,
+    field_id: UUID,
+    repo: Repo,
+    service: Annotated[PowerDailyService, Depends(get_power_service)],
+    session: Annotated[DemoSession | None, Depends(optional_session)],
+    crop_a: Annotated[str | None, Query(description="Default: current plan, year 1")] = None,
+    crop_b: Annotated[str | None, Query(description="Default: suggested plan, year 1")] = None,
+) -> TwinOut:
+    record = await _readable(repo, field_id, session)
+    for code in (crop_a, crop_b):
+        if code is not None and (code not in CROPS or CROPS[code].family == "fallow"):
+            raise HTTPException(status_code=422, detail=[f"No scenario for crop '{code}'."])
+    climate = await load_climate(service, record, years=TWIN_HISTORY_YEARS)
+
+    plan_a = plan_b = "custom"
+    if crop_a is None or crop_b is None:
+        current = default_plan(record)
+        if crop_a is None:
+            crop_a, plan_a = current[0], "current"
+        if crop_b is None:
+            per_crop = crop_climates(climate, record)
+            history = [(s["season_year"], s["crop"]) for s in record.rotation_history]
+            start_year = max((y for y, _ in history), default=climate.latest.year - 1) + 1
+            suggested = suggest_plan(
+                current=current,
+                start_year=start_year,
+                history=history,
+                climate={code: c for code, (c, _) in per_crop.items()},
+                rainfed=record.irrigation_type in (None, "rainfed"),
+            )
+            crop_b, plan_b = suggested.crops[0], "suggested"
+
+    daily = daily_climate(climate.inputs, latitude=record.centroid_lat, elevation=climate.elevation)
+    scenarios = [
+        twin_out(key, plan, code, twin_season(CROPS[code], daily, climate.latest))
+        for key, plan, code in (("a", plan_a, crop_a), ("b", plan_b, crop_b))
+    ]
+    return TwinOut(
+        field_id=str(field_id),
+        observed_source_type=climate.served.source_type,
+        latest_observed=climate.latest,
+        history_start=min(climate.inputs),
+        history_end=climate.latest,
+        scenarios=scenarios,
+        data_sources=source_ref(climate),
+        assumptions=TWIN_ASSUMPTIONS,
+        uncertainty_note="replay_not_forecast",
+    )

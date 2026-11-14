@@ -4,12 +4,14 @@ import {
   FieldSchema,
   PowerDailySchema,
   RotationSchema,
+  TwinSchema,
   WaterBalanceSchema,
   type Field,
   type IrrigationType,
   type Polygon,
   type PowerDaily,
   type Rotation,
+  type Twin,
   type WaterBalance,
 } from "@sat2soil/contracts";
 import { z } from "zod";
@@ -154,4 +156,13 @@ export function compareRotation(id: string, plans: string[][]): Promise<Rotation
     { method: "POST", body: JSON.stringify({ plans }), auth: "optional" },
     RotationSchema,
   );
+}
+
+/** Digital twin (D-026). Without crops the API uses year 1 of the current and suggested plans. */
+export function fetchTwin(id: string, crops: { a?: string; b?: string } = {}): Promise<Twin> {
+  const params = new URLSearchParams();
+  if (crops.a) params.set("crop_a", crops.a);
+  if (crops.b) params.set("crop_b", crops.b);
+  const query = params.size ? `?${params}` : "";
+  return request(`/v1/fields/${encodeURIComponent(id)}/twin${query}`, { auth: "optional" }, TwinSchema);
 }

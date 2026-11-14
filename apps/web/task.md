@@ -28,10 +28,10 @@
 - [ ] W03.4 Cache/fallback: son geçerli sonuç gösterilebilir; `Önbellek • tarih` etiketi açık. **Kabul:** NASA servisi kesilince yalan canlı durum yok.
 
 ## Faz 4 — NASA challenge karar desteği [P0]
-- [ ] W04.1 Su analizi: yağış ve koşul göstergeleri, yöntem/varsayım paneli, görsel grafik. **Kabul:** eksik veri varsa hesaplama yapılmaz veya açıkça yaklaşık gösterilir.
-- [ ] W04.2 Ürün kataloğu + mevcut plan/alternatif plan. **Kabul:** kullanıcı ürün tercihlerini değiştirince tahmini kıyas güncellenir, yöntem açıklanır.
-- [ ] W04.3 Dijital ikiz senaryo `/fields/[id]/twin`: senaryo toggle, zaman çizgisi, harita + ölçülen/tahmin edilen ayrımı. **Kabul:** alternatif senaryo canlı NASA verisiymiş gibi gösterilmez.
-- [ ] W04.4 Su / rotasyon / dijital ikiz ana sayfalarda 1-2 cümleyle çiftçiye anlaşılır sonuç. **Kabul:** yalnız grafik bırakılmaz.
+- [x] W04.1 Su analizi: yağış ve koşul göstergeleri, yöntem/varsayım paneli, görsel grafik. **Kabul:** eksik veri varsa hesaplama yapılmaz veya açıkça yaklaşık gösterilir.
+- [x] W04.2 Ürün kataloğu + mevcut plan/alternatif plan. **Kabul:** kullanıcı ürün tercihlerini değiştirince tahmini kıyas güncellenir, yöntem açıklanır.
+- [x] W04.3 Dijital ikiz senaryo `/fields/[id]/twin`: senaryo toggle, zaman çizgisi, harita + ölçülen/tahmin edilen ayrımı. **Kabul:** alternatif senaryo canlı NASA verisiymiş gibi gösterilmez.
+- [x] W04.4 Su / rotasyon / dijital ikiz ana sayfalarda 1-2 cümleyle çiftçiye anlaşılır sonuç. **Kabul:** yalnız grafik bırakılmaz.
 
 ## Faz 5 — AgriSpray gösterimi [P0]
 - [ ] W05.1 `Konsept Cihaz • Simülasyon` başlığı ve mekatronik çizim yeri; sensör örnekleri toprak nemi, sıcaklığı, EC, ortam hava koşulu. **Kabul:** cihaz bağlıymış gibi davranmaz.

@@ -179,3 +179,15 @@ Yazı tipi Plus Jakarta Sans (italik dahil) + sayılar için Geist Mono. D-003't
   devamı. Puan verim tahmini değildir; UI bunu söyler.
 - Uçlar: `GET /v1/crops` · `GET /v1/fields/{id}/water-balance?crop=&season=last|current` · `GET /v1/fields/{id}/rotation` ·
   `POST /v1/fields/{id}/rotation/compare {plans}`. Örnek tarla geçmişi buğday/pancar döngüsü (seed).
+
+### D-026 · Dijital ikiz = gözlenen sezon + geçmiş sezonların yeniden oynatılması — `KABUL` (Faz 6, 2026-11-15)
+- Ürünün tarladaki (ya da sıradaki) sezonu son yayımlanmış NASA POWER gününde ikiye ayrılır: öncesi **gözlem**
+  (`cached_nasa`/`live_nasa`), sonrası **senaryo** (`scenario_estimate`). Sezonun kalanı, aynı ızgara hücresinin geçmiş
+  20 sezonunun havasıyla sırayla doldurulur ("analog yıllar", ensemble yöntemi). Hava tahmini **değildir**.
+- Kurak / normal / yağışlı = sezon sonu su dengesinde P10 / P50 / P90'daki geçmiş sezon (tablodaki toplamlar tutarlı
+  olsun diye tek bir gerçek sezon seçilir, hangi sezon olduğu yazılır). Grafik bandı her gün için P10–P90.
+- Senaryo A = mevcut planın 1. yılı, B = önerilen planın 1. yılı; kullanıcı ikisini de değiştirebilir.
+  Yalnız yağışla (kuru tarım); sulama, toprak deposu, verim **simüle edilmez**. Tasarımdaki (P07) t/ha verim, m³/ha,
+  iklim riski seviyesi ve tarla içi NDVI uygulanmadı (D-020).
+- Harita tarlayı **tek renkle** boyar (tarla ortalaması), etiket bunu söyler. Geçmiş için POWER 22 yıl × 7 parametre
+  tek istekte (~3 s) alınır, ızgara hücresi önbelleğine girer. Uç: `GET /v1/fields/{id}/twin?crop_a=&crop_b=`.

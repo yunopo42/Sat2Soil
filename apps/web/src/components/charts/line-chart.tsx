@@ -37,6 +37,13 @@ const tone: Record<SeriesTone, { line: string; band: string; dash?: string; dot:
     dot: "fill-green-600",
     label: "fill-green-800",
   },
+  "scenario-alt": {
+    line: "stroke-ink-muted",
+    band: "fill-surface-2",
+    dash: "2 4",
+    dot: "fill-ink-muted",
+    label: "fill-ink-muted",
+  },
   reference: { line: "stroke-ink-muted", band: "fill-surface-2", dot: "fill-ink-muted", label: "fill-ink-muted" },
 };
 
@@ -118,6 +125,8 @@ export function LineChart({
     const labels = ends.map((p, i) => {
       const py = p ? y(p.v as number) : innerHeight;
       if (atEdge[i]) return { x: innerWidth + 10, y: edgeYs[edgeIndex++], anchor: "start" as const };
+      // A line that ends close to the left axis gets its label after the end, not clipped before it.
+      if (endXs[i] < 96) return { x: endXs[i] + 6, y: Math.max(8, py - 12), anchor: "start" as const };
       return { x: endXs[i] - 6, y: Math.max(8, py - 12), anchor: "end" as const };
     });
 

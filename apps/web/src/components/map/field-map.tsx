@@ -37,6 +37,7 @@ export function FieldMap({
   tool = "none",
   clearToken = 0,
   focus = null,
+  fillColor = null,
   onShapeChange,
   ariaLabel,
   className,
@@ -49,6 +50,8 @@ export function FieldMap({
   tool?: DrawTool;
   clearToken?: number;
   focus?: MapFocus | null;
+  /** Tints saved fields uniformly (digital twin). MapLibre fades the paint change itself. */
+  fillColor?: string | null;
   onShapeChange?: (polygon: Polygon | null) => void;
   ariaLabel: string;
   className?: string;
@@ -199,6 +202,14 @@ export function FieldMap({
       features: fields.map((f) => ({ type: "Feature", id: f.id, properties: {}, geometry: f.boundary })),
     });
   }, [fields, ready]);
+
+  // Uniform tint (one value for the whole field, never a fake within-field pattern)
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!ready || !map) return;
+    map.setPaintProperty("fields-fill", "fill-color", fillColor ?? "#4b7a22");
+    map.setPaintProperty("fields-fill", "fill-opacity", fillColor ? 0.62 : 0.28);
+  }, [fillColor, ready]);
 
   // NASA POWER grid cell around a point
   useEffect(() => {

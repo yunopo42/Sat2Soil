@@ -1,6 +1,6 @@
 # HANDOFF: picking the work back up
 
-> Updated at the end of every phase. **Last updated: 2026-11-15, end of Faz 5.**
+> Updated at the end of every phase. **Last updated: 2026-11-15, end of Faz 6.**
 > If you are opening this repo from another Claude account or session, read this file first, then `CLAUDE.md`, then
 > `docs/DECISIONS.md`. Talk to the user in Turkish; code, variables and commit messages stay in English.
 
@@ -14,12 +14,12 @@
 | 3 | ✅ | Supabase PostGIS schema + sample parcel, demo session, field CRUD, map (NASA GIBS + terra-draw), field overview, the user's Stitch design (D-020) |
 | 4 | ✅ | `/fields/[id]/climate` NASA data center (90 days / 12 months / 3 years, CSV, "About this data") |
 | 5 | ✅ | `/planning/water` FAO-56 water balance · `/planning/rotation` crop rotation comparison (D-025) |
-| 6 | ⏭ next | Digital twin: scenarios (rain −20%, temp +2 °C …) on top of the Faz 5 engines, `scenario_estimate` |
-| 7 | ⬜ | AgriSpray simulated spray analysis: always `Konsept cihaz · Simüle veri`, `simulated_device` |
+| 6 | ✅ | `/twin` digital twin: observed season + 20 past seasons replayed, dry/normal/wet, A vs B crops (D-026) |
+| 7 | ⏭ next | AgriSpray simulated spray analysis: always `Konsept cihaz · Simüle veri`, `simulated_device` |
 | 8 | ⬜ | Cinematic landing (three.js, D-004), only on `/`, lazy, reduced-motion poster |
 | 9 | ⬜ | `/summary` + QA (Playwright + axe, 390 px mobile check, prod smoke test) |
 
-Pages 6–9 are currently `ComingSoon` placeholders. Specs: `docs/PRODUCT_SCOPE.md`, `docs/UI_UX_DESIGN.md`,
+Pages 7–9 are currently `ComingSoon` placeholders. Specs: `docs/PRODUCT_SCOPE.md`, `docs/UI_UX_DESIGN.md`,
 `docs/ANALYSIS_AI.md` (§3 digital twin, §4 AgriSpray), `apps/web/task.md`, `services/api/task.md`.
 
 Deploy: the user connected Render (API, `render.yaml`) and Vercel (web, root `apps/web`). **Claude does not wire up
@@ -54,21 +54,23 @@ Before every commit: `pnpm check` and `pnpm build`.
 - MapLibre worker is copied to `public/vendor` by a postinstall script; the map container needs `h-full w-full`.
 - Every data view carries `SourceBadge` + `ProvenanceFooter`; missing value = `null` → "—", never 0.
 
-## 4. Faz 5 in short (for building Faz 6 on top)
+## 4. Analysis engines in short
 
-- Engines: `services/api/app/engines/{crops,water,rotation}.py` (pure functions, unit-tested).
-- Service: `services/api/app/services/agronomy.py` loads ~760 days of POWER per grid cell and reuses it.
-- Endpoints: `GET /v1/crops`, `GET /v1/fields/{id}/water-balance?crop=&season=last|current`,
-  `GET /v1/fields/{id}/rotation`, `POST /v1/fields/{id}/rotation/compare`.
-- Web: `apps/web/src/app/[locale]/(app)/fields/[id]/planning/{water,rotation}/`.
-- The digital twin should perturb the same climate inputs (rain ×, temp +) and rerun `season_balance`, labelled
-  `scenario_estimate` with a range band (dashed green in charts, see CLAUDE.md §7).
+- Engines (pure, unit-tested): `services/api/app/engines/{crops,water,rotation,scenario}.py`.
+- Service: `services/api/app/services/agronomy.py` loads POWER per grid cell (760 days, or 22 years for the twin).
+- Endpoints: `GET /v1/crops`, `GET /v1/fields/{id}/water-balance`, `GET /v1/fields/{id}/rotation`,
+  `POST /v1/fields/{id}/rotation/compare`, `GET /v1/fields/{id}/twin?crop_a=&crop_b=`.
+- Web: `apps/web/src/app/[locale]/(app)/fields/[id]/{planning/water,planning/rotation,twin}/`.
+- Faz 7 (AgriSpray) is **not** built on these engines: it is a concept device with simulated data only
+  (`simulated_device`, `computation_kind=mock`, badge "Concept device · Simulated data" everywhere). Spec:
+  `docs/ANALYSIS_AI.md` (AgriSpray, sample device JSON), `docs/UI_UX_DESIGN.md` S-07, design `docs/design/stitch/P08-agrispray.webp`,
+  D-020 list of what must not be copied from that design (live labels, efficacy %, disease severity).
 
 ## 5. Open risks
 
 - The DB password was shared in chat earlier: the user should reset it in Supabase and update `.env` + Render (D-021).
 - POWER rainfall totals not yet compared with a ground station (D-019).
-- Not yet checked: 390 px mobile layout, Playwright/axe.
+- Not yet checked: Playwright/axe; 375 px mobile spot-checked on the twin page only.
 
 ## 6. Protocol at the end of each phase
 
@@ -82,7 +84,8 @@ Before every commit: `pnpm check` and `pnpm build`.
 ```text
 Sat2Soil projesine devam ediyoruz (https://github.com/yunopo42/Sat2Soil, dal main).
 Önce docs/HANDOFF.md, sonra CLAUDE.md ve docs/DECISIONS.md dosyalarını oku; kurallara aynen uy.
-Faz 0–5 tamam. Sıradaki iş: Faz 6 dijital ikiz (docs/ANALYSIS_AI.md §3, docs/UI_UX_DESIGN.md).
+Faz 0–6 tamam. Sıradaki iş: Faz 7 AgriSpray (konsept cihaz, tamamen simüle veri; docs/UI_UX_DESIGN.md S-07,
+docs/ANALYSIS_AI.md, docs/DECISIONS.md D-020).
 Kurulum eksikse HANDOFF §2'yi uygula; services/api/.env değerlerini bana sor, kendin uydurma.
 Benimle Türkçe konuş. Faz bitince pnpm check + pnpm build, commit + push, HANDOFF.md'yi güncelle
 ve bana yeni devam promptunu ver.

@@ -387,11 +387,15 @@
       "not_prescription": "Bu bir karşılaştırma göstergesidir, sulama reçetesi değildir.",
       "same_climate_each_year": "Planın her yılı, her ürünün son tamamlanan sezonundaki iklimle hesaplandı.",
       "rules_simplified": "Rotasyon kuralları sadeleştirilmiş tarımsal ilkelerdir, yerel uzman görüşünün yerini tutmaz.",
-      "not_yield": "Puanlar planları karşılaştırır; verim tahmini değildir, gübre ya da ilaç önerisi vermez."
+      "not_yield": "Puanlar planları karşılaştırır; verim tahmini değildir, gübre ya da ilaç önerisi vermez.",
+      "analog_years": "Sezonun kalanı bu ızgara hücresinin geçmiş havasını tekrarlar; hava tahmini değildir.",
+      "rainfed_only": "Sulama simüle edilmez: açık, yağışın karşılamadığı kısımdır.",
+      "not_forecast": "Senaryolar geçmişte görülen bir aralığı gösterir; bu sezonun ya da verimin tahmini değildir."
     },
     "uncertainty": {
       "grid_cell_not_field": "Değerler ≈55 km'lik bir ızgara hücresini temsil eder. Tarla, hücresinden daha nemli ya da kuru olabilir.",
-      "score_not_yield": "Yüksek puan, planın su ihtiyacının daha büyük kısmının tipik yağışla karşılandığı ve daha çok rotasyon kuralına uyulduğu anlamına gelir. Verim tahmini değildir."
+      "score_not_yield": "Yüksek puan, planın su ihtiyacının daha büyük kısmının tipik yağışla karşılandığı ve daha çok rotasyon kuralına uyulduğu anlamına gelir. Verim tahmini değildir.",
+      "replay_not_forecast": "Yirmi geçmiş sezon yararlı bir aralık verir, ama bu sezon hepsinden daha kurak ya da yağışlı olabilir. Izgara hücresi ≈55 km genişliğindedir."
     },
     "water": {
       "title": "Su",
@@ -471,5 +475,84 @@
       "reset": "Planları sıfırla",
       "recalculating": "Yeniden hesaplanıyor"
     }
+  },
+  "twin": {
+    "title": "Dijital İkiz & Senaryo",
+    "emphasis": "Karşılaştırması",
+    "description": "Sezonun bugüne kadarki hâli NASA POWER gözlemiyle; nasıl bitebileceği ise aynı ızgara hücresinin geçmiş sezonlarındaki hava yeniden oynatılarak.",
+    "scenarioA": "Senaryo A",
+    "scenarioB": "Senaryo B",
+    "plan": {
+      "current": "Mevcut plan, 1. yıl",
+      "suggested": "Önerilen plan, 1. yıl",
+      "custom": "Senin seçimin"
+    },
+    "rain": {
+      "label": "Sezonun kalanı",
+      "dry": "Kurak (P10)",
+      "normal": "Normal (P50)",
+      "wet": "Yağışlı (P90)"
+    },
+    "word": {
+      "dry": "Kurak",
+      "normal": "Normal",
+      "wet": "Yağışlı"
+    },
+    "rainCaption": "NASA POWER {start}–{end} sezonları yeniden oynatılır (ürün başına {count} sezon)",
+    "reset": "Plan ürünlerine dön",
+    "headline": {
+      "better": "{scenario} bir sezonda Senaryo B ({b}), Senaryo A'ya ({a}) göre yaklaşık {mm} mm daha az su açığı bırakır.",
+      "worse": "{scenario} bir sezonda Senaryo B ({b}), Senaryo A'ya ({a}) göre yaklaşık {mm} mm daha fazla su açığı bırakır.",
+      "same": "{scenario} bir sezonda iki senaryo da yaklaşık aynı su açığıyla biter."
+    },
+    "headlineNote": "Açık = yağışın karşılamadığı bitki su ihtiyacı. Geçmiş havadan alınan bir aralıktır: tahmin değildir, verim tahmini değildir, sulama reçetesi değildir.",
+    "mapTitle": "Seçilen gündeki tarla",
+    "mapNote": "Tarla ortalaması tahmini. Tarla içi farklılık modellenmez.",
+    "focus": "Harita ve grafikte gösterilen senaryo",
+    "timeline": "Zaman çizgisi",
+    "today": "Son gözlem günü · {date}",
+    "observedPart": "Gözlem",
+    "scenarioPart": "Senaryo",
+    "dayObserved": "Gözlem · NASA POWER",
+    "dayScenario": "Senaryo tahmini · {scenario}",
+    "balanceOn": "Ekimden bu yana yağış − bitki ihtiyacı, {date}",
+    "upcoming": "Henüz ekilmedi. Tipik ekim {date}; sezonun tamamı yeniden oynatılır.",
+    "inSeason": "{date} tarihinden beri tarlada; {until} tarihine kadar gözlendi.",
+    "legendDeficit": "Açık",
+    "legendSurplus": "Fazla",
+    "tableTitle": "Senaryo karşılaştırması",
+    "tableLead": "Sezon toplamları, {scenario} durum",
+    "rows": {
+      "season": "Sezon",
+      "demand": "Bitki su ihtiyacı (ETc)",
+      "rain": "Yağış",
+      "deficit": "Su açığı",
+      "coverage": "Yağışın karşıladığı",
+      "dryDeficit": "Kurak sezonda açık",
+      "analog": "Yeniden oynatılan hava"
+    },
+    "analogSeason": "{year} sezonu",
+    "diff": "B − A",
+    "balanceChart": "Kümülatif su dengesi",
+    "balanceChartLead": "Ekimden bu yana yağış − bitki ihtiyacı. Düz = gözlem; kesikli = yeniden oynatılan sezonlar, bant P10–P90.",
+    "observedSeries": "Gözlem",
+    "scenarioSeries": "Senaryo",
+    "demandChart": "Kümülatif bitki su ihtiyacı",
+    "demandChartLead": "Yeniden oynatılan sezonların medyanı, gözlem günleri dahil.",
+    "snapshotTitle": "İkiz özeti",
+    "snapshot": {
+      "field": "Tarla",
+      "area": "Alan",
+      "history": "Ürün geçmişi",
+      "sync": "Son NASA günü",
+      "cell": "Izgara hücresi"
+    },
+    "steps": {
+      "s1": "Tarlanın ızgara hücresi için {start} tarihinden bu yana günlük NASA POWER hava verisi: sıcaklık, nem, rüzgâr, güneş, yağış.",
+      "s2": "Her gün: FAO-56 Penman–Monteith ile ET₀, bitki ihtiyacı ETc = Kc × ET₀, eksi yağış; ekimden itibaren toplanır.",
+      "s3": "Yayımlanan son güne kadar olan günler gözlemdir. Sezonun kalanı sırayla her geçmiş sezonun havasıyla doldurulur (en fazla 20).",
+      "s4": "Kurak / normal / yağışlı = sezon sonu dengesinde 10. / 50. / 90. yüzdelikteki geçmiş sezon. Bant her gün için P10–P90'ı gösterir."
+    },
+    "noHistory": "{crop} için kayıtta yeterli geçmiş sezon yok."
   }
 }

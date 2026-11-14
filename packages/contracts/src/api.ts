@@ -216,3 +216,60 @@ export const RotationSchema = z.object({
   uncertainty_note: z.string(),
 });
 export type Rotation = z.infer<typeof RotationSchema>;
+
+/** One past season replayed for the rest of this season (D-026). */
+const TwinOutcomeSchema = z.object({
+  sowing_year: z.number(),
+  precip_mm: z.number(),
+  etc_mm: z.number(),
+  deficit_mm: z.number(),
+  coverage_pct: z.number().nullable(),
+});
+export type TwinOutcome = z.infer<typeof TwinOutcomeSchema>;
+
+export const TWIN_RAIN_SCENARIOS = ["dry", "normal", "wet"] as const;
+export type TwinRainScenario = (typeof TWIN_RAIN_SCENARIOS)[number];
+
+const TwinScenarioSchema = z.object({
+  key: z.enum(["a", "b"]),
+  plan: z.enum(["current", "suggested", "custom"]),
+  crop: z.string(),
+  status: z.enum(["ok", "no_history"]),
+  sowing: z.string().nullable(),
+  harvest: z.string().nullable(),
+  in_season: z.boolean(),
+  observed_until: z.string().nullable(),
+  observed_precip_mm: z.number().nullable(),
+  observed_etc_mm: z.number().nullable(),
+  observed_missing_days: z.number(),
+  analog_count: z.number(),
+  outcomes: z.partialRecord(z.enum(TWIN_RAIN_SCENARIOS), TwinOutcomeSchema),
+  days: z.array(
+    z.object({
+      date: z.string(),
+      kc: z.number(),
+      observed: z.boolean(),
+      balance_mm: z.number().nullable(),
+      p10: z.number().nullable(),
+      p50: z.number().nullable(),
+      p90: z.number().nullable(),
+      etc_cum_mm: z.number(),
+    }),
+  ),
+});
+export type TwinScenario = z.infer<typeof TwinScenarioSchema>;
+
+export const TwinSchema = z.object({
+  field_id: z.string(),
+  source_type: DataSourceSchema,
+  observed_source_type: DataSourceSchema,
+  method: z.string(),
+  latest_observed: z.string(),
+  history_start: z.string(),
+  history_end: z.string(),
+  scenarios: z.array(TwinScenarioSchema),
+  data_sources: z.array(DataSourceRefSchema),
+  assumptions: z.array(z.string()),
+  uncertainty_note: z.string(),
+});
+export type Twin = z.infer<typeof TwinSchema>;

@@ -387,11 +387,15 @@
       "not_prescription": "This is an indicator for comparison, not an irrigation prescription.",
       "same_climate_each_year": "Every plan year uses the climate of each crop's most recent complete season.",
       "rules_simplified": "Rotation rules are simplified agronomic guidelines, not local expert advice.",
-      "not_yield": "Scores compare plans; they are not yield predictions and give no fertiliser or pesticide advice."
+      "not_yield": "Scores compare plans; they are not yield predictions and give no fertiliser or pesticide advice.",
+      "analog_years": "The rest of the season repeats past weather from this grid cell; it is not a weather forecast.",
+      "rainfed_only": "No irrigation is simulated: the deficit is what rain leaves uncovered.",
+      "not_forecast": "Scenarios show a range seen in the past, not a prediction of this season or of yield."
     },
     "uncertainty": {
       "grid_cell_not_field": "Values describe a ≈55 km grid cell. A field can be wetter or drier than its cell.",
-      "score_not_yield": "A higher score means more of the plan's water demand is met by typical rain and more rotation rules are followed. It is not a yield estimate."
+      "score_not_yield": "A higher score means more of the plan's water demand is met by typical rain and more rotation rules are followed. It is not a yield estimate.",
+      "replay_not_forecast": "Twenty past seasons give a useful range, but this season can still be drier or wetter than any of them. The grid cell is ≈55 km wide."
     },
     "water": {
       "title": "Water",
@@ -471,5 +475,84 @@
       "reset": "Reset plans",
       "recalculating": "Recalculating"
     }
+  },
+  "twin": {
+    "title": "Digital twin & scenario",
+    "emphasis": "comparison",
+    "description": "The season so far, observed by NASA POWER, and how it could end: the rest of the season is replayed from the weather of past seasons in the same grid cell.",
+    "scenarioA": "Scenario A",
+    "scenarioB": "Scenario B",
+    "plan": {
+      "current": "Current plan, year 1",
+      "suggested": "Suggested plan, year 1",
+      "custom": "Your choice"
+    },
+    "rain": {
+      "label": "Rest of the season",
+      "dry": "Dry (P10)",
+      "normal": "Normal (P50)",
+      "wet": "Wet (P90)"
+    },
+    "word": {
+      "dry": "dry",
+      "normal": "normal",
+      "wet": "wet"
+    },
+    "rainCaption": "Replays NASA POWER seasons {start}–{end} ({count} seasons per crop)",
+    "reset": "Back to plan crops",
+    "headline": {
+      "better": "In a {scenario} season, Scenario B ({b}) leaves about {mm} mm less water deficit than Scenario A ({a}).",
+      "worse": "In a {scenario} season, Scenario B ({b}) leaves about {mm} mm more water deficit than Scenario A ({a}).",
+      "same": "In a {scenario} season, both scenarios end with about the same water deficit."
+    },
+    "headlineNote": "Deficit = crop water demand that rain does not cover. It is a range taken from past weather: not a forecast, not a yield estimate, not an irrigation prescription.",
+    "mapTitle": "Field on the selected day",
+    "mapNote": "Field-average estimate. No within-field variation is modelled.",
+    "focus": "Scenario shown on the map and chart",
+    "timeline": "Timeline",
+    "today": "Last observed day · {date}",
+    "observedPart": "Observed",
+    "scenarioPart": "Scenario",
+    "dayObserved": "Observed · NASA POWER",
+    "dayScenario": "Scenario estimate · {scenario}",
+    "balanceOn": "Rain − crop demand since sowing, {date}",
+    "upcoming": "Not in the ground yet. Typical sowing {date}; the whole season is replayed.",
+    "inSeason": "In the ground since {date}; observed until {until}.",
+    "legendDeficit": "Deficit",
+    "legendSurplus": "Surplus",
+    "tableTitle": "Scenario comparison",
+    "tableLead": "Whole-season totals, {scenario} case",
+    "rows": {
+      "season": "Season",
+      "demand": "Crop water demand (ETc)",
+      "rain": "Rainfall",
+      "deficit": "Water deficit",
+      "coverage": "Rain covers",
+      "dryDeficit": "Deficit in a dry season",
+      "analog": "Weather replayed from"
+    },
+    "analogSeason": "{year} season",
+    "diff": "B − A",
+    "balanceChart": "Cumulative water balance",
+    "balanceChartLead": "Rain − crop demand since sowing. Solid = observed; dashed = replayed seasons, band P10–P90.",
+    "observedSeries": "Observed",
+    "scenarioSeries": "Scenario",
+    "demandChart": "Cumulative crop water demand",
+    "demandChartLead": "Median of the replayed seasons, observed days included.",
+    "snapshotTitle": "Twin snapshot",
+    "snapshot": {
+      "field": "Field",
+      "area": "Area",
+      "history": "Crop history",
+      "sync": "Latest NASA day",
+      "cell": "Grid cell"
+    },
+    "steps": {
+      "s1": "Daily NASA POWER weather for the field's grid cell since {start}: temperature, humidity, wind, sunshine, rain.",
+      "s2": "For each day: ET₀ with FAO-56 Penman–Monteith, crop demand ETc = Kc × ET₀, minus rain, summed since sowing.",
+      "s3": "Days up to the last published day are observed. The rest of the season is filled with each past season's weather in turn (up to 20).",
+      "s4": "Dry / normal / wet = the past season at the 10th / 50th / 90th percentile of the season-end balance. The band shows P10–P90 per day."
+    },
+    "noHistory": "Not enough past seasons in the record for {crop}."
   }
 }

@@ -20,6 +20,8 @@ from app.services.nasa_power import PowerDailyService, ServedPowerDaily
 INPUT_PARAMETERS = ("T2M_MAX", "T2M_MIN", "RH2M", "WS2M", "ALLSKY_SFC_SW_DWN", "PRECTOTCORR", "T2M")
 # Long enough to hold the last complete season of every crop in the catalogue.
 HISTORY_DAYS = 760
+# Digital twin: whole calendar years, enough for 20 past seasons of every crop (D-026).
+TWIN_HISTORY_YEARS = 22
 
 
 @dataclass(frozen=True)
@@ -30,9 +32,12 @@ class FieldClimate:
     elevation: float
 
 
-async def load_climate(service: PowerDailyService, record: FieldRecord) -> FieldClimate:
+async def load_climate(
+    service: PowerDailyService, record: FieldRecord, *, years: int | None = None
+) -> FieldClimate:
+    """Recent climate (default) or, with `years`, whole years back to 1 January for the twin."""
     end = datetime.now(UTC).date()
-    start = end - timedelta(days=HISTORY_DAYS - 1)
+    start = date(end.year - years, 1, 1) if years else end - timedelta(days=HISTORY_DAYS - 1)
     served = await service.get_daily(
         latitude=record.centroid_lat,
         longitude=record.centroid_lon,
