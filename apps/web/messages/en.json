@@ -694,5 +694,97 @@
       "series": "Daily mean wind",
       "unavailable": "NASA POWER could not be reached; regional wind is not shown."
     }
+  },
+  "summary": {
+    "title": "Field",
+    "emphasis": "summary",
+    "description": "Everything Sat2Soil knows about this field on one page, each value with its source. Prints on A4 landscape.",
+    "date": "Prepared {date}",
+    "showDemo": "Show demo flow",
+    "print": "Print / PDF",
+    "field": {
+      "title": "Field",
+      "centre": "Centre",
+      "crop": "Crop on record",
+      "outline": "Field boundary"
+    },
+    "climate": {
+      "title": "Climate, last 12 months",
+      "rain": "Rainfall {mm} mm",
+      "temp": "Mean temperature {c} °C",
+      "rainChart": "Daily rainfall",
+      "tempChart": "Daily mean temperature"
+    },
+    "water": {
+      "title": "Water balance",
+      "none": "No complete season for this crop yet."
+    },
+    "rotation": {
+      "title": "Crop rotation",
+      "current": "Current",
+      "suggested": "Alternative",
+      "water": "Water need",
+      "score": "Score"
+    },
+    "twin": {
+      "title": "Digital twin",
+      "none": "Not enough past seasons for a scenario."
+    },
+    "spray": {
+      "title": "AgriSpray concept",
+      "line": "Example card: {coverage}% coverage, {density} stains/cm², {uniformity}."
+    },
+    "open": "Open",
+    "methods": {
+      "title": "Methods and sources",
+      "value": "Value",
+      "source": "Source type",
+      "method": "Method",
+      "limitation": "Limitation",
+      "rows": {
+        "climate": {
+          "value": "Rain, temperature, humidity, wind, sunlight",
+          "method": "NASA POWER Daily API for the field's 0.5° × 0.625° grid cell",
+          "limitation": "Grid-cell estimate, not a measurement inside the field; published with 2–4 days delay"
+        },
+        "imagery": {
+          "value": "Satellite basemap",
+          "method": "NASA GIBS, HLS S30 true colour, 2026-10-24",
+          "limitation": "30 m pixels: blurry at field zoom; one date, not live"
+        },
+        "water": {
+          "value": "ET₀, crop water demand, water balance",
+          "method": "FAO-56 Penman–Monteith ET₀, Kc × ET₀, rain − ETc from sowing to harvest",
+          "limitation": "No soil storage or effective rain; typical sowing dates; not an irrigation prescription"
+        },
+        "rotation": {
+          "value": "Rotation scores",
+          "method": "50 % water fit + 50 % open rotation rules",
+          "limitation": "Simplified rules; compares plans, not a yield estimate"
+        },
+        "twin": {
+          "value": "Dry / normal / wet scenarios",
+          "method": "Observed season so far + 20 past seasons replayed (P10 / P50 / P90)",
+          "limitation": "Not a weather forecast; rainfed only"
+        },
+        "spray": {
+          "value": "AgriSpray readings and card analysis",
+          "method": "Documented sample readings; synthetic card measured on a 0.05 mm raster; Delta T",
+          "limitation": "Concept device, nothing measured; no efficacy, dose or diagnosis"
+        },
+        "boundary": {
+          "value": "Field boundary and crop history",
+          "method": "Parcel traced from Sentinel-2 cloudless imagery, checked against NASA GIBS HLS",
+          "limitation": "Sample field; crop history and irrigation are example values"
+        }
+      }
+    }
+  },
+  "tour": {
+    "label": "Demo flow",
+    "step": "Step {current} of {total}",
+    "previous": "Previous step",
+    "next": "Next step",
+    "end": "End demo flow"
   }
 }

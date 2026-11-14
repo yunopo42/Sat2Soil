@@ -17,7 +17,7 @@
 | 6 | ✅ | `/twin` digital twin: observed season + 20 past seasons replayed, dry/normal/wet, A vs B crops (D-026) |
 | 7 | ✅ | `/spray` AgriSpray concept: simulated sensors, synthetic spray-card measurement, Delta T + NASA wind (D-027) |
 | 8 | ✅ | Cinematic landing: scroll-scrubbed frames from the user's video, 4 acts, real app preview at the end (D-028) |
-| 9 | ⏭ next | `/summary` + QA (Playwright + axe, 390 px mobile check, prod smoke test) |
+| 9 | ◐ in progress (summary + demo flow done; Playwright/axe QA left) | `/summary` + QA (Playwright + axe, 390 px mobile check, prod smoke test) |
 
 Only `/summary` (Faz 9) is still a `ComingSoon` placeholder. Specs: `docs/PRODUCT_SCOPE.md`, `docs/UI_UX_DESIGN.md`,
 `docs/ANALYSIS_AI.md` (§3 digital twin, §4 AgriSpray), `apps/web/task.md`, `services/api/task.md`.
@@ -89,8 +89,8 @@ Before every commit: `pnpm check` and `pnpm build`.
 ```text
 Sat2Soil projesine devam ediyoruz (https://github.com/yunopo42/Sat2Soil, dal main).
 Önce docs/HANDOFF.md, sonra CLAUDE.md ve docs/DECISIONS.md dosyalarını oku; kurallara aynen uy.
-Faz 0–8 tamam. Sıradaki iş: Faz 9 özet sayfası /fields/[id]/summary (docs/UI_UX_DESIGN.md S-08,
-docs/STITCH_PROMPTS.md P09) ve QA (docs/QA_DEPLOY_DEMO.md, Playwright + axe).
+Faz 0–8 tamam; Faz 9 özet sayfası + demo akışı tamam. Sıradaki iş: QA (docs/QA_DEPLOY_DEMO.md):
+Playwright uçtan uca + axe (kurulu Edge, channel msedge), apps/web/task.md W06.
 Kurulum eksikse HANDOFF §2'yi uygula; services/api/.env değerlerini bana sor, kendin uydurma.
 Benimle Türkçe konuş. Faz bitince pnpm check + pnpm build, commit + push, HANDOFF.md'yi güncelle
 ve bana yeni devam promptunu ver.

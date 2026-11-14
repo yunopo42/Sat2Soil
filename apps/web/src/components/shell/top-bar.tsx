@@ -18,7 +18,7 @@ export function TopBar({
 }) {
   const t = useTranslations("nav");
   return (
-    <header className="sticky top-0 z-30 border-b border-line bg-bg/90 backdrop-blur">
+    <header className="sticky top-0 z-30 border-b border-line bg-bg/90 backdrop-blur print:hidden">
       <div className="flex h-16 items-center gap-4 px-4 lg:px-6">
         <Link href="/" className="shrink-0 rounded-sm">
           <Wordmark size="sm" />

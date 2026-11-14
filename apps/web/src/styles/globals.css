@@ -149,3 +149,18 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Summary page prints on A4 landscape (S-08): white paper, no shadows, cards kept whole. */
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 10mm;
+  }
+  html,
+  body {
+    background: white;
+  }
+  .print-avoid-break {
+    break-inside: avoid;
+  }
+}

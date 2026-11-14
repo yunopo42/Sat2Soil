@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useFormatter, useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { AppSidebar, AppTabs } from "@/components/shell/app-sidebar";
+import { DemoTour } from "@/components/shell/demo-tour";
 import { FieldSelector } from "@/components/shell/field-selector";
 import { NasaStatusPill } from "@/components/shell/nasa-status-pill";
 import { TopBar } from "@/components/shell/top-bar";
@@ -52,9 +53,9 @@ export function FieldShell({ fieldId, children }: { fieldId: string; children: R
         summaryHref={`${base}/summary`}
       />
       <div className="mx-auto flex max-w-[1520px]">
-        <AppSidebar fieldBase={base} className="sticky top-16 hidden h-[calc(100dvh-4rem)] overflow-y-auto lg:flex" />
+        <AppSidebar fieldBase={base} className="sticky top-16 hidden h-[calc(100dvh-4rem)] overflow-y-auto lg:flex print:hidden" />
         <main className="min-w-0 flex-1 px-4 pb-14 lg:px-8">
-          <div className="pt-4 lg:hidden">
+          <div className="pt-4 lg:hidden print:hidden">
             <AppTabs fieldBase={base} />
           </div>
           {field.isError ? (
@@ -78,6 +79,7 @@ export function FieldShell({ fieldId, children }: { fieldId: string; children: R
           )}
         </main>
       </div>
+      <DemoTour fieldBase={base} />
     </div>
   );
 }

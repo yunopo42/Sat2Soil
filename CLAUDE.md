@@ -204,7 +204,8 @@ Windows'ta API'yi `--reload` ile çalıştır (psycopg async, Proactor döngüs�
 - **Faz 8 tamam:** sinematik landing — kullanıcının videosundan 103 karelik, kaydırmayla oynatılan dizi; 4 perde,
   son perde gerçek uygulama ekranı + tarla sınırı çizimi; reduced-motion/Save-Data → poster (D-028).
   Kareleri yeniden üretmek: `python apps/web/scripts/extract-landing-frames.py video.mp4 --end 6.875`.
-- **Sıradaki:** Faz 9 özet sayfası (`/summary`) + QA (Playwright + axe, prod duman testi).
+- **Faz 9 (kısmen):** `/fields/[id]/summary` özet sayfası (6 kart, yöntem/kaynak tablosu, A4 yatay yazdırma) ve demo akışı hapı (`components/shell/demo-tour.tsx`) tamam.
+- **Sıradaki:** QA — Playwright + axe (@playwright/test, @axe-core/playwright; kurulu Edge ile channel msedge), prod duman testi.
   Devam etmek için: `docs/HANDOFF.md`.
 - **Açık riskler:** DB parolası sohbette paylaşıldı, değiştirilmeli (D-021). POWER yağış toplamı istasyon verisiyle
   karşılaştırılmalı (D-019). Hero/kart görselleri tasarım ekran görüntüsünden kırpıldı; yüksek çözünürlüklü export gelirse değişir.

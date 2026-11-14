@@ -694,5 +694,97 @@
       "series": "Günlük ortalama rüzgâr",
       "unavailable": "NASA POWER'a ulaşılamadı; bölgesel rüzgâr gösterilmiyor."
     }
+  },
+  "summary": {
+    "title": "Tarla",
+    "emphasis": "Özeti",
+    "description": "Sat2Soil'in bu tarla hakkında bildiği her şey tek sayfada; her değer kaynağıyla. A4 yatay yazdırılır.",
+    "date": "Hazırlanma: {date}",
+    "showDemo": "Demo akışını göster",
+    "print": "Yazdır / PDF",
+    "field": {
+      "title": "Tarla",
+      "centre": "Merkez",
+      "crop": "Kayıtlı ürün",
+      "outline": "Tarla sınırı"
+    },
+    "climate": {
+      "title": "İklim, son 12 ay",
+      "rain": "Yağış {mm} mm",
+      "temp": "Ortalama sıcaklık {c} °C",
+      "rainChart": "Günlük yağış",
+      "tempChart": "Günlük ortalama sıcaklık"
+    },
+    "water": {
+      "title": "Su dengesi",
+      "none": "Bu ürün için henüz tamamlanmış bir sezon yok."
+    },
+    "rotation": {
+      "title": "Ürün rotasyonu",
+      "current": "Mevcut",
+      "suggested": "Alternatif",
+      "water": "Su ihtiyacı",
+      "score": "Puan"
+    },
+    "twin": {
+      "title": "Dijital ikiz",
+      "none": "Senaryo için yeterli geçmiş sezon yok."
+    },
+    "spray": {
+      "title": "AgriSpray konsepti",
+      "line": "Örnek kart: %{coverage} kaplama, cm² başına {density} leke, {uniformity}."
+    },
+    "open": "Aç",
+    "methods": {
+      "title": "Yöntemler ve kaynaklar",
+      "value": "Değer",
+      "source": "Kaynak türü",
+      "method": "Yöntem",
+      "limitation": "Sınırlama",
+      "rows": {
+        "climate": {
+          "value": "Yağış, sıcaklık, nem, rüzgâr, güneş",
+          "method": "Tarlanın 0,5° × 0,625° ızgara hücresi için NASA POWER günlük API'si",
+          "limitation": "Izgara hücresi tahmini, tarla içi ölçüm değil; 2–4 gün gecikmeyle yayımlanır"
+        },
+        "imagery": {
+          "value": "Uydu altlığı",
+          "method": "NASA GIBS, HLS S30 gerçek renk, 2026-10-24",
+          "limitation": "30 m piksel: tarla ölçeğinde bulanık; tek tarih, canlı değil"
+        },
+        "water": {
+          "value": "ET₀, bitki su ihtiyacı, su dengesi",
+          "method": "FAO-56 Penman–Monteith ET₀, Kc × ET₀, ekimden hasada yağış − ETc",
+          "limitation": "Toprak deposu ve etkili yağış yok; tipik ekim tarihleri; sulama reçetesi değil"
+        },
+        "rotation": {
+          "value": "Rotasyon puanları",
+          "method": "%50 su uyumu + %50 açık rotasyon kuralları",
+          "limitation": "Sadeleştirilmiş kurallar; planları karşılaştırır, verim tahmini değil"
+        },
+        "twin": {
+          "value": "Kurak / normal / yağışlı senaryolar",
+          "method": "Bugüne kadar gözlenen sezon + yeniden oynatılan 20 geçmiş sezon (P10 / P50 / P90)",
+          "limitation": "Hava tahmini değil; yalnız kuru tarım"
+        },
+        "spray": {
+          "value": "AgriSpray ölçümleri ve kart analizi",
+          "method": "Belgelenmiş örnek değerler; 0,05 mm ızgarada ölçülen sentetik kart; Delta T",
+          "limitation": "Konsept cihaz, ölçüm yok; etkinlik, doz ya da teşhis yok"
+        },
+        "boundary": {
+          "value": "Tarla sınırı ve ürün geçmişi",
+          "method": "Parsel Sentinel-2 bulutsuz görüntüden çizildi, NASA GIBS HLS ile kontrol edildi",
+          "limitation": "Örnek tarla; ürün geçmişi ve sulama örnek değerlerdir"
+        }
+      }
+    }
+  },
+  "tour": {
+    "label": "Demo akışı",
+    "step": "Adım {current} / {total}",
+    "previous": "Önceki adım",
+    "next": "Sonraki adım",
+    "end": "Demo akışını bitir"
   }
 }
