@@ -111,3 +111,17 @@ Bir karar `KABUL` olunca `CLAUDE.md` güncellenir.
   sapmalar kullanıcıya listelenir.
 - Tasarımlardaki sayılar örnektir; gerçek veri gibi sunumda kullanılmaz.
 - G0 = Stitch ekranlarının onayı + bunlardan türetilen `/styleguide` + `docs/MOTION_STORYBOARD.md`.
+
+### D-019 · NASA POWER davranışı canlı API'de doğrulandı (N01–N03) — `KABUL`
+Doğrulama: 2026-11-14, POWER Daily API v2.10.3, nokta 37.58 K / 32.79 D.
+- D-007 parametreleri `community=AG` ile birimleriyle geliyor: °C, mm/day, %, m/s, MJ/m²/day. Rakım yanıt geometrisinde.
+- Eksik değer `-999.0`. Son günler henüz yayımlanmamış olarak gelir: meteoroloji ~2 gün, güneş ışınımı ~4 gün gecikmeli.
+  API bunları `null` döndürür ve `latest_available` alanıyla bildirir; UI bunları "henüz yayımlanmadı" diye gösterir, sıfır değil.
+- Meteoroloji 0.5° × 0.625° hücre içinde her noktada **aynı**; komşu hücrede farklı (5 nokta ile test edildi). Güneş 1° ızgarada.
+  Önbellek anahtarı bu hücredir (D-011) ve haritadaki "veri bu hücreyi temsil eder" kutusu bu sınırlarla çizilir.
+  Örnek nokta 32.79° D, hücrenin doğu sınırına (32.8125°) çok yakın.
+- Alt kaynaklar döneme göre değişiyor (MERRA2, GEOSIT, SYN1DEG, FLASHFLUX); sabit yazılmaz, yanıttan aktarılır.
+- Hatalı parametre → NASA 422 döner. Biz girdiyi önceden doğruladığımız için bu bizde hata sayılır (502 `nasa_rejected`).
+- **Dikkat:** Bu hücre için son 12 ayın `PRECTOTCORR` toplamı ≈ 705 mm. Konya Ovası'nın uzun yıllar ortalaması (~320 mm)
+  bunun çok altında. Model/uydu tabanlı ızgara tahmini istasyon ölçümünden sapabilir. Sunumdan önce MGM istasyon verisiyle
+  karşılaştırılmalı; UI bu değeri "ızgara hücresi tahmini" olarak etiketler.

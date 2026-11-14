@@ -14,6 +14,11 @@ class Settings(BaseSettings):
     # Exact origins only (docs/ARCHITECTURE.md: CORS allowlist). Comma-separated in the env var.
     cors_origins: Annotated[list[str], NoDecode] = ["http://localhost:3000"]
     nasa_power_base_url: str = "https://power.larc.nasa.gov/api"
+    nasa_power_timeout_s: float = 20.0
+    # Daily data changes at most once a day; 6 h keeps NASA load low (docs/ARCHITECTURE.md).
+    nasa_power_cache_ttl_s: int = 6 * 3600
+    # Longest period one request may cover (≈ 3 years).
+    nasa_power_max_days: int = 1100
 
     # Phase 3: Supabase and demo session. Secrets stay server-side (D-008).
     database_url: SecretStr | None = None

@@ -5,7 +5,9 @@ description = "Sat2Soil API: NASA data adapters, field services and explainable 
 requires-python = ">=3.13"
 dependencies = [
     "fastapi>=0.163.0",
+    "httpx>=0.28.1",
     "pydantic-settings>=2.16.3",
+    "tenacity>=9.2.1",
     "uvicorn[standard]>=0.54.0",
 ]
 
@@ -23,6 +25,7 @@ package = false
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+markers = ["live: calls the real NASA POWER API (run with SAT2SOIL_LIVE_TESTS=1)"]
 
 [tool.ruff]
 line-length = 100
@@ -30,3 +33,5 @@ target-version = "py313"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP", "SIM", "ASYNC", "RUF"]
+# "×" and "°" are intentional in resolution strings such as "0.5° × 0.625°".
+ignore = ["RUF001", "RUF002", "RUF003"]

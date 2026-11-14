@@ -155,6 +155,10 @@ Kökten çalıştır (`pnpm install` ve `uv sync --directory services/api` sonra
 | `pnpm lint` · `pnpm typecheck` · `pnpm test` | ESLint · `next typegen` + tsc · Vitest |
 | `pnpm api:lint` · `pnpm api:format` · `pnpm api:test` | ruff check · ruff format · pytest |
 | `pnpm check` | Hepsini sırayla (commit öncesi) |
+| `SAT2SOIL_LIVE_TESTS=1 uv run --directory services/api pytest -m live` | Gerçek NASA POWER'a karşı duman testi |
+
+API uçları: `GET /health` · `GET /v1/nasa/power/daily?lat=&lon=&start=&end=&parameters=` (OpenAPI: `/docs`).
+POWER davranışı ve doğrulanmış gerçekler: `docs/DECISIONS.md` D-019.
 
 Deploy ayarları (kullanıcı bağlar): Vercel root `apps/web`. Render root `services/api`, start komutu
 `uvicorn app.main:app --host 0.0.0.0 --port $PORT`, sağlık kontrolü `/health`. Env adları `*.env.example` dosyalarında.
@@ -164,5 +168,10 @@ Deploy ayarları (kullanıcı bağlar): Vercel root `apps/web`. Render root `ser
 - **Faz:** Faz 0 (iskelet) ve Faz 1 (tasarım sistemi: tokenlar, bileşenler, grafikler, kabuk, `/styleguide`,
   `docs/MOTION_STORYBOARD.md`) tamam. G0 kullanıcı onayı bekliyor; kullanıcı Stitch ekranları üretiyor (D-018), zip
   gelince görsel yön bunlara göre güncellenecek. Supabase/Vercel/Render bağlı değil.
+- **Faz 2 tamam:** NASA POWER adaptörü (izin listesi, retry/backoff, -999 → null, birim kontrolü), ızgara hücresi
+  önbelleği + bayat yedek, `/v1/nasa/power/daily`, 36 birim testi + canlı duman testi. Canlı API'de doğrulandı (D-019).
+- **Deploy öncesi zorunlu (Faz 3):** `/v1/nasa/power/daily` şu an herkese açık bir nokta ucu. Yayına almadan önce
+  rate limit (slowapi) ve demo oturumu kapsamı eklenmeli; tarla uçları (`/v1/fields/{id}/observations`) bunu kullanacak.
+- **Sıradaki:** Faz 3 — Supabase şeması, tarla CRUD, demo oturumu, harita + çizim, ilk canlı yayın (kullanıcı bağlantıları gerekli).
 - **Faz sırası:** 0 iskelet → 1 tasarım sistemi (G0) → 2 API + NASA POWER → 3 demo + harita + ilk canlı yayın
   → 4 NASA veri merkezi → 5 su + rotasyon → 6 dijital ikiz → 7 AgriSpray → 8 sinematik landing → 9 özet + QA. Mobil ertelendi.
