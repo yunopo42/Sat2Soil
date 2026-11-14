@@ -2,7 +2,7 @@ import { Slot } from "radix-ui";
 import type { ComponentProps } from "react";
 import { cn } from "@/lib/cn";
 
-type Variant = "primary" | "outline" | "secondary" | "ghost" | "danger";
+type Variant = "primary" | "outline" | "secondary" | "ghost" | "danger" | "inverse" | "outline-inverse";
 type Size = "sm" | "md" | "lg";
 
 const variants: Record<Variant, string> = {
@@ -12,6 +12,9 @@ const variants: Record<Variant, string> = {
   secondary: "border border-line bg-surface text-ink hover:border-line-strong hover:bg-surface-2",
   ghost: "text-ink hover:bg-surface-2",
   danger: "border border-line bg-surface text-red-700 hover:border-red-700/30 hover:bg-red-50",
+  // On dark imagery (landing hero) only.
+  inverse: "bg-white text-navy-900 shadow-float hover:bg-white/90",
+  "outline-inverse": "border border-white/45 text-white hover:bg-white/10",
 };
 
 const sizes: Record<Size, string> = {

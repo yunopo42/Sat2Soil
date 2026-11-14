@@ -1,6 +1,6 @@
 # CLAUDE.md — Sat2Soil
 
-> **Durum: v0.7 · 2026-11-15** — Faz 0–7 tamam. Kararlar D-001…D-027, `docs/DECISIONS.md`.
+> **Durum: v0.8 · 2026-11-15** — Faz 0–8 tamam. Kararlar D-001…D-028, `docs/DECISIONS.md`.
 > Kararların tamamı `docs/DECISIONS.md` içinde; bu dosya onların kısa özetidir.
 
 **Sat2Soil** — NASA Space Apps Challenge 2026.
@@ -70,7 +70,7 @@ Demo tarlası: **Konya Ovası** (D-013). Arayüz dili: **İngilizce varsayılan 
 |---|---|
 | Web | Next.js 16.4 (App Router, Turbopack, `cacheComponents`) · React 19.3 · TypeScript 5.9 · Tailwind CSS 4.3 · Vercel |
 | Motion | Motion for React (`motion/react`); basit hover/focus CSS |
-| Landing 3D | three.js + @react-three/fiber + drei — yalnız `/`, lazy-load, kademeli kalite |
+| Landing | Videodan kaydırmayla oynatılan WebP kare dizisi (canvas) — yalnız `/` (D-028); three.js kullanılmadı |
 | Harita | MapLibre GL JS + react-map-gl · çizim: terra-draw · önizleme alanı: turf |
 | Uydu altlık | Önce NASA GIBS (tarihli, etiketli); gerekirse çizim için yüksek çözünürlüklü ikinci altlık (D-015) |
 | i18n | next-intl · EN varsayılan, TR (D-014) |
@@ -122,7 +122,7 @@ packages/contracts/   OpenAPI → TS tipleri + Zod · DataSource enum
 ```
 
 Rotalar (TR'de `/tr` önekiyle): `/` → `/demo` → `/fields/[id]` (harita) → `/climate` → `/planning/water` · `/planning/rotation`
-→ `/twin` → `/spray` → `/summary`. `fields/[id]/layout.tsx` = kabuk (üst bar + menü); `params` Suspense içinde okunur (cacheComponents). Faz 8–9 sayfaları
+→ `/twin` → `/spray` → `/summary`. `fields/[id]/layout.tsx` = kabuk (üst bar + menü); `params` Suspense içinde okunur (cacheComponents). Faz 9 sayfası (`/summary`)
 şimdilik `ComingSoon` yer tutucusu.
 
 ## 6. Veri kaynağı tipleri (tek enum — D-001)
@@ -201,7 +201,10 @@ Windows'ta API'yi `--reload` ile çalıştır (psycopg async, Proactor döngüs�
 - **Faz 7 tamam:** `/fields/[id]/spray` AgriSpray — konsept cihaz bandı, simüle sensörler, sentetik suya duyarlı kart
   ölçümü (kaplama, leke/cm², homojenlik, maske), Delta T kontrolleri + NASA bölgesel rüzgâr, bitki gözlemi (D-027).
   Motor `services/api/app/engines/spray.py`.
-- **Sıradaki:** Faz 8 sinematik landing → Faz 9 özet + QA.
+- **Faz 8 tamam:** sinematik landing — kullanıcının videosundan 103 karelik, kaydırmayla oynatılan dizi; 4 perde,
+  son perde gerçek uygulama ekranı + tarla sınırı çizimi; reduced-motion/Save-Data → poster (D-028).
+  Kareleri yeniden üretmek: `python apps/web/scripts/extract-landing-frames.py video.mp4 --end 6.875`.
+- **Sıradaki:** Faz 9 özet sayfası (`/summary`) + QA (Playwright + axe, prod duman testi).
   Devam etmek için: `docs/HANDOFF.md`.
 - **Açık riskler:** DB parolası sohbette paylaşıldı, değiştirilmeli (D-021). POWER yağış toplamı istasyon verisiyle
   karşılaştırılmalı (D-019). Hero/kart görselleri tasarım ekran görüntüsünden kırpıldı; yüksek çözünürlüklü export gelirse değişir.

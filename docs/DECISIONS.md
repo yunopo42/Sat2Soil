@@ -209,3 +209,19 @@ Yazı tipi Plus Jakarta Sans (italik dahil) + sayılar için Geist Mono. D-003't
 - Cihaz görseli `public/images/agrispray-concept.webp` tasarım maketinden kırpıldı; altyazı "çalışan cihaz fotoğrafı değil".
 - Supabase `device_samples` / `spray_*` tabloları (D07–D08) gerçek cihaz gelene kadar ertelendi: simüle veriyi DB'de
   tutmak bilgi katmıyor. Uçlar: `GET /v1/fields/{id}/agrispray`, `GET /v1/agrispray/spray-cards/example?variant=`.
+
+### D-028 · Sinematik landing = kullanıcının videosundan kaydırmayla oynatılan kare dizisi — `KABUL` (Faz 8, 2026-11-15)
+- three.js sahnesi yerine kullanıcının Gemini ile ürettiği 10 sn'lik video kullanılır (kullanıcı kararı). D-004 kuralları
+  aynen geçerli: başlık + CTA ilk karede, native scroll + sticky bölüm (scroll hijack yok), boşta döngü yok (kare yalnız
+  kaydırma değişince çizilir), `prefers-reduced-motion` / Save-Data → statik poster, son kare gerçek UI önizlemesine döner.
+- Kesim **0–6,875 sn**: 7,0 sn'de cihaz ekranında uydurma bir panel (rastgele sayılar) beliriyor; gösterilmez.
+  15 fps → 103 kare; `wide` 1280×720 (yatay ekran, 5,4 MB) ve `tall` 405×720 orta kırpım (dikey telefon, 2,0 MB), WebP.
+  Kareler kademeli yüklenir (önce her 16. kare, sonra aradakiler; 4 paralel istek); çizimde en yakın yüklü kare kullanılır.
+- Video yenilenirse tek komut: `python apps/web/scripts/extract-landing-frames.py video.mp4 --end <sn>` (kareleri ve
+  `src/lib/landing-frames.ts`'yi yeniden üretir; ses atılır).
+- Perdeler: 1 başlık/CTA (yörünge) · 2 "NASA Dünya gözlemi" (atmosfer→tarla) · 3 "Toprağına kadar" + "Konsept cihaz ·
+  henüz üretilmedi" etiketi · 4 uygulamadan **gerçek ekran görüntüsü** (dijital ikiz, EN/TR ayrı; headless Edge ile alındı)
+  + örnek tarlanın gerçek sınırı 700 ms'de bir kez çizilir. Sağ üstte sürekli "Konsept animasyon (yapay zekâ ile üretildi)".
+- Videodaki logo ilk ~3,6 sn'de görünür; header sayfayla birlikte kayıp gittiği için çakışmaz (header'da beyaz hap içinde
+  wordmark). Videodaki Dünya Kuzey Amerika'yı gösteriyor ve cihaz AgriSpray görselinden farklı: dekoratif giriş olarak
+  kabul edildi; Türkiye görünümlü yeni video gelirse kareler aynı komutla değiştirilir.

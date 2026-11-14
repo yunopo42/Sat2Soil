@@ -88,7 +88,23 @@
     "footerData": "Data: NASA POWER and NASA GIBS. Sat2Soil is not affiliated with or endorsed by NASA.",
     "footerTeam": "Built by the Sat2Soil team.",
     "builtAt": "Built at NASA Space Apps Challenge 2026 · Konya",
-    "spaceAppsAlt": "NASA Space Apps Challenge Konya logo"
+    "spaceAppsAlt": "NASA Space Apps Challenge Konya logo",
+    "hero": {
+      "orbitLabel": "Orbit",
+      "orbitTitle": "NASA Earth observation, every day",
+      "orbitBody": "Satellites and models describe rain, temperature, wind and sunlight for every place on Earth. Sat2Soil reads NASA POWER for the grid cell around your field.",
+      "soilLabel": "Field",
+      "soilTitle": "Down to your soil",
+      "soilBody": "Satellite imagery shows the field from above. A planned AgriSpray device would add measurements from inside it.",
+      "conceptDevice": "Concept device · not built yet",
+      "decideLabel": "Decide",
+      "decideTitle": "From data to decisions you can explain",
+      "previewAlt": "Sat2Soil digital twin page for the sample field in the Konya Plain",
+      "previewNote": "Real screen from the app: sample field in the Konya Plain, NASA POWER data.",
+      "fieldOutline": "Sample field, Konya Plain (5 ha)",
+      "scrollHint": "Scroll to fly down",
+      "videoLabel": "Concept animation (AI-generated)"
+    }
   },
   "demo": {
     "title": "Field selection / Map",

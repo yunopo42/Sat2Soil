@@ -3,29 +3,25 @@ import {
   ArrowsClockwise,
   Drop,
   GlobeHemisphereEast,
-  PlayCircle,
-  RocketLaunch,
   SprayBottle,
   Stack,
 } from "@phosphor-icons/react/ssr";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Wordmark } from "@/components/brand/wordmark";
+import { CinematicHero } from "@/components/landing/cinematic-hero";
 import { RevealGroup, RevealItem } from "@/components/motion/reveal";
-import { LocaleSwitcher } from "@/components/locale-switcher";
 import { SiteHeader } from "@/components/site-header";
-import { Button } from "@/components/ui/button";
 import { Eyebrow } from "@/components/ui/page-header";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 import cardDecide from "../../../../public/images/card-field-decisions.webp";
 import cardMonitor from "../../../../public/images/card-satellite-monitoring.webp";
 import cardTwin from "../../../../public/images/card-digital-twin.webp";
-import hero from "../../../../public/images/hero-satellite-to-soil.webp";
 import spaceApps from "../../../../public/images/space-apps-konya.jpg";
 
-// Static landing in the approved visual direction (P01). The cinematic 3D landing replaces the
-// hero in phase 8 (D-004, D-017). No NASA insignia anywhere (CLAUDE.md rule 6).
+// Landing in the approved visual direction (P01) with the cinematic frame-sequence hero (Faz 8,
+// D-004, D-028). No NASA insignia anywhere (CLAUDE.md rule 6).
 
 const FEATURES = [
   { key: "nasa", icon: GlobeHemisphereEast, tone: "bg-navy-800 text-white" },
@@ -61,61 +57,13 @@ export default async function LandingPage() {
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <SiteHeader />
+      <SiteHeader overlay />
 
       <main className="flex-1">
-        {/* Hero */}
-        <section className="relative isolate overflow-hidden">
-          <div
-            aria-hidden="true"
-            className="absolute inset-y-0 right-0 -z-10 hidden w-[66%] lg:block [mask-image:linear-gradient(to_right,transparent,black_26%)]"
-          >
-            <Image src={hero} alt="" fill priority sizes="66vw" className="object-cover object-[55%_40%]" />
-          </div>
-          <div className="mx-auto max-w-7xl px-4 pt-14 pb-24 sm:px-8 lg:pt-20 lg:pb-36">
-            <Eyebrow />
-            <h1 className="mt-7 max-w-[42rem] text-[2.6rem] leading-[1.06] font-extrabold tracking-tight text-ink sm:text-[3.4rem]">
-              {t("titleLine1")}
-              <br />
-              <em className="text-green-700">{t("titleLine2")}</em>
-            </h1>
-            <p className="mt-7 max-w-md text-lg leading-relaxed text-ink/85">
-              {t.rich("lead", { b: (chunks) => <strong className="font-extrabold text-ink">{chunks}</strong> })}
-            </p>
-            <div className="mt-9 flex flex-wrap gap-4">
-              <Button asChild variant="primary" size="lg">
-                <Link href="/demo">
-                  <RocketLaunch aria-hidden="true" weight="fill" />
-                  {t("ctaPrimary")}
-                  <ArrowRight aria-hidden="true" weight="bold" />
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg">
-                <a href="#how">
-                  <PlayCircle aria-hidden="true" />
-                  {t("ctaSecondary")}
-                </a>
-              </Button>
-            </div>
-            <p className="mt-9 inline-flex items-center gap-3 rounded-full border border-line bg-surface/90 py-1.5 pr-4 pl-1.5 text-xs font-semibold text-ink shadow-card">
-              <Image
-                src={spaceApps}
-                alt={t("spaceAppsAlt")}
-                width={32}
-                height={32}
-                className="size-8 rounded-full object-cover"
-              />
-              {t("builtAt")}
-            </p>
-            <LocaleSwitcher className="mt-6 w-fit sm:hidden" />
-          </div>
-          <div className="relative mx-4 mb-10 aspect-[16/9] overflow-hidden rounded-xl lg:hidden">
-            <Image src={hero} alt="" fill sizes="100vw" className="object-cover" />
-          </div>
-        </section>
+        <CinematicHero />
 
         {/* Feature strip */}
-        <div id="solutions" className="relative z-10 mx-auto max-w-7xl scroll-mt-24 px-4 sm:px-8 lg:-mt-20">
+        <div id="solutions" className="relative z-10 mx-auto mt-12 max-w-7xl scroll-mt-24 px-4 sm:px-8">
           <ul className="grid grid-cols-2 gap-y-6 rounded-xl border border-line bg-surface px-6 py-6 shadow-float sm:grid-cols-3 lg:grid-cols-5 lg:divide-x lg:divide-line lg:px-2">
             {FEATURES.map(({ key, icon: FeatureIcon, tone }) => (
               <li key={key} className="flex items-center justify-center gap-3 px-4">

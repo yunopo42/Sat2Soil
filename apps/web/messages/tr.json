@@ -88,7 +88,23 @@
     "footerData": "Veri: NASA POWER ve NASA GIBS. Sat2Soil, NASA ile bağlantılı değildir ve NASA tarafından onaylanmamıştır.",
     "footerTeam": "Sat2Soil ekibi tarafından geliştirildi.",
     "builtAt": "NASA Space Apps Challenge 2026 Konya'da geliştirildi",
-    "spaceAppsAlt": "NASA Space Apps Challenge Konya logosu"
+    "spaceAppsAlt": "NASA Space Apps Challenge Konya logosu",
+    "hero": {
+      "orbitLabel": "Yörünge",
+      "orbitTitle": "NASA Dünya gözlemi, her gün",
+      "orbitBody": "Uydular ve modeller Dünya'nın her yeri için yağışı, sıcaklığı, rüzgârı ve güneşi tanımlar. Sat2Soil, tarlanın çevresindeki ızgara hücresi için NASA POWER verisini okur.",
+      "soilLabel": "Tarla",
+      "soilTitle": "Toprağına kadar",
+      "soilBody": "Uydu görüntüsü tarlayı yukarıdan gösterir. Planlanan AgriSpray cihazı içeriden ölçüm ekleyecek.",
+      "conceptDevice": "Konsept cihaz · henüz üretilmedi",
+      "decideLabel": "Karar",
+      "decideTitle": "Veriden açıklanabilir kararlara",
+      "previewAlt": "Konya Ovası örnek tarlası için Sat2Soil dijital ikiz sayfası",
+      "previewNote": "Uygulamadan gerçek ekran: Konya Ovası örnek tarlası, NASA POWER verisi.",
+      "fieldOutline": "Örnek tarla, Konya Ovası (5 ha)",
+      "scrollHint": "Aşağı inmek için kaydır",
+      "videoLabel": "Konsept animasyon (yapay zekâ ile üretildi)"
+    }
   },
   "demo": {
     "title": "Tarla Seçimi / Harita",

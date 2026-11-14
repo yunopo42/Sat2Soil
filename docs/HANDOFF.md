@@ -1,6 +1,6 @@
 # HANDOFF: picking the work back up
 
-> Updated at the end of every phase. **Last updated: 2026-11-15, end of Faz 7.**
+> Updated at the end of every phase. **Last updated: 2026-11-15, end of Faz 8.**
 > If you are opening this repo from another Claude account or session, read this file first, then `CLAUDE.md`, then
 > `docs/DECISIONS.md`. Talk to the user in Turkish; code, variables and commit messages stay in English.
 
@@ -16,10 +16,10 @@
 | 5 | ✅ | `/planning/water` FAO-56 water balance · `/planning/rotation` crop rotation comparison (D-025) |
 | 6 | ✅ | `/twin` digital twin: observed season + 20 past seasons replayed, dry/normal/wet, A vs B crops (D-026) |
 | 7 | ✅ | `/spray` AgriSpray concept: simulated sensors, synthetic spray-card measurement, Delta T + NASA wind (D-027) |
-| 8 | ⏭ next | Cinematic landing (three.js, D-004), only on `/`, lazy, reduced-motion poster |
-| 9 | ⬜ | `/summary` + QA (Playwright + axe, 390 px mobile check, prod smoke test) |
+| 8 | ✅ | Cinematic landing: scroll-scrubbed frames from the user's video, 4 acts, real app preview at the end (D-028) |
+| 9 | ⏭ next | `/summary` + QA (Playwright + axe, 390 px mobile check, prod smoke test) |
 
-Pages 8–9 (`/summary`; landing is static) are currently `ComingSoon` placeholders. Specs: `docs/PRODUCT_SCOPE.md`, `docs/UI_UX_DESIGN.md`,
+Only `/summary` (Faz 9) is still a `ComingSoon` placeholder. Specs: `docs/PRODUCT_SCOPE.md`, `docs/UI_UX_DESIGN.md`,
 `docs/ANALYSIS_AI.md` (§3 digital twin, §4 AgriSpray), `apps/web/task.md`, `services/api/task.md`.
 
 Deploy: the user connected Render (API, `render.yaml`) and Vercel (web, root `apps/web`). **Claude does not wire up
@@ -62,10 +62,14 @@ Before every commit: `pnpm check` and `pnpm build`.
   `POST /v1/fields/{id}/rotation/compare`, `GET /v1/fields/{id}/twin?crop_a=&crop_b=`,
   `GET /v1/fields/{id}/agrispray`, `GET /v1/agrispray/spray-cards/example?variant=even|uneven|sparse`.
 - Web: `apps/web/src/app/[locale]/(app)/fields/[id]/{planning/water,planning/rotation,twin,spray}/`.
-- Faz 8 (cinematic landing) touches only `/` (`src/app/[locale]/(marketing)/`): three.js + @react-three/fiber + drei,
-  lazy-loaded, quality tiers, a static poster for `prefers-reduced-motion` and weak devices (D-004, CLAUDE.md §8,
-  `docs/MOTION_STORYBOARD.md`, design `docs/design/stitch/P01-landing.webp`). No NASA insignia (D-024). The user said the
-  landing must look professional: agree the scene with them before building it.
+- Landing hero: `src/components/landing/cinematic-hero.tsx` + frames in `public/landing/frames/{wide,tall}`.
+  Regenerate frames from a new video with `python apps/web/scripts/extract-landing-frames.py video.mp4 --end <s>`
+  (needs Pillow + imageio-ffmpeg). The final act shows real screenshots `public/images/app-preview-twin(-tr).webp`
+  taken with headless Edge from the twin page; retake them if that page changes.
+- Faz 9: `/fields/[id]/summary` jury page (UI_UX_DESIGN S-08, STITCH P09): one printable screen with the field map,
+  1–2 NASA charts, water/rotation comparison, twin result, AgriSpray demo and a "methods and sources" table
+  (value · source type badge · method · limitation). Then QA: Playwright happy path, axe, prod smoke test
+  (docs/QA_DEPLOY_DEMO.md).
 
 ## 5. Open risks
 
@@ -85,8 +89,8 @@ Before every commit: `pnpm check` and `pnpm build`.
 ```text
 Sat2Soil projesine devam ediyoruz (https://github.com/yunopo42/Sat2Soil, dal main).
 Önce docs/HANDOFF.md, sonra CLAUDE.md ve docs/DECISIONS.md dosyalarını oku; kurallara aynen uy.
-Faz 0–7 tamam. Sıradaki iş: Faz 8 sinematik landing (docs/DECISIONS.md D-004, docs/MOTION_STORYBOARD.md,
-docs/design/stitch/P01-landing.webp); sahneyi kodlamadan önce benimle netleştir.
+Faz 0–8 tamam. Sıradaki iş: Faz 9 özet sayfası /fields/[id]/summary (docs/UI_UX_DESIGN.md S-08,
+docs/STITCH_PROMPTS.md P09) ve QA (docs/QA_DEPLOY_DEMO.md, Playwright + axe).
 Kurulum eksikse HANDOFF §2'yi uygula; services/api/.env değerlerini bana sor, kendin uydurma.
 Benimle Türkçe konuş. Faz bitince pnpm check + pnpm build, commit + push, HANDOFF.md'yi güncelle
 ve bana yeni devam promptunu ver.

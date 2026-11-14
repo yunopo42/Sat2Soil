@@ -44,15 +44,16 @@ Süsleme için animasyon yok. Bütün süre ve eğriler tek dosyadan gelir: `app
 
 ## Landing (Faz 8)
 
-Sinematik sahne, D-004'teki kurallara bağlıdır. Ayrıntılı kamera yolu Faz 8'de bu tabloya eklenecek.
+Sinematik sahne, D-004'teki kurallara bağlıdır. Faz 8'de three.js yerine videodan kare dizisi kullanıldı (D-028);
+bölüm 460vh, içerik sticky; ilerleme `useScroll` ile 0–1, kare = ilerleme × 102.
 
 | Perde | Tetik | Ne olur | Azaltılmış hareket / zayıf cihaz |
 |---|---|---|---|
-| 1 · Yörünge | Sayfa açılışı | Başlık ve CTA 300–450 ms'de belirir; Dünya yavaş döner, iki uydu yörüngede | Statik poster görsel |
-| 2 · Yaklaşma | Kaydırma | Kamera bölgeye yaklaşır, uydu tarama izi | Opaklık geçişi |
-| 3 · Atmosfer | Kaydırma | Zemin lacivertten kırık beyaza açılır, bölgesel görüntü belirir | Opaklık geçişi |
-| 4 · Tarla | Kaydırma | Tarla poligonu 700 ms'de bir kez çizilir, uygulama önizlemesine dönüşür | Hazır çizili |
-| CTA | "Demoyu Başlat" | Kamera ~2 sn'de tarlaya iner, sonra `/demo` | Doğrudan `/demo` |
+| 1 · Yörünge | Sayfa açılışı (ilerleme 0–0,2) | Dünya + uydular (kare 0); başlık, CTA, Space Apps rozeti; 0,12–0,2'de kaybolur | Statik poster + aynı metin |
+| 2 · Atmosfer | Kaydırma (0,24–0,54) | Bulutların içinden tarlalara iniş; "NASA Dünya gözlemi" kartı | Yok (poster) |
+| 3 · Toprak | Kaydırma (0,58–0,84) | Toprağa inen konsept cihaz; "Konsept cihaz" etiketi | Yok (poster) |
+| 4 · Karar | Kaydırma (0,86–1) | Lacivert örtü, gerçek uygulama ekranı yukarı kayarak belirir; tarla sınırı 700 ms'de bir kez çizilir | Yok (poster) |
+| CTA | "Demoyu Başlat" | Doğrudan `/demo` (iniş animasyonu yok: kaydırma zaten aynı yolu anlatıyor) | Doğrudan `/demo` |
 
 ## Yasaklar
 
