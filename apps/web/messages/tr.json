@@ -40,13 +40,59 @@
     "comingSoon": "Tarla seçimi Faz 3'te geliyor: Konya Ovası'ndaki örnek tarlayı aç ya da kendi tarlanı çiz."
   },
   "dataSource": {
-    "live_nasa": "NASA · canlı",
-    "cached_nasa": "NASA · önbellek",
+    "live_nasa": "NASA",
+    "cached_nasa": "Önbellek",
     "demo_sample": "Örnek",
     "manual_user": "Kullanıcı girdisi",
     "simulated_device": "Simüle cihaz",
     "derived_indicator": "Türetilmiş",
     "scenario_estimate": "Senaryo tahmini",
     "unavailable": "Veri yok"
+  },
+  "dataSourceHint": {
+    "live_nasa": "Bu görünüm için bir NASA servisinden canlı alınan veri.",
+    "cached_nasa": "Önbelleğimizdeki NASA verisi. Saat, verinin alındığı zamanı gösterir.",
+    "demo_sample": "Demo için örnek veri. Gerçek bir ölçüm değildir.",
+    "manual_user": "Senin girdiğin bilgi.",
+    "simulated_device": "AgriSpray konsept cihazının simüle değeri. Bağlı fiziksel bir cihaz yoktur.",
+    "derived_indicator": "Sat2Soil'in, altında listelenen kaynaklardan hesapladığı değer.",
+    "scenario_estimate": "Belirtilen varsayımlara dayanan bir senaryo tahmini. Gözlem değildir.",
+    "unavailable": "Bu değer için veri yok."
+  },
+  "ui": {
+    "howCalculated": "Nasıl hesaplandı?",
+    "hideDetails": "Ayrıntıları gizle",
+    "loading": "Yükleniyor",
+    "retry": "Tekrar dene",
+    "today": "Bugün",
+    "observed": "Gözlem",
+    "scenario": "Senaryo",
+    "chartHint": "Değerleri okumak için grafiğin üzerine gel"
+  },
+  "states": {
+    "cachedTitle": "Önbellekteki NASA verisi gösteriliyor",
+    "cachedBody": "{time} tarihinde alındı. Canlı servis şu an yanıt vermiyor.",
+    "errorTitle": "NASA POWER yanıt vermedi",
+    "errorBody": "Tarla verilerin güvende. Birazdan tekrar dene.",
+    "emptyTitle": "Bu dönem için henüz veri yok",
+    "emptyBody": "Başka bir tarih aralığı seç ya da tarlanı eşitle.",
+    "simulatedTitle": "Konsept cihaz · Simüle veri",
+    "simulatedBody": "Bağlı fiziksel bir cihaz yok. Buradaki her değer bir örnektir."
+  },
+  "nav": {
+    "main": "Ana gezinme",
+    "field": "Tarla",
+    "nasa": "NASA verisi",
+    "planning": "Planlama",
+    "water": "Su",
+    "rotation": "Rotasyon",
+    "twin": "Dijital ikiz",
+    "spray": "AgriSpray",
+    "summary": "Özet"
+  },
+  "shell": {
+    "changeField": "Tarlayı değiştir",
+    "nasaSynced": "NASA POWER · eşitlendi {time}",
+    "nasaNotSynced": "NASA verisi henüz eşitlenmedi"
   }
 }

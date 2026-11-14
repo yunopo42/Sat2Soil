@@ -40,13 +40,59 @@
     "comingSoon": "Field selection arrives in phase 3: open the sample field in the Konya Plain or draw your own."
   },
   "dataSource": {
-    "live_nasa": "NASA · live",
-    "cached_nasa": "NASA · cached",
+    "live_nasa": "NASA",
+    "cached_nasa": "Cached",
     "demo_sample": "Sample",
     "manual_user": "User input",
     "simulated_device": "Simulated device",
     "derived_indicator": "Derived",
     "scenario_estimate": "Scenario estimate",
     "unavailable": "No data"
+  },
+  "dataSourceHint": {
+    "live_nasa": "Live data from a NASA service, fetched for this view.",
+    "cached_nasa": "NASA data from our cache. The time shows when it was fetched.",
+    "demo_sample": "Sample data for the demo. Not a real measurement.",
+    "manual_user": "Entered by you.",
+    "simulated_device": "Simulated reading from the AgriSpray concept device. No physical device is connected.",
+    "derived_indicator": "Calculated by Sat2Soil from the sources listed below it.",
+    "scenario_estimate": "A what-if estimate based on stated assumptions. Not an observation.",
+    "unavailable": "No data is available for this value."
+  },
+  "ui": {
+    "howCalculated": "How was this calculated?",
+    "hideDetails": "Hide details",
+    "loading": "Loading",
+    "retry": "Try again",
+    "today": "Today",
+    "observed": "Observed",
+    "scenario": "Scenario",
+    "chartHint": "Point at the chart to read values"
+  },
+  "states": {
+    "cachedTitle": "Showing cached NASA data",
+    "cachedBody": "Fetched {time}. The live service is not responding right now.",
+    "errorTitle": "NASA POWER did not respond",
+    "errorBody": "Your field data is safe. Try again in a moment.",
+    "emptyTitle": "No data for this period yet",
+    "emptyBody": "Choose another date range or sync your field.",
+    "simulatedTitle": "Concept device · Simulated data",
+    "simulatedBody": "No physical device is connected. Every reading here is an example."
+  },
+  "nav": {
+    "main": "Main navigation",
+    "field": "Field",
+    "nasa": "NASA data",
+    "planning": "Planning",
+    "water": "Water",
+    "rotation": "Rotation",
+    "twin": "Digital twin",
+    "spray": "AgriSpray",
+    "summary": "Summary"
+  },
+  "shell": {
+    "changeField": "Change field",
+    "nasaSynced": "NASA POWER · synced {time}",
+    "nasaNotSynced": "NASA data not synced yet"
   }
 }

@@ -19,5 +19,8 @@ export default getRequestConfig(async ({ locale }) => {
   return {
     locale: resolved,
     messages: (await import(`../../messages/${resolved}.json`)).default,
+    // Fixed zone so server and browser format dates identically (no hydration mismatch).
+    // The demo field is in Konya; daily NASA values are calendar days in this zone.
+    timeZone: "Europe/Istanbul",
   };
 });

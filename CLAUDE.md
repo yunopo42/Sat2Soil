@@ -31,6 +31,8 @@ Demo tarlası: **Konya Ovası** (D-013). Arayüz dili: **İngilizce varsayılan 
 | `supabase/task.md` | Şema D01–D14 |
 | `apps/mobile/task.md` | Mobil tasarım M0–M3 (ertelendi) |
 | `docs/DECISIONS.md` | Belgeler arası çelişkilerin çözümü (ADR kayıtları) |
+| `docs/STITCH_PROMPTS.md` | Google Stitch sayfa tasarımı promptları (D-018) |
+| `docs/design/stitch/` | Kullanıcının yüklediği Stitch ekranları — görsel referans, kopyalanacak kod değil |
 
 ## 2. Değişmez kurallar
 
@@ -69,7 +71,7 @@ Demo tarlası: **Konya Ovası** (D-013). Arayüz dili: **İngilizce varsayılan 
 | Harita | MapLibre GL JS + react-map-gl · çizim: terra-draw · önizleme alanı: turf |
 | Uydu altlık | Önce NASA GIBS (tarihli, etiketli); gerekirse çizim için yüksek çözünürlüklü ikinci altlık (D-015) |
 | i18n | next-intl · EN varsayılan, TR (D-014) |
-| Grafik | visx (bilimsel figür stili, motion ile tam kontrol) |
+| Grafik | d3-scale + d3-shape ile kendi SVG bileşenlerimiz (`components/charts`); visx yerine — tam kontrol, az bağımlılık |
 | Veri | TanStack Query · Zod · `packages/contracts` (OpenAPI'den üretilen tipler) |
 | UI primitive | Radix Primitives + kendi tokenlarımız (hazır tema yok) · ikon: Phosphor |
 | API | Python 3.13 · FastAPI · Pydantic v2 + pydantic-settings · uv · Render (sonraki fazlarda: httpx/tenacity, psycopg 3, PyJWT, slowapi) |
@@ -86,7 +88,16 @@ Demo tarlası: **Konya Ovası** (D-013). Arayüz dili: **İngilizce varsayılan 
 - Locale **`next/root-params`** ile okunur (`src/i18n/request.ts`). `setRequestLocale` ve `params.locale` kullanma;
   sunucuda `getLocale()` / `getTranslations()`, istemcide `useLocale()` / `useTranslations()`.
 - Link ve yönlendirme yalnız `@/i18n/navigation`'dan. `/` = EN (öneksiz), `/tr` = TR; tarayıcı dili algılanmaz.
-- Tailwind varsayılan paleti kapalı (`--color-*: initial`); yalnız `src/styles/globals.css` tokenları kullanılır.
+- Tailwind varsayılan paleti ve yazı ölçeği kapalı (`--color-*`, `--text-*: initial`); yalnız `src/styles/globals.css`
+  tokenları var. Yazı: `text-2xs` 11 · `xs` 12 · `sm` 14 · `base` 16 · `lg` 20 · `xl` 28 · `2xl` 44 · `3xl` 60.
+- Phosphor ikonları her yerde `@phosphor-icons/react/ssr`'den (server ve client'ta çalışır); `Icon` tipi kök paketten.
+- Bileşen haritası: `components/ui` (Button, Card, Banner, StatePanel/Skeleton, SegmentedControl, Tabs, Tooltip, Field),
+  `components/data` (SourceBadge, ProvenanceFooter, MetricCard, AnimatedNumber), `components/charts` (LineChart, BarChart),
+  `components/shell` (TopBar, NavRail, FieldSelector, NasaStatusPill), `components/motion` (MotionProvider, Reveal).
+- Her veri gösterimi `SourceBadge` + `ProvenanceFooter` taşır. Eksik değer `null` → "—" + "Veri yok"; asla 0.
+- `/styleguide` iç referans sayfasıdır: İngilizce, `noindex`, sentetik örnek veriler "Sample" etiketli. Ürün sayfalarındaki
+  "metin yalnız messages dosyalarında" kuralının tek istisnası.
+- Animasyon kuralları ve durumları: `docs/MOTION_STORYBOARD.md`.
 - Yol uyarısı: repo yolundaki Türkçe "İ" ESLint ignore desenlerini bozuyor; bu yüzden `lint` yalnız `src/`'yi tarar.
 
 ## 5. Repo yapısı (hedef)
@@ -150,7 +161,8 @@ Deploy ayarları (kullanıcı bağlar): Vercel root `apps/web`. Render root `ser
 
 ## 10. Güncel durum
 
-- **Faz:** Faz 0 (iskelet) tamam — yer tutucu landing + `/demo` (EN/TR), FastAPI `/health`, ortak `DataSource` listesi.
-  Sıradaki: Faz 1 tasarım sistemi (G0). Supabase/Vercel/Render bağlı değil. Hiçbir P0 kapısı tamamlanmadı.
+- **Faz:** Faz 0 (iskelet) ve Faz 1 (tasarım sistemi: tokenlar, bileşenler, grafikler, kabuk, `/styleguide`,
+  `docs/MOTION_STORYBOARD.md`) tamam. G0 kullanıcı onayı bekliyor; kullanıcı Stitch ekranları üretiyor (D-018), zip
+  gelince görsel yön bunlara göre güncellenecek. Supabase/Vercel/Render bağlı değil.
 - **Faz sırası:** 0 iskelet → 1 tasarım sistemi (G0) → 2 API + NASA POWER → 3 demo + harita + ilk canlı yayın
   → 4 NASA veri merkezi → 5 su + rotasyon → 6 dijital ikiz → 7 AgriSpray → 8 sinematik landing → 9 özet + QA. Mobil ertelendi.

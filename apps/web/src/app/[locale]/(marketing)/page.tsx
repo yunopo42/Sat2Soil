@@ -19,7 +19,7 @@ export default async function LandingPage() {
       <main className="mx-auto w-full max-w-6xl flex-1 px-4 sm:px-8">
         <section className="py-20 sm:py-28">
           <p className="font-mono text-xs text-navy-600">{t("eyebrow")}</p>
-          <h1 className="mt-5 max-w-3xl text-4xl font-semibold leading-[1.05] tracking-tight text-balance sm:text-6xl">
+          <h1 className="mt-5 max-w-3xl text-[2.5rem] leading-[1.05] font-semibold tracking-tight text-balance sm:text-3xl">
             {t("title")}
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted">{t("lead")}</p>
@@ -46,7 +46,7 @@ export default async function LandingPage() {
         </section>
 
         <section id="how" aria-labelledby="how-title" className="scroll-mt-8 border-t border-line py-16">
-          <h2 id="how-title" className="text-xl font-semibold tracking-tight">
+          <h2 id="how-title" className="text-lg font-semibold tracking-tight">
             {t("howTitle")}
           </h2>
           <ol className="mt-8 grid gap-4 sm:grid-cols-3">

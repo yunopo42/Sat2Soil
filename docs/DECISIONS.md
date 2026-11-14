@@ -40,6 +40,7 @@ Bir karar `KABUL` olunca `CLAUDE.md` güncellenir.
 - **Çelişki:** `TASK_MASTER.md` G0 ve `UI_UX_DESIGN.md` teslimleri Figma frame'leri ister; yeni brif doğrudan web geliştirmesini önceliklendirir.
 - **Karar:** G0 = canlı `/styleguide` sayfası (token, bileşen, rozet, grafik, boş/yükleniyor/hata durumları) +
   `docs/MOTION_STORYBOARD.md` (eleman · tetik · süre · easing · reduced-motion alternatifi). Kullanıcı bunları onaylayınca G0 kapanır.
+- **Güncelleme (D-018):** Sayfa tasarımları artık Google Stitch ile üretiliyor; G0'a Stitch ekranlarının onayı da eklendi.
 
 ### D-006 · Lacivert token ve renk semantiği — `KABUL`
 - **Boşluk:** Belge paletinde lacivert yok; brif "kontrollü lacivert/uzay referansı" ister.
@@ -100,3 +101,13 @@ Bir karar `KABUL` olunca `CLAUDE.md` güncellenir.
 ### D-017 · Landing'in faz sırası — `KABUL`
 - Önce kritik akış; sinematik landing Faz 8. Kalite çıtası yüksek: landing jürinin ilk izlenimi, "profesyonel" olmalı.
   Faz 0–7 boyunca sade, statik bir yer tutucu landing kullanılır.
+
+### D-018 · Sayfa tasarımları Google Stitch ile — `KABUL`
+- Kullanıcı, `docs/STITCH_PROMPTS.md` içindeki promptlarla ekranları Stitch'te üretir ve zip olarak yükler
+  (her ekran için PNG + varsa HTML). Dosyalar `docs/design/stitch/` altında saklanır.
+- Stitch çıktısı **görsel referanstır, üretim kodu değildir.** Sayfalar kendi token ve bileşenlerimizle, EN/TR metin
+  dosyalarıyla ve erişilebilirlik kurallarıyla yeniden yazılır. Stitch'in HTML/Tailwind kodu doğrudan kopyalanmaz.
+- Tasarım ile bu kayıttaki kurallar çelişirse (veri etiketleri, kontrast, simüle/gerçek ayrımı) kurallar geçerlidir;
+  sapmalar kullanıcıya listelenir.
+- Tasarımlardaki sayılar örnektir; gerçek veri gibi sunumda kullanılmaz.
+- G0 = Stitch ekranlarının onayı + bunlardan türetilen `/styleguide` + `docs/MOTION_STORYBOARD.md`.

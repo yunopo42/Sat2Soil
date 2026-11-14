@@ -38,7 +38,10 @@ describe("message catalogues", () => {
     for (const source of DATA_SOURCES) {
       expect(en.dataSource[source]).toBeTruthy();
       expect(tr.dataSource[source]).toBeTruthy();
+      expect(en.dataSourceHint[source]).toBeTruthy();
+      expect(tr.dataSourceHint[source]).toBeTruthy();
     }
     expect(Object.keys(en.dataSource).sort()).toEqual([...DATA_SOURCES].sort());
+    expect(Object.keys(en.dataSourceHint).sort()).toEqual([...DATA_SOURCES].sort());
   });
 });
