@@ -17,8 +17,8 @@
 - [x] B10 Su koşulları hesaplama endpoint'i: günlük yağış ve seçilen ürün varsayımları; hesap yöntemi açıklama.
 - [x] B11 Rotasyon 2+ senaryo, ürün kısıtları, dayanak veriler ve belirsizlik notu.
 - [x] B12 Dijital ikiz snapshot ve comparison JSON; gerçek gözlem ile türetilmiş/varsayımsal ayrımı.
-- [ ] B13 Simüle cihaz seed API; `source_type=simulated_device` ve `computation_kind=mock` zorunlu.
-- [ ] B14 AgriSpray raporu: püskürtme/çevresel/bitki görseli ayrı; kesin biyolojik etkinlik iddiası yok.
+- [x] B13 Simüle cihaz seed API; `source_type=simulated_device` ve `computation_kind=mock` zorunlu.
+- [x] B14 AgriSpray raporu: püskürtme/çevresel/bitki görseli ayrı; kesin biyolojik etkinlik iddiası yok.
 
 ## QA & deploy [P0]
 - [ ] B15 pytest: geometri, NASA parser, missing data, senaryolar, scope izolasyonu.

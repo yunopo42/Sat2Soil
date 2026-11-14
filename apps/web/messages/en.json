@@ -390,12 +390,22 @@
       "not_yield": "Scores compare plans; they are not yield predictions and give no fertiliser or pesticide advice.",
       "analog_years": "The rest of the season repeats past weather from this grid cell; it is not a weather forecast.",
       "rainfed_only": "No irrigation is simulated: the deficit is what rain leaves uncovered.",
-      "not_forecast": "Scenarios show a range seen in the past, not a prediction of this season or of yield."
+      "not_forecast": "Scenarios show a range seen in the past, not a prediction of this season or of yield.",
+      "concept_device": "AgriSpray is a concept: no device is built or connected yet.",
+      "simulated_readings": "Device readings are a documented sample plus generated history (simulated_device, mock).",
+      "spray_guidance_general": "Spray-condition bands are general published guidance, not product-specific advice.",
+      "regional_wind_not_local": "NASA POWER wind is a daily regional mean, not the wind at spray time.",
+      "no_efficacy": "No pesticide efficacy, dose or yield figure is calculated.",
+      "no_diagnosis": "Plant notes are visual counts, not a disease diagnosis.",
+      "synthetic_card": "The card is synthetic: stains are generated, then measured like a scanned card.",
+      "stain_not_droplet": "Stain diameters are not converted to droplet sizes (spread factor not calibrated).",
+      "merging_counts": "Touching stains count as one region, the same error real cards have."
     },
     "uncertainty": {
       "grid_cell_not_field": "Values describe a ≈55 km grid cell. A field can be wetter or drier than its cell.",
       "score_not_yield": "A higher score means more of the plan's water demand is met by typical rain and more rotation rules are followed. It is not a yield estimate.",
-      "replay_not_forecast": "Twenty past seasons give a useful range, but this season can still be drier or wetter than any of them. The grid cell is ≈55 km wide."
+      "replay_not_forecast": "Twenty past seasons give a useful range, but this season can still be drier or wetter than any of them. The grid cell is ≈55 km wide.",
+      "concept_not_measurement": "Nothing on this page is a field measurement. It shows what the device will report once it exists and has been validated."
     },
     "water": {
       "title": "Water",
@@ -554,5 +564,119 @@
       "s4": "Dry / normal / wet = the past season at the 10th / 50th / 90th percentile of the season-end balance. The band shows P10–P90 per day."
     },
     "noHistory": "Not enough past seasons in the record for {crop}."
+  },
+  "spray": {
+    "title": "AgriSpray",
+    "emphasis": "spray analysis",
+    "description": "What the planned AgriSpray field device will measure: soil and air readings, spray-card coverage and plant observations, next to NASA wind context. Today every device value is simulated.",
+    "bannerTitle": "Concept device · Simulated data. No physical device is connected.",
+    "bannerBody": "The device is a concept by the Sat2Soil mechatronics team. Readings, cards and plant notes below are examples that show the planned flow.",
+    "concept": {
+      "title": "Concept device",
+      "caption": "Concept visual from the design mockup, not a photo of a working device.",
+      "flowTitle": "Planned connection",
+      "device": "Device",
+      "phone": "Phone (Bluetooth)",
+      "api": "Sat2Soil API",
+      "planned": "Planned"
+    },
+    "sensors": {
+      "title": "Device readings",
+      "soil_moisture": "Soil moisture",
+      "soil_temp": "Soil temperature",
+      "soil_ec": "Soil EC",
+      "air_temp": "Air temperature",
+      "air_rh": "Relative humidity",
+      "wind": "Wind",
+      "noSensor": "No wind sensor in the concept"
+    },
+    "tabs": {
+      "label": "AgriSpray analyses",
+      "card": "Spray card",
+      "soil": "Soil measurement",
+      "plant": "Plant tracking"
+    },
+    "card": {
+      "title": "Water-sensitive paper card",
+      "lead": "Yellow paper turns blue where spray droplets land. Pick an example card and measure it.",
+      "variantLabel": "Example card",
+      "variants": {
+        "even": "Even",
+        "uneven": "Uneven",
+        "sparse": "Sparse"
+      },
+      "run": "Run example analysis",
+      "rerun": "Analyse again",
+      "running": "Measuring the card…",
+      "original": "Synthetic card",
+      "mask": "Detected stains (mask)",
+      "notRun": "Run the analysis to see the detected stains.",
+      "coverage": "Coverage",
+      "density": "Stains per cm²",
+      "uniformity": "Uniformity",
+      "uniformityValue": {
+        "even": "Even",
+        "moderate": "Moderate",
+        "uneven": "Uneven"
+      },
+      "denser": {
+        "left": "denser on the left half",
+        "right": "denser on the right half"
+      },
+      "cv": "CV {cv}% over 12 zones",
+      "halves": "Left half {left}% · right half {right}%",
+      "merging": "{generated} stains generated → {regions} regions detected (touching stains merge, as on real paper).",
+      "zonesTitle": "Coverage by zone",
+      "histTitle": "Stain diameter",
+      "histNote": "Stain size on paper, not droplet size: stains spread to roughly twice the droplet diameter.",
+      "guidance": "Common water-sensitive paper guidance: about 20–30 stains/cm² for systemic products and 50–70 for contact products. Always follow the product label.",
+      "example": "Example calculation"
+    },
+    "soil": {
+      "title": "Soil probe, last 7 days",
+      "lead": "Simulated readings every 3 hours, ending at the sample reading.",
+      "moisture": "Soil moisture",
+      "temperature": "Soil temperature",
+      "ec": "Soil EC at the sample reading: {value} dS/m (simulated). Satellite soil moisture (NASA SMAP) is planned."
+    },
+    "plant": {
+      "title": "Before / after observation",
+      "lead": "The device camera would photograph the same tagged plant before and after spraying.",
+      "photoSlot": "Photo slot · concept camera",
+      "before": "Before · {date}",
+      "after": "After · {date}",
+      "leaves": "{spots} of {checked} leaves with visible spots",
+      "plantTag": "Plant {tag}",
+      "disclaimer": "A visual count by an observer. It is not a disease diagnosis and gives no efficacy figure: that needs labelled field trials with an untreated control."
+    },
+    "report": {
+      "title": "Report",
+      "quality": "Spray quality",
+      "qualityEmpty": "Run an example card analysis to fill this block.",
+      "environment": "Spray conditions",
+      "plantObs": "Plant observation",
+      "plantSummary": "Leaves with visible spots: {before} → {after} of {checked} (plant {tag})."
+    },
+    "checks": {
+      "delta_t": "Delta T (evaporation)",
+      "air_temp": "Air temperature",
+      "wind": "Wind at spray time",
+      "status": {
+        "within": "Within guidance",
+        "caution": "Caution",
+        "outside": "Outside guidance",
+        "unknown": "No data"
+      },
+      "note": "General guidance (e.g. Delta T 2–8 °C preferred). Indicative only: follow the product label and local rules."
+    },
+    "regional": {
+      "title": "NASA regional wind, last 30 days",
+      "mean": "Mean daily wind",
+      "max": "Highest daily mean",
+      "windy": "Days ≥ {threshold} m/s",
+      "note": "Daily mean at 2 m for a ≈55 km grid cell. It is context, not the wind at the moment of spraying.",
+      "series": "Daily mean wind",
+      "unavailable": "NASA POWER could not be reached; regional wind is not shown."
+    }
   }
 }

@@ -191,3 +191,21 @@ Yazı tipi Plus Jakarta Sans (italik dahil) + sayılar için Geist Mono. D-003't
   iklim riski seviyesi ve tarla içi NDVI uygulanmadı (D-020).
 - Harita tarlayı **tek renkle** boyar (tarla ortalaması), etiket bunu söyler. Geçmiş için POWER 22 yıl × 7 parametre
   tek istekte (~3 s) alınır, ızgara hücresi önbelleğine girer. Uç: `GET /v1/fields/{id}/twin?crop_a=&crop_b=`.
+
+### D-027 · AgriSpray = konsept cihaz, simüle değerler, sentetik kart ölçümü — `KABUL` (Faz 7, 2026-11-15)
+- Sayfanın en üstünde "Konsept cihaz · Simüle veri. Bağlı fiziksel cihaz yok." bandı. Cihaz değerlerinin hepsi
+  `simulated_device` + `computation_kind=mock`; örnek değerler `docs/ANALYSIS_AI.md` JSON'undan, 7 günlük geçmiş tarla
+  kimliğinden tohumlanarak üretilir (her ziyarette aynı). Zaman damgası sabit (14 Kas 2026 12:00 UTC), "şimdi" değil.
+- Konseptte rüzgâr sensörü yok → rüzgâr "Veri yok". Bölgesel bağlam için NASA POWER `WS2M` son 30 gün (günlük ortalama,
+  ilaçlama anındaki rüzgâr değil diye etiketli).
+- **Sentetik suya duyarlı kart:** lekeler tohumla üretilir (3 örnek: düzgün / düzensiz / seyrek), 0,05 mm ızgarada
+  rasterleştirilir ve taranmış kart gibi ölçülür: kaplama = leke pikseli / kart pikseli, leke sayısı = 4-bağlantılı
+  bölgeler (değen lekeler birleşir, gerçek kart hatası), homojenlik = 6×2 bölge kaplamasının CV'si. Maske görüntüsü
+  ölçülen ızgaradan üretilen PNG'dir. Leke çapı damlacık çapına çevrilmez.
+- İlaçlama koşulları genel kılavuz: Delta T (Stull 2011 yaş termometre) 2–8 °C tercih, 8–10 dikkat, >10 dışında;
+  hava sıcaklığı ≤28 / 28–32 / >32 °C. "Uygun" kararı, doz, ilaç etkinliği %, hastalık teşhisi, verim **yok**.
+- Bitki takibi: fotoğraf yerine "konsept kamera" yuvası + gözlemci sayımı (simüle). Tasarımdaki (P08) "Canlı",
+  %92 etkinlik, hastalık şiddeti, NDVI/klorofil iyileşmesi, verim potansiyeli, "Sentinel-2 NASA" uygulanmadı (D-020).
+- Cihaz görseli `public/images/agrispray-concept.webp` tasarım maketinden kırpıldı; altyazı "çalışan cihaz fotoğrafı değil".
+- Supabase `device_samples` / `spray_*` tabloları (D07–D08) gerçek cihaz gelene kadar ertelendi: simüle veriyi DB'de
+  tutmak bilgi katmıyor. Uçlar: `GET /v1/fields/{id}/agrispray`, `GET /v1/agrispray/spray-cards/example?variant=`.

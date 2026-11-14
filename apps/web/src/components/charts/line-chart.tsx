@@ -37,6 +37,7 @@ const tone: Record<SeriesTone, { line: string; band: string; dash?: string; dot:
     dot: "fill-green-600",
     label: "fill-green-800",
   },
+  simulated: { line: "stroke-amber-600", band: "fill-amber-50", dot: "fill-amber-600", label: "fill-amber-700" },
   "scenario-alt": {
     line: "stroke-ink-muted",
     band: "fill-surface-2",

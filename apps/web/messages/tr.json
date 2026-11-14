@@ -390,12 +390,22 @@
       "not_yield": "Puanlar planları karşılaştırır; verim tahmini değildir, gübre ya da ilaç önerisi vermez.",
       "analog_years": "Sezonun kalanı bu ızgara hücresinin geçmiş havasını tekrarlar; hava tahmini değildir.",
       "rainfed_only": "Sulama simüle edilmez: açık, yağışın karşılamadığı kısımdır.",
-      "not_forecast": "Senaryolar geçmişte görülen bir aralığı gösterir; bu sezonun ya da verimin tahmini değildir."
+      "not_forecast": "Senaryolar geçmişte görülen bir aralığı gösterir; bu sezonun ya da verimin tahmini değildir.",
+      "concept_device": "AgriSpray bir konsepttir: henüz üretilmiş ya da bağlı bir cihaz yok.",
+      "simulated_readings": "Cihaz değerleri, belgelenmiş bir örnek ve üretilmiş geçmişten oluşur (simulated_device, mock).",
+      "spray_guidance_general": "İlaçlama koşulu aralıkları genel yayımlanmış kılavuzlardır, ürüne özel öneri değildir.",
+      "regional_wind_not_local": "NASA POWER rüzgârı bölgesel günlük ortalamadır, ilaçlama anındaki rüzgâr değildir.",
+      "no_efficacy": "İlaç etkinliği, doz ya da verim değeri hesaplanmaz.",
+      "no_diagnosis": "Bitki notları görsel sayımdır, hastalık teşhisi değildir.",
+      "synthetic_card": "Kart sentetiktir: lekeler üretilir, sonra taranmış bir kart gibi ölçülür.",
+      "stain_not_droplet": "Leke çapları damlacık boyutuna çevrilmez (yayılma katsayısı kalibre edilmedi).",
+      "merging_counts": "Birbirine değen lekeler tek bölge sayılır; gerçek kartlarda da aynı hata vardır."
     },
     "uncertainty": {
       "grid_cell_not_field": "Değerler ≈55 km'lik bir ızgara hücresini temsil eder. Tarla, hücresinden daha nemli ya da kuru olabilir.",
       "score_not_yield": "Yüksek puan, planın su ihtiyacının daha büyük kısmının tipik yağışla karşılandığı ve daha çok rotasyon kuralına uyulduğu anlamına gelir. Verim tahmini değildir.",
-      "replay_not_forecast": "Yirmi geçmiş sezon yararlı bir aralık verir, ama bu sezon hepsinden daha kurak ya da yağışlı olabilir. Izgara hücresi ≈55 km genişliğindedir."
+      "replay_not_forecast": "Yirmi geçmiş sezon yararlı bir aralık verir, ama bu sezon hepsinden daha kurak ya da yağışlı olabilir. Izgara hücresi ≈55 km genişliğindedir.",
+      "concept_not_measurement": "Bu sayfadaki hiçbir değer saha ölçümü değildir. Cihaz üretilip doğrulandığında neler raporlayacağını gösterir."
     },
     "water": {
       "title": "Su",
@@ -554,5 +564,119 @@
       "s4": "Kurak / normal / yağışlı = sezon sonu dengesinde 10. / 50. / 90. yüzdelikteki geçmiş sezon. Bant her gün için P10–P90'ı gösterir."
     },
     "noHistory": "{crop} için kayıtta yeterli geçmiş sezon yok."
+  },
+  "spray": {
+    "title": "Zirai İlaçlama",
+    "emphasis": "Analizi",
+    "description": "Planlanan AgriSpray saha cihazının ölçeceği şeyler: toprak ve hava değerleri, ilaçlama kartı kaplaması ve bitki gözlemleri; yanında NASA rüzgâr bağlamı. Bugün cihaz değerlerinin hepsi simüledir.",
+    "bannerTitle": "Konsept cihaz · Simüle veri. Bağlı fiziksel cihaz yok.",
+    "bannerBody": "Cihaz, Sat2Soil mekatronik ekibinin konseptidir. Aşağıdaki değerler, kartlar ve bitki notları planlanan akışı gösteren örneklerdir.",
+    "concept": {
+      "title": "Konsept cihaz",
+      "caption": "Tasarım maketinden konsept görsel; çalışan bir cihazın fotoğrafı değildir.",
+      "flowTitle": "Planlanan bağlantı",
+      "device": "Cihaz",
+      "phone": "Telefon (Bluetooth)",
+      "api": "Sat2Soil API",
+      "planned": "Planlı"
+    },
+    "sensors": {
+      "title": "Cihaz ölçümleri",
+      "soil_moisture": "Toprak nemi",
+      "soil_temp": "Toprak sıcaklığı",
+      "soil_ec": "Toprak EC",
+      "air_temp": "Hava sıcaklığı",
+      "air_rh": "Bağıl nem",
+      "wind": "Rüzgâr",
+      "noSensor": "Konseptte rüzgâr sensörü yok"
+    },
+    "tabs": {
+      "label": "AgriSpray analizleri",
+      "card": "İlaçlama kartı",
+      "soil": "Toprak ölçümü",
+      "plant": "Bitki takibi"
+    },
+    "card": {
+      "title": "Suya duyarlı kart",
+      "lead": "Sarı kâğıt, damlacıkların düştüğü yerde maviye döner. Bir örnek kart seç ve ölç.",
+      "variantLabel": "Örnek kart",
+      "variants": {
+        "even": "Düzgün",
+        "uneven": "Düzensiz",
+        "sparse": "Seyrek"
+      },
+      "run": "Örnek analizi çalıştır",
+      "rerun": "Yeniden analiz et",
+      "running": "Kart ölçülüyor…",
+      "original": "Sentetik kart",
+      "mask": "Algılanan lekeler (maske)",
+      "notRun": "Algılanan lekeleri görmek için analizi çalıştır.",
+      "coverage": "Kaplama",
+      "density": "cm² başına leke",
+      "uniformity": "Homojenlik",
+      "uniformityValue": {
+        "even": "Düzgün",
+        "moderate": "Orta",
+        "uneven": "Düzensiz"
+      },
+      "denser": {
+        "left": "sol yarıda daha yoğun",
+        "right": "sağ yarıda daha yoğun"
+      },
+      "cv": "12 bölgede değişkenlik katsayısı %{cv}",
+      "halves": "Sol yarı %{left} · sağ yarı %{right}",
+      "merging": "{generated} leke üretildi → {regions} bölge algılandı (birbirine değen lekeler, gerçek kâğıtta olduğu gibi birleşir).",
+      "zonesTitle": "Bölgelere göre kaplama",
+      "histTitle": "Leke çapı",
+      "histNote": "Kâğıttaki leke boyutu, damlacık boyutu değildir: lekeler damlacık çapının yaklaşık iki katına yayılır.",
+      "guidance": "Suya duyarlı kartlar için yaygın kılavuz: sistemik ürünlerde cm² başına yaklaşık 20–30, kontakt ürünlerde 50–70 leke. Her zaman ürün etiketine uyun.",
+      "example": "Örnek hesap"
+    },
+    "soil": {
+      "title": "Toprak probu, son 7 gün",
+      "lead": "3 saatte bir simüle ölçüm; örnek ölçümde biter.",
+      "moisture": "Toprak nemi",
+      "temperature": "Toprak sıcaklığı",
+      "ec": "Örnek ölçümde toprak EC: {value} dS/m (simüle). Uydu toprak nemi (NASA SMAP) planlı."
+    },
+    "plant": {
+      "title": "Önce / sonra gözlemi",
+      "lead": "Cihaz kamerası aynı etiketli bitkiyi ilaçlamadan önce ve sonra fotoğraflayacak.",
+      "photoSlot": "Fotoğraf alanı · konsept kamera",
+      "before": "Önce · {date}",
+      "after": "Sonra · {date}",
+      "leaves": "{checked} yapraktan {spots} tanesinde görünür leke",
+      "plantTag": "Bitki {tag}",
+      "disclaimer": "Gözlemcinin görsel sayımıdır. Hastalık teşhisi değildir ve etkinlik oranı vermez: bunun için ilaçlanmamış kontrol gruplu, etiketli saha denemeleri gerekir."
+    },
+    "report": {
+      "title": "Rapor",
+      "quality": "İlaçlama kalitesi",
+      "qualityEmpty": "Bu bloğu doldurmak için örnek kart analizini çalıştır.",
+      "environment": "İlaçlama koşulları",
+      "plantObs": "Bitki gözlemi",
+      "plantSummary": "Görünür lekeli yaprak: {checked} yapraktan {before} → {after} (bitki {tag})."
+    },
+    "checks": {
+      "delta_t": "Delta T (buharlaşma)",
+      "air_temp": "Hava sıcaklığı",
+      "wind": "İlaçlama anındaki rüzgâr",
+      "status": {
+        "within": "Kılavuz içinde",
+        "caution": "Dikkat",
+        "outside": "Kılavuz dışında",
+        "unknown": "Veri yok"
+      },
+      "note": "Genel kılavuz (ör. Delta T için 2–8 °C tercih edilir). Yalnız fikir verir: ürün etiketine ve yerel kurallara uyun."
+    },
+    "regional": {
+      "title": "NASA bölgesel rüzgâr, son 30 gün",
+      "mean": "Ortalama günlük rüzgâr",
+      "max": "En yüksek günlük ortalama",
+      "windy": "≥ {threshold} m/s olan gün",
+      "note": "≈55 km'lik ızgara hücresi için 2 m'de günlük ortalama. Bağlam sağlar; ilaçlama anındaki rüzgâr değildir.",
+      "series": "Günlük ortalama rüzgâr",
+      "unavailable": "NASA POWER'a ulaşılamadı; bölgesel rüzgâr gösterilmiyor."
+    }
   }
 }

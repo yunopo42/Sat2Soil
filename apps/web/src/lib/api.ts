@@ -1,16 +1,21 @@
 import {
+  AgriSpraySchema,
   ApiErrorBodySchema,
   DemoSessionSchema,
   FieldSchema,
   PowerDailySchema,
   RotationSchema,
+  SprayCardSchema,
   TwinSchema,
   WaterBalanceSchema,
+  type AgriSpray,
   type Field,
   type IrrigationType,
   type Polygon,
   type PowerDaily,
   type Rotation,
+  type SprayCard,
+  type SprayCardVariant,
   type Twin,
   type WaterBalance,
 } from "@sat2soil/contracts";
@@ -165,4 +170,14 @@ export function fetchTwin(id: string, crops: { a?: string; b?: string } = {}): P
   if (crops.b) params.set("crop_b", crops.b);
   const query = params.size ? `?${params}` : "";
   return request(`/v1/fields/${encodeURIComponent(id)}/twin${query}`, { auth: "optional" }, TwinSchema);
+}
+
+/** AgriSpray concept (D-027): simulated device readings, spray-condition checks, NASA wind context. */
+export function fetchAgriSpray(id: string): Promise<AgriSpray> {
+  return request(`/v1/fields/${encodeURIComponent(id)}/agrispray`, { auth: "optional" }, AgriSpraySchema);
+}
+
+/** Measures one synthetic water-sensitive paper card on the server (example calculation). */
+export function fetchSprayCard(variant: SprayCardVariant): Promise<SprayCard> {
+  return request(`/v1/agrispray/spray-cards/example?variant=${variant}`, {}, SprayCardSchema);
 }

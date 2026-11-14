@@ -7,9 +7,9 @@ export type BandPoint = { t: Date; lo: number | null; hi: number | null };
  * How a series is drawn. The visual grammar is fixed across the app:
  * observed = solid sky blue (came from NASA) · temperature = solid orange · derived = solid green (calculated by us)
  * · scenario = dashed green with a light band (what-if) · scenario-alt = dotted grey (a second what-if
- * to compare against) · reference = thin grey.
+ * to compare against) · simulated = amber (concept device, never NASA) · reference = thin grey.
  */
-export type SeriesTone = "observed" | "temperature" | "derived" | "scenario" | "scenario-alt" | "reference";
+export type SeriesTone = "observed" | "temperature" | "derived" | "scenario" | "scenario-alt" | "simulated" | "reference";
 
 export type LineSeries = {
   id: string;

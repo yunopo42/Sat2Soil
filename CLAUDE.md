@@ -1,6 +1,6 @@
 # CLAUDE.md — Sat2Soil
 
-> **Durum: v0.6 · 2026-11-15** — Faz 0–6 tamam. Kararlar D-001…D-026, `docs/DECISIONS.md`.
+> **Durum: v0.7 · 2026-11-15** — Faz 0–7 tamam. Kararlar D-001…D-027, `docs/DECISIONS.md`.
 > Kararların tamamı `docs/DECISIONS.md` içinde; bu dosya onların kısa özetidir.
 
 **Sat2Soil** — NASA Space Apps Challenge 2026.
@@ -122,7 +122,7 @@ packages/contracts/   OpenAPI → TS tipleri + Zod · DataSource enum
 ```
 
 Rotalar (TR'de `/tr` önekiyle): `/` → `/demo` → `/fields/[id]` (harita) → `/climate` → `/planning/water` · `/planning/rotation`
-→ `/twin` → `/spray` → `/summary`. `fields/[id]/layout.tsx` = kabuk (üst bar + menü); `params` Suspense içinde okunur (cacheComponents). Faz 7–9 sayfaları
+→ `/twin` → `/spray` → `/summary`. `fields/[id]/layout.tsx` = kabuk (üst bar + menü); `params` Suspense içinde okunur (cacheComponents). Faz 8–9 sayfaları
 şimdilik `ComingSoon` yer tutucusu.
 
 ## 6. Veri kaynağı tipleri (tek enum — D-001)
@@ -175,7 +175,8 @@ Kökten çalıştır (`pnpm install` ve `uv sync --directory services/api` sonra
 API uçları (OpenAPI: `/docs`): `GET /health` (db durumu dahil) · `POST /v1/demo/session` · `GET /v1/demo/fields` ·
 `GET|POST /v1/fields` · `GET|PATCH|DELETE /v1/fields/{id}` · `GET /v1/fields/{id}/nasa/power/daily` ·
 `GET /v1/nasa/power/daily?lat=&lon=&start=&end=` · `GET /v1/crops` · `GET /v1/fields/{id}/water-balance` ·
-`GET /v1/fields/{id}/rotation` · `POST /v1/fields/{id}/rotation/compare` (D-025) · `GET /v1/fields/{id}/twin` (D-026). Yazma uçları Bearer demo token ister; IP başına rate limit.
+`GET /v1/fields/{id}/rotation` · `POST /v1/fields/{id}/rotation/compare` (D-025) · `GET /v1/fields/{id}/twin` (D-026) ·
+`GET /v1/fields/{id}/agrispray` · `GET /v1/agrispray/spray-cards/example` (D-027). Yazma uçları Bearer demo token ister; IP başına rate limit.
 POWER davranışı ve doğrulanmış gerçekler: `docs/DECISIONS.md` D-019.
 
 Deploy (kullanıcı bağlar, D-023): Render → Blueprint → `render.yaml`. Vercel root `apps/web`,
@@ -197,7 +198,10 @@ Windows'ta API'yi `--reload` ile çalıştır (psycopg async, Proactor döngüs�
 - **Faz 6 tamam:** `/fields/[id]/twin` dijital ikiz — gözlenen sezon + 20 geçmiş sezonun yeniden oynatılması,
   kurak/normal/yağışlı (P10/P50/P90), A/B ürün kıyası, tek renkli tarla haritası + zaman çizgisi (D-026).
   Motor `services/api/app/engines/scenario.py`.
-- **Sıradaki:** Faz 7 AgriSpray → Faz 8 sinematik landing → Faz 9 özet + QA.
+- **Faz 7 tamam:** `/fields/[id]/spray` AgriSpray — konsept cihaz bandı, simüle sensörler, sentetik suya duyarlı kart
+  ölçümü (kaplama, leke/cm², homojenlik, maske), Delta T kontrolleri + NASA bölgesel rüzgâr, bitki gözlemi (D-027).
+  Motor `services/api/app/engines/spray.py`.
+- **Sıradaki:** Faz 8 sinematik landing → Faz 9 özet + QA.
   Devam etmek için: `docs/HANDOFF.md`.
 - **Açık riskler:** DB parolası sohbette paylaşıldı, değiştirilmeli (D-021). POWER yağış toplamı istasyon verisiyle
   karşılaştırılmalı (D-019). Hero/kart görselleri tasarım ekran görüntüsünden kırpıldı; yüksek çözünürlüklü export gelirse değişir.

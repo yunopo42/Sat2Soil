@@ -34,10 +34,10 @@
 - [x] W04.4 Su / rotasyon / dijital ikiz ana sayfalarda 1-2 cümleyle çiftçiye anlaşılır sonuç. **Kabul:** yalnız grafik bırakılmaz.
 
 ## Faz 5 — AgriSpray gösterimi [P0]
-- [ ] W05.1 `Konsept Cihaz • Simülasyon` başlığı ve mekatronik çizim yeri; sensör örnekleri toprak nemi, sıcaklığı, EC, ortam hava koşulu. **Kabul:** cihaz bağlıymış gibi davranmaz.
-- [ ] W05.2 Püskürtme kartı örnek fotoğraf + örnek maske; kaplama, leke/cm², homojenlik; `örnek sonuç` etiketi. **Kabul:** yanlış etkinlik yüzdesi yok.
-- [ ] W05.3 Öncesi/sonrası bitki fotoğrafı karşılaştırma görseli; hastalık teşhisi yoksa açıkça `Görsel karşılaştırma`. **Kabul:** AI eğitilmediyse AI tahmini sunulmaz.
-- [ ] W05.4 3 ayrı rapor bloğu: püskürtme kalitesi / çevresel uygunluk / bitki takip. **Kabul:** kaynak ve güven düzeyi yazılı.
+- [x] W05.1 `Konsept Cihaz • Simülasyon` başlığı ve mekatronik çizim yeri; sensör örnekleri toprak nemi, sıcaklığı, EC, ortam hava koşulu. **Kabul:** cihaz bağlıymış gibi davranmaz.
+- [x] W05.2 Püskürtme kartı örnek fotoğraf + örnek maske; kaplama, leke/cm², homojenlik; `örnek sonuç` etiketi. **Kabul:** yanlış etkinlik yüzdesi yok.
+- [x] W05.3 Öncesi/sonrası bitki fotoğrafı karşılaştırma görseli; hastalık teşhisi yoksa açıkça `Görsel karşılaştırma`. **Kabul:** AI eğitilmediyse AI tahmini sunulmaz.
+- [x] W05.4 3 ayrı rapor bloğu: püskürtme kalitesi / çevresel uygunluk / bitki takip. **Kabul:** kaynak ve güven düzeyi yazılı.
 - [ ] W05.5 Opsiyonel P1 OpenCV gerçek kart yükle/analiz akışı; analiz yoksa yükleme `prototip konsepti` olarak sınırlandırılır.
 
 ## Faz 6 — QA, performans ve canlıya alma [P0]

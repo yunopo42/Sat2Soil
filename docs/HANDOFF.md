@@ -1,6 +1,6 @@
 # HANDOFF: picking the work back up
 
-> Updated at the end of every phase. **Last updated: 2026-11-15, end of Faz 6.**
+> Updated at the end of every phase. **Last updated: 2026-11-15, end of Faz 7.**
 > If you are opening this repo from another Claude account or session, read this file first, then `CLAUDE.md`, then
 > `docs/DECISIONS.md`. Talk to the user in Turkish; code, variables and commit messages stay in English.
 
@@ -15,11 +15,11 @@
 | 4 | ✅ | `/fields/[id]/climate` NASA data center (90 days / 12 months / 3 years, CSV, "About this data") |
 | 5 | ✅ | `/planning/water` FAO-56 water balance · `/planning/rotation` crop rotation comparison (D-025) |
 | 6 | ✅ | `/twin` digital twin: observed season + 20 past seasons replayed, dry/normal/wet, A vs B crops (D-026) |
-| 7 | ⏭ next | AgriSpray simulated spray analysis: always `Konsept cihaz · Simüle veri`, `simulated_device` |
-| 8 | ⬜ | Cinematic landing (three.js, D-004), only on `/`, lazy, reduced-motion poster |
+| 7 | ✅ | `/spray` AgriSpray concept: simulated sensors, synthetic spray-card measurement, Delta T + NASA wind (D-027) |
+| 8 | ⏭ next | Cinematic landing (three.js, D-004), only on `/`, lazy, reduced-motion poster |
 | 9 | ⬜ | `/summary` + QA (Playwright + axe, 390 px mobile check, prod smoke test) |
 
-Pages 7–9 are currently `ComingSoon` placeholders. Specs: `docs/PRODUCT_SCOPE.md`, `docs/UI_UX_DESIGN.md`,
+Pages 8–9 (`/summary`; landing is static) are currently `ComingSoon` placeholders. Specs: `docs/PRODUCT_SCOPE.md`, `docs/UI_UX_DESIGN.md`,
 `docs/ANALYSIS_AI.md` (§3 digital twin, §4 AgriSpray), `apps/web/task.md`, `services/api/task.md`.
 
 Deploy: the user connected Render (API, `render.yaml`) and Vercel (web, root `apps/web`). **Claude does not wire up
@@ -56,15 +56,16 @@ Before every commit: `pnpm check` and `pnpm build`.
 
 ## 4. Analysis engines in short
 
-- Engines (pure, unit-tested): `services/api/app/engines/{crops,water,rotation,scenario}.py`.
+- Engines (pure, unit-tested): `services/api/app/engines/{crops,water,rotation,scenario,spray}.py`.
 - Service: `services/api/app/services/agronomy.py` loads POWER per grid cell (760 days, or 22 years for the twin).
 - Endpoints: `GET /v1/crops`, `GET /v1/fields/{id}/water-balance`, `GET /v1/fields/{id}/rotation`,
-  `POST /v1/fields/{id}/rotation/compare`, `GET /v1/fields/{id}/twin?crop_a=&crop_b=`.
-- Web: `apps/web/src/app/[locale]/(app)/fields/[id]/{planning/water,planning/rotation,twin}/`.
-- Faz 7 (AgriSpray) is **not** built on these engines: it is a concept device with simulated data only
-  (`simulated_device`, `computation_kind=mock`, badge "Concept device · Simulated data" everywhere). Spec:
-  `docs/ANALYSIS_AI.md` (AgriSpray, sample device JSON), `docs/UI_UX_DESIGN.md` S-07, design `docs/design/stitch/P08-agrispray.webp`,
-  D-020 list of what must not be copied from that design (live labels, efficacy %, disease severity).
+  `POST /v1/fields/{id}/rotation/compare`, `GET /v1/fields/{id}/twin?crop_a=&crop_b=`,
+  `GET /v1/fields/{id}/agrispray`, `GET /v1/agrispray/spray-cards/example?variant=even|uneven|sparse`.
+- Web: `apps/web/src/app/[locale]/(app)/fields/[id]/{planning/water,planning/rotation,twin,spray}/`.
+- Faz 8 (cinematic landing) touches only `/` (`src/app/[locale]/(marketing)/`): three.js + @react-three/fiber + drei,
+  lazy-loaded, quality tiers, a static poster for `prefers-reduced-motion` and weak devices (D-004, CLAUDE.md §8,
+  `docs/MOTION_STORYBOARD.md`, design `docs/design/stitch/P01-landing.webp`). No NASA insignia (D-024). The user said the
+  landing must look professional: agree the scene with them before building it.
 
 ## 5. Open risks
 
@@ -84,8 +85,8 @@ Before every commit: `pnpm check` and `pnpm build`.
 ```text
 Sat2Soil projesine devam ediyoruz (https://github.com/yunopo42/Sat2Soil, dal main).
 Önce docs/HANDOFF.md, sonra CLAUDE.md ve docs/DECISIONS.md dosyalarını oku; kurallara aynen uy.
-Faz 0–6 tamam. Sıradaki iş: Faz 7 AgriSpray (konsept cihaz, tamamen simüle veri; docs/UI_UX_DESIGN.md S-07,
-docs/ANALYSIS_AI.md, docs/DECISIONS.md D-020).
+Faz 0–7 tamam. Sıradaki iş: Faz 8 sinematik landing (docs/DECISIONS.md D-004, docs/MOTION_STORYBOARD.md,
+docs/design/stitch/P01-landing.webp); sahneyi kodlamadan önce benimle netleştir.
 Kurulum eksikse HANDOFF §2'yi uygula; services/api/.env değerlerini bana sor, kendin uydurma.
 Benimle Türkçe konuş. Faz bitince pnpm check + pnpm build, commit + push, HANDOFF.md'yi güncelle
 ve bana yeni devam promptunu ver.

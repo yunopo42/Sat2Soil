@@ -273,3 +273,101 @@ export const TwinSchema = z.object({
   uncertainty_note: z.string(),
 });
 export type Twin = z.infer<typeof TwinSchema>;
+
+/** AgriSpray concept (D-027): every device and card value is simulated, computation_kind = mock. */
+const CheckStatusSchema = z.enum(["within", "caution", "outside", "unknown"]);
+export type CheckStatus = z.infer<typeof CheckStatusSchema>;
+
+export const AgriSpraySchema = z.object({
+  field_id: z.string(),
+  source_type: DataSourceSchema,
+  computation_kind: z.literal("mock"),
+  device: z.object({
+    device_id: z.string(),
+    status: z.literal("concept"),
+    connected: z.literal(false),
+    source_type: DataSourceSchema,
+    computation_kind: z.literal("mock"),
+    recorded_at: z.string(),
+    readings: z.object({
+      soil_moisture_pct: z.number().nullable(),
+      soil_temp_c: z.number().nullable(),
+      soil_ec_ds_m: z.number().nullable(),
+      air_temp_c: z.number().nullable(),
+      air_rh_pct: z.number().nullable(),
+      wind_ms: z.number().nullable(),
+    }),
+    history: z.array(z.object({ at: z.string(), soil_moisture_pct: z.number(), soil_temp_c: z.number() })),
+    quality_note: z.string(),
+  }),
+  checks: z.array(
+    z.object({
+      code: z.string(),
+      status: CheckStatusSchema,
+      value: z.number().nullable(),
+      unit: z.string(),
+      source_type: DataSourceSchema,
+    }),
+  ),
+  regional: z
+    .object({
+      source_type: DataSourceSchema,
+      start: z.string(),
+      end: z.string(),
+      mean_wind_ms: z.number().nullable(),
+      max_wind_ms: z.number().nullable(),
+      windy_days: z.number(),
+      windy_threshold_ms: z.number(),
+      days: z.array(
+        z.object({
+          date: z.string(),
+          wind_ms: z.number().nullable(),
+          tmax_c: z.number().nullable(),
+          rh_pct: z.number().nullable(),
+          precip_mm: z.number().nullable(),
+        }),
+      ),
+    })
+    .nullable(),
+  plant_log: z.array(
+    z.object({
+      date: z.string(),
+      stage: z.enum(["before", "after"]),
+      plant_tag: z.string(),
+      leaves_checked: z.number(),
+      leaves_with_spots: z.number(),
+    }),
+  ),
+  data_sources: z.array(DataSourceRefSchema),
+  assumptions: z.array(z.string()),
+  uncertainty_note: z.string(),
+});
+export type AgriSpray = z.infer<typeof AgriSpraySchema>;
+
+export const SPRAY_CARD_VARIANTS = ["even", "uneven", "sparse"] as const;
+export type SprayCardVariant = (typeof SPRAY_CARD_VARIANTS)[number];
+
+export const SprayCardSchema = z.object({
+  variant: z.enum(SPRAY_CARD_VARIANTS),
+  source_type: DataSourceSchema,
+  computation_kind: z.literal("mock"),
+  image_kind: z.literal("synthetic"),
+  method: z.string(),
+  card_mm: z.tuple([z.number(), z.number()]),
+  resolution_mm: z.number(),
+  generated_stains: z.number(),
+  stains: z.array(z.object({ x: z.number(), y: z.number(), d: z.number() })),
+  coverage_pct: z.number(),
+  regions: z.number(),
+  regions_per_cm2: z.number(),
+  zone_coverage: z.array(z.array(z.number())),
+  uniformity_cv_pct: z.number(),
+  uniformity: z.enum(["even", "moderate", "uneven"]),
+  denser_side: z.enum(["left", "right"]).nullable(),
+  left_coverage_pct: z.number(),
+  right_coverage_pct: z.number(),
+  histogram: z.array(z.object({ from_um: z.number(), to_um: z.number().nullable(), count: z.number() })),
+  mask_png: z.string().startsWith("data:image/png;base64,"),
+  assumptions: z.array(z.string()),
+});
+export type SprayCard = z.infer<typeof SprayCardSchema>;
