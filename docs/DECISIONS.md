@@ -161,3 +161,9 @@ Yazı tipi Plus Jakarta Sans (italik dahil) + sayılar için Geist Mono. D-003't
 - API: Render Blueprint (`render.yaml`), Frankfurt, `/health` sağlık kontrolü, `--proxy-headers` ile gerçek IP'ye göre rate limit.
 - Web: Vercel, Root Directory `apps/web`, ortam değişkeni `NEXT_PUBLIC_API_BASE_URL` = Render adresi.
 - Render'da `CORS_ORIGINS` = Vercel production adresi (tam adres, joker yok).
+
+### D-024 · Space Apps Konya logosu evet, NASA insignia hayır — `KABUL` (kullanıcı kararı, 2026-11-15)
+- Proje NASA Space Apps Challenge Konya etkinliğinde geliştirildi: Space Apps Konya logosu landing'de ("... Konya'da
+  geliştirildi" rozeti) ve footer'da kullanılır (`docs/design/brand/space-apps-konya.jpg`).
+- NASA "meatball" logosu kullanılmaz (14 CFR 1221, onay izlenimi). NASA kaynakları metinle yazılır; footer'da
+  "NASA ile bağlantılı değildir" notu kalır.

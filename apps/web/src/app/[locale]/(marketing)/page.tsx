@@ -22,6 +22,7 @@ import cardDecide from "../../../../public/images/card-field-decisions.webp";
 import cardMonitor from "../../../../public/images/card-satellite-monitoring.webp";
 import cardTwin from "../../../../public/images/card-digital-twin.webp";
 import hero from "../../../../public/images/hero-satellite-to-soil.webp";
+import spaceApps from "../../../../public/images/space-apps-konya.jpg";
 
 // Static landing in the approved visual direction (P01). The cinematic 3D landing replaces the
 // hero in phase 8 (D-004, D-017). No NASA insignia anywhere (CLAUDE.md rule 6).
@@ -96,7 +97,17 @@ export default async function LandingPage() {
                 </a>
               </Button>
             </div>
-            <LocaleSwitcher className="mt-8 w-fit sm:hidden" />
+            <p className="mt-9 inline-flex items-center gap-3 rounded-full border border-line bg-surface/90 py-1.5 pr-4 pl-1.5 text-xs font-semibold text-ink shadow-card">
+              <Image
+                src={spaceApps}
+                alt={t("spaceAppsAlt")}
+                width={32}
+                height={32}
+                className="size-8 rounded-full object-cover"
+              />
+              {t("builtAt")}
+            </p>
+            <LocaleSwitcher className="mt-6 w-fit sm:hidden" />
           </div>
           <div className="relative mx-4 mb-10 aspect-[16/9] overflow-hidden rounded-xl lg:hidden">
             <Image src={hero} alt="" fill sizes="100vw" className="object-cover" />
@@ -204,7 +215,17 @@ export default async function LandingPage() {
 
       <footer id="about" className="border-t border-line bg-surface">
         <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-10 sm:px-8 md:flex-row md:items-center md:justify-between">
-          <Wordmark size="sm" />
+          <div className="flex items-center gap-5">
+            <Wordmark size="sm" />
+            <span aria-hidden="true" className="h-10 w-px bg-line" />
+            <Image
+              src={spaceApps}
+              alt={t("spaceAppsAlt")}
+              width={56}
+              height={56}
+              className="size-14 rounded-lg object-cover"
+            />
+          </div>
           <div className="max-w-xl text-sm text-ink-muted md:text-right">
             <p className="font-semibold text-ink">{t("footerChallenge")}</p>
             <p className="mt-1">{t("footerData")}</p>

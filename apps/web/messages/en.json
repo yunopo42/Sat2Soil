@@ -86,7 +86,9 @@
     "gridNote": "Satellite and model data describe a grid cell, not a point measurement inside your field.",
     "footerChallenge": "NASA Space Apps Challenge 2026",
     "footerData": "Data: NASA POWER and NASA GIBS. Sat2Soil is not affiliated with or endorsed by NASA.",
-    "footerTeam": "Built by the Sat2Soil team."
+    "footerTeam": "Built by the Sat2Soil team.",
+    "builtAt": "Built at NASA Space Apps Challenge 2026 · Konya",
+    "spaceAppsAlt": "NASA Space Apps Challenge Konya logo"
   },
   "demo": {
     "title": "Field selection / Map",
@@ -283,5 +285,91 @@
     "east": "E",
     "pp": "pts",
     "mmPerDay": "mm/day"
+  },
+  "climate": {
+    "title": "NASA",
+    "emphasis": "data center",
+    "description": "NASA Earth data for your field in one place: what is connected today, what it measures and how far it can be trusted.",
+    "range": "Date range",
+    "ranges": {
+      "d90": "Last 90 days",
+      "d365": "Last 12 months",
+      "d1095": "Last 3 years"
+    },
+    "refresh": "Refresh data",
+    "download": "Download CSV",
+    "sourcesLabel": "Data sources",
+    "summary": {
+      "rain": "Total precipitation",
+      "temp": "Mean temperature",
+      "max": "Highest",
+      "min": "Lowest",
+      "gaps": "Days without data"
+    },
+    "charts": {
+      "temp": "Air temperature, daily range and mean",
+      "rain": "Daily precipitation",
+      "humidity": "Relative humidity at 2 m",
+      "wind": "Wind speed at 2 m",
+      "solar": "Solar radiation reaching the ground"
+    },
+    "cellTitle": "Area this data represents",
+    "cellBody": "The dashed box is the NASA POWER grid cell (≈ 0.5° × 0.625°, about 55 × 55 km). Every point inside it receives the same values.",
+    "aboutTitle": "About this data",
+    "about": {
+      "source": "Source",
+      "product": "Product",
+      "inputs": "Upstream sources",
+      "temporal": "Temporal resolution",
+      "spatial": "Spatial resolution",
+      "solar": "Solar parameters",
+      "centre": "Grid cell centre",
+      "elevation": "Cell elevation",
+      "period": "Period",
+      "latest": "Latest published day",
+      "fetched": "Fetched",
+      "request": "Open the API request"
+    },
+    "daily": "daily",
+    "plannedTitle": "{name} is not connected yet",
+    "plannedBody": "This source is planned for a later phase. Until it is connected we show no maps or numbers for it.",
+    "spec": {
+      "measures": "Measures",
+      "resolution": "Resolution",
+      "revisit": "Update",
+      "use": "What it would add"
+    },
+    "planned": {
+      "gpm": {
+        "measures": "Precipitation (IMERG)",
+        "resolution": "0.1° (≈ 10 km), half-hourly",
+        "revisit": "Early run ≈ 4 h, Final ≈ 3.5 months",
+        "use": "Satellite rainfall at a finer grid than POWER"
+      },
+      "smap": {
+        "measures": "Surface soil moisture (0–5 cm)",
+        "resolution": "9–36 km",
+        "revisit": "About every 2–3 days",
+        "use": "Regional soil moisture trend, not field-level"
+      },
+      "landsat": {
+        "measures": "Surface reflectance, NDVI",
+        "resolution": "30 m",
+        "revisit": "8–16 days, cloud-dependent",
+        "use": "Vegetation health inside the field"
+      },
+      "ecostress": {
+        "measures": "Land surface temperature, ET",
+        "resolution": "70 m",
+        "revisit": "Irregular, 1–5 days",
+        "use": "Crop water stress signals"
+      },
+      "srtm": {
+        "measures": "Elevation and slope",
+        "resolution": "30 m",
+        "revisit": "Static (2000)",
+        "use": "Slope and runoff context"
+      }
+    }
   }
 }

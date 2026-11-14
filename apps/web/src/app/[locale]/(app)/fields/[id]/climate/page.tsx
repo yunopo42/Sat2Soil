@@ -1,5 +1,13 @@
-import { ComingSoon } from "@/components/shell/coming-soon";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/state-panel";
+import { ClimateCenter } from "./climate-center";
 
-export default function Page({ params }: PageProps<"/[locale]/fields/[id]/climate">) {
-  return <ComingSoon params={params} section="nasa" phase={4} />;
+export default function ClimatePage({ params }: PageProps<"/[locale]/fields/[id]/climate">) {
+  return (
+    <Suspense fallback={<Skeleton className="mt-8 h-96 w-full" />}>
+      {params.then(({ id }) => (
+        <ClimateCenter fieldId={id} />
+      ))}
+    </Suspense>
+  );
 }

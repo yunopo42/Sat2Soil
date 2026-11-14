@@ -54,7 +54,7 @@ Demo tarlası: **Konya Ovası** (D-013). Arayüz dili: **İngilizce varsayılan 
 - Kullanıcıyla **Türkçe** iletişim. Kod, değişken ve commit mesajları İngilizce.
 - UI metinleri yalnız `apps/web/messages/{en,tr}.json` içinde (next-intl). **EN varsayılan**, TR ikinci dil; bileşende sabit metin yok.
 - Adım adım ilerle. Her büyük faz sonunda: **ne yapıldı · hangi dosyalar · ne çalışıyor · ne eksik → onay iste.**
-- Repo: `origin` → `https://github.com/yunopo42/-Sat2Soil.git`, dal `main`. Faz sonunda commit önerilir; push kullanıcı onayıyla.
+- Repo: `origin` → `https://github.com/yunopo42/Sat2Soil.git`, dal `main`. Faz sonunda commit önerilir; push kullanıcı onayıyla.
 - Supabase, Vercel, Render bağlantılarını ve tüm env değerlerini **kullanıcı yapar.**
   Claude gereken değişkenleri ve adımları yazar, bağlantıyı kendisi kurmaya çalışmaz.
 - Mevcut dosya yapısını sebepsiz değiştirme. Alan `task.md` dosyaları kendi klasörlerinde kalır.
@@ -184,7 +184,10 @@ Windows'ta API'yi `--reload` ile çalıştır (psycopg async, Proactor döngüs�
 - **Faz 3 tamam (yayın hariç):** Supabase şeması + örnek parsel, demo oturumu, tarla CRUD, rate limit, kullanıcının
   tasarımlarıyla yeni görsel dil, landing (statik), tarla seçimi/çizim haritası (NASA GIBS), tarla paneli (gerçek POWER
   metrikleri + 12 ay grafiği). Vercel/Render bağlantısı kullanıcıda (D-023).
-- **Sıradaki:** yayın → Faz 4 NASA veri merkezi → Faz 5 su + rotasyon → Faz 6 dijital ikiz → Faz 7 AgriSpray →
+- **Faz 4 tamam:** `/fields/[id]/climate` NASA Veri Merkezi (90 gün/12 ay/3 yıl, POWER canlı, diğer kaynaklar
+  "Planlı" + teknik özellik, 5 parametre grafiği, ızgara hücresi haritası, "Bu veri hakkında", CSV indirme).
+  Yayın: Render + Vercel kullanıcı tarafından bağlandı.
+- **Sıradaki:** Faz 5 su + rotasyon → Faz 6 dijital ikiz → Faz 7 AgriSpray →
   Faz 8 sinematik landing → Faz 9 özet + QA.
 - **Açık riskler:** DB parolası sohbette paylaşıldı, değiştirilmeli (D-021). POWER yağış toplamı istasyon verisiyle
   karşılaştırılmalı (D-019). Hero/kart görselleri tasarım ekran görüntüsünden kırpıldı; yüksek çözünürlüklü export gelirse değişir.

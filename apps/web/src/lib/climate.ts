@@ -70,3 +70,54 @@ export function relativeChange(value: number | null, previous: number | null): n
   if (value === null || previous === null || Math.abs(previous) < 1e-9) return null;
   return ((value - previous) / Math.abs(previous)) * 100;
 }
+
+export type PeriodSummary = {
+  sum: number | null;
+  mean: number | null;
+  max: { value: number; date: string } | null;
+  min: { value: number; date: string } | null;
+  present: number;
+  missing: number;
+};
+
+/** Whole-period statistics over published days only (gaps are counted, never filled). */
+export function periodSummary(series: Series | undefined): PeriodSummary {
+  const values = series?.values ?? [];
+  let sum = 0;
+  let present = 0;
+  let max: PeriodSummary["max"] = null;
+  let min: PeriodSummary["min"] = null;
+  for (const v of values) {
+    if (v.value === null) continue;
+    present += 1;
+    sum += v.value;
+    if (!max || v.value > max.value) max = { value: v.value, date: v.observed_at };
+    if (!min || v.value < min.value) min = { value: v.value, date: v.observed_at };
+  }
+  return {
+    sum: present ? sum : null,
+    mean: present ? sum / present : null,
+    max,
+    min,
+    present,
+    missing: values.length - present,
+  };
+}
+
+/** CSV of all parameters by day; empty cells for missing days (never zero). */
+export function toCsv(data: PowerDaily): string {
+  const header = ["date", ...data.parameters.map((p) => `${p.parameter} (${p.unit_source})`)];
+  const byDate = new Map<string, (number | null)[]>();
+  data.parameters.forEach((p, column) => {
+    for (const v of p.values) {
+      const row = byDate.get(v.observed_at) ?? new Array<number | null>(data.parameters.length).fill(null);
+      row[column] = v.value;
+      byDate.set(v.observed_at, row);
+    }
+  });
+  const rows = [...byDate.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([date, row]) => [date, ...row.map((v) => (v === null ? "" : String(v)))].join(","));
+  const note = `# NASA POWER ${data.provenance.product} · community ${data.provenance.community} · grid cell centre ${data.grid_cell.center_lat},${data.grid_cell.center_lon} · fetched ${data.provenance.fetched_at}`;
+  return [note, header.join(","), ...rows].join("\n");
+}

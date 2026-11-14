@@ -86,7 +86,9 @@
     "gridNote": "Uydu ve model verileri bir ızgara hücresini temsil eder; tarlanızın içindeki noktasal bir ölçüm değildir.",
     "footerChallenge": "NASA Space Apps Challenge 2026",
     "footerData": "Veri: NASA POWER ve NASA GIBS. Sat2Soil, NASA ile bağlantılı değildir ve NASA tarafından onaylanmamıştır.",
-    "footerTeam": "Sat2Soil ekibi tarafından geliştirildi."
+    "footerTeam": "Sat2Soil ekibi tarafından geliştirildi.",
+    "builtAt": "NASA Space Apps Challenge 2026 Konya'da geliştirildi",
+    "spaceAppsAlt": "NASA Space Apps Challenge Konya logosu"
   },
   "demo": {
     "title": "Tarla Seçimi / Harita",
@@ -283,5 +285,91 @@
     "east": "D",
     "pp": "puan",
     "mmPerDay": "mm/gün"
+  },
+  "climate": {
+    "title": "NASA",
+    "emphasis": "Veri Merkezi",
+    "description": "Tarlanız için NASA Dünya verileri tek yerde: bugün neyin bağlı olduğu, neyi ölçtüğü ve ne kadar güvenilebileceği.",
+    "range": "Tarih aralığı",
+    "ranges": {
+      "d90": "Son 90 gün",
+      "d365": "Son 12 ay",
+      "d1095": "Son 3 yıl"
+    },
+    "refresh": "Verileri Güncelle",
+    "download": "CSV indir",
+    "sourcesLabel": "Veri kaynakları",
+    "summary": {
+      "rain": "Toplam yağış",
+      "temp": "Ortalama sıcaklık",
+      "max": "En yüksek",
+      "min": "En düşük",
+      "gaps": "Verisiz gün"
+    },
+    "charts": {
+      "temp": "Hava sıcaklığı, günlük aralık ve ortalama",
+      "rain": "Günlük yağış",
+      "humidity": "2 m bağıl nem",
+      "wind": "2 m rüzgâr hızı",
+      "solar": "Yere ulaşan güneş ışınımı"
+    },
+    "cellTitle": "Bu verinin temsil ettiği alan",
+    "cellBody": "Kesikli kutu NASA POWER ızgara hücresidir (≈ 0,5° × 0,625°, yaklaşık 55 × 55 km). İçindeki her nokta aynı değerleri alır.",
+    "aboutTitle": "Bu veri hakkında",
+    "about": {
+      "source": "Kaynak",
+      "product": "Ürün",
+      "inputs": "Alt kaynaklar",
+      "temporal": "Zamansal çözünürlük",
+      "spatial": "Mekânsal çözünürlük",
+      "solar": "Güneş parametreleri",
+      "centre": "Hücre merkezi",
+      "elevation": "Hücre rakımı",
+      "period": "Dönem",
+      "latest": "Son yayımlanan gün",
+      "fetched": "Alınma zamanı",
+      "request": "API isteğini aç"
+    },
+    "daily": "günlük",
+    "plannedTitle": "{name} henüz bağlı değil",
+    "plannedBody": "Bu kaynak sonraki bir faz için planlandı. Bağlanana kadar ona ait harita ya da sayı göstermiyoruz.",
+    "spec": {
+      "measures": "Ölçtüğü",
+      "resolution": "Çözünürlük",
+      "revisit": "Güncelleme",
+      "use": "Katacağı"
+    },
+    "planned": {
+      "gpm": {
+        "measures": "Yağış (IMERG)",
+        "resolution": "0,1° (≈ 10 km), yarım saatlik",
+        "revisit": "Early ≈ 4 saat, Final ≈ 3,5 ay",
+        "use": "POWER'dan daha ince ızgarada uydu yağışı"
+      },
+      "smap": {
+        "measures": "Yüzey toprak nemi (0–5 cm)",
+        "resolution": "9–36 km",
+        "revisit": "Yaklaşık 2–3 günde bir",
+        "use": "Bölgesel toprak nemi eğilimi, tarla ölçeğinde değil"
+      },
+      "landsat": {
+        "measures": "Yüzey yansıması, NDVI",
+        "resolution": "30 m",
+        "revisit": "8–16 gün, buluta bağlı",
+        "use": "Tarla içinde bitki sağlığı"
+      },
+      "ecostress": {
+        "measures": "Yüzey sıcaklığı, ET",
+        "resolution": "70 m",
+        "revisit": "Düzensiz, 1–5 gün",
+        "use": "Bitki su stresi sinyalleri"
+      },
+      "srtm": {
+        "measures": "Yükseklik ve eğim",
+        "resolution": "30 m",
+        "revisit": "Sabit (2000)",
+        "use": "Eğim ve yüzey akışı bağlamı"
+      }
+    }
   }
 }

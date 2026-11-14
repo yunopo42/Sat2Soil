@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { PowerDaily } from "@sat2soil/contracts";
-import { relativeChange, windowStat } from "./climate";
+import { periodSummary, relativeChange, windowStat } from "./climate";
 
 type Series = PowerDaily["parameters"][number];
 
@@ -55,5 +55,18 @@ describe("relativeChange", () => {
   it("is null when the base is zero or missing", () => {
     expect(relativeChange(5, 0)).toBeNull();
     expect(relativeChange(5, null)).toBeNull();
+  });
+});
+
+describe("periodSummary", () => {
+  it("summarises published days only", () => {
+    const s = periodSummary(series([1, null, 5, 3]));
+    expect(s).toMatchObject({ sum: 9, mean: 3, present: 3, missing: 1 });
+    expect(s.max?.value).toBe(5);
+    expect(s.min?.value).toBe(1);
+  });
+
+  it("returns nulls for an empty series", () => {
+    expect(periodSummary(series([null, null]))).toMatchObject({ sum: null, mean: null, max: null, min: null });
   });
 });
