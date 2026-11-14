@@ -5,39 +5,216 @@
   },
   "common": {
     "brand": "Sat2Soil",
-    "devPreview": "Development preview — no live NASA data is shown yet.",
     "languageSwitcher": "Language",
-    "backHome": "Back to home"
+    "backHome": "Back to home",
+    "copy": "Copy",
+    "copied": "Copied",
+    "soon": "Soon"
   },
   "locale": {
     "en": "English",
     "tr": "Türkçe"
   },
+  "site": {
+    "home": "Home",
+    "how": "How it works",
+    "solutions": "Solutions",
+    "data": "Data sources",
+    "about": "About",
+    "cta": "Start demo"
+  },
   "landing": {
-    "eyebrow": "NASA Space Apps Challenge 2026",
-    "title": "From Satellite to Soil, From Data to Decisions.",
-    "lead": "Sat2Soil turns NASA Earth observation data into clear, explainable decisions for a single field: water, crop rotation and climate fit.",
+    "titleLine1": "From Satellite to Soil,",
+    "titleLine2": "From Data to Decisions.",
+    "lead": "We combine <b>NASA</b> Earth observation data with field analysis to give you practical, explainable decision support for your fields.",
     "ctaPrimary": "Start demo",
     "ctaSecondary": "How it works",
-    "howTitle": "How it works",
-    "steps": {
-      "data": {
-        "title": "NASA data, clearly labelled",
-        "body": "Climate series from NASA POWER for your field's location, with source, unit, period and grid resolution on every chart."
+    "features": {
+      "nasa": "NASA data",
+      "water": "Water management",
+      "rotation": "Crop rotation",
+      "twin": "Digital twin",
+      "spray": "Spray analysis"
+    },
+    "intelTitle": "Intelligence from space for your field",
+    "intelLead": "An integrated farming tool that reaches from satellite data to the field.",
+    "cards": {
+      "monitor": {
+        "title": "Follow your field's climate from space",
+        "body": "Daily NASA POWER series for your field's location: rain, temperature, humidity, wind and sunlight."
       },
       "decide": {
-        "title": "Water and crop rotation",
-        "body": "Compare your current plan with an alternative rotation, with every assumption and uncertainty spelled out."
+        "title": "Make better-informed decisions",
+        "body": "Compare water needs and crop rotation plans, with every assumption spelled out."
       },
-      "device": {
-        "title": "Field measurement concept",
-        "body": "AgriSpray shows what a future portable device could add. Its readings are simulated today and always marked that way."
+      "twin": {
+        "title": "Build your field's digital twin",
+        "body": "Try what-if scenarios such as a dry year or another crop, kept clearly apart from observed data."
       }
-    }
+    },
+    "howTitle": "How it works",
+    "steps": {
+      "field": {
+        "title": "Choose a field",
+        "body": "Open the sample field in the Konya Plain or draw your own on satellite imagery."
+      },
+      "data": {
+        "title": "See NASA data for its location",
+        "body": "Real NASA POWER series for the grid cell around your field, with source, unit and date."
+      },
+      "decide": {
+        "title": "Compare plans",
+        "body": "Water balance and crop rotation options, explained step by step."
+      }
+    },
+    "dataTitle": "Data you can trust",
+    "dataLead": "We say exactly where each number comes from, including the sources that are not connected yet.",
+    "sources": {
+      "power": "Climate and meteorology",
+      "gibs": "True-colour satellite imagery, 30 m",
+      "gpm": "Precipitation",
+      "landsat": "Vegetation index (NDVI)",
+      "smap": "Soil moisture",
+      "device": "Field measurements"
+    },
+    "deviceName": "AgriSpray device",
+    "status": {
+      "live": "Live",
+      "planned": "Planned",
+      "simulated": "Simulated concept"
+    },
+    "gridNote": "Satellite and model data describe a grid cell, not a point measurement inside your field.",
+    "footerChallenge": "NASA Space Apps Challenge 2026",
+    "footerData": "Data: NASA POWER and NASA GIBS. Sat2Soil is not affiliated with or endorsed by NASA.",
+    "footerTeam": "Built by the Sat2Soil team."
   },
   "demo": {
-    "title": "Demo",
-    "comingSoon": "Field selection arrives in phase 3: open the sample field in the Konya Plain or draw your own."
+    "title": "Field selection / Map",
+    "description": "Choose the field you want to analyse or draw a new one. The selected area is analysed with NASA data for its location.",
+    "steps": {
+      "select": {
+        "title": "Field selection",
+        "body": "Draw a field on the map or open the sample field."
+      },
+      "nasa": {
+        "title": "NASA data analysis",
+        "body": "Climate series for the field's grid cell: rain, temperature, humidity, wind."
+      },
+      "results": {
+        "title": "Results and plans",
+        "body": "Water balance, crop rotation and scenarios, with explanations."
+      }
+    },
+    "startDrawing": "Start drawing a field",
+    "drawingHint": "Click to add corners. Click the first corner to finish.",
+    "trySample": "Try the sample field",
+    "myFields": "Your fields",
+    "searchPlaceholder": "Search a place or enter coordinates (37.62, 32.85)",
+    "search": "Search",
+    "searchNotFound": "No place found. Try coordinates such as 37.62, 32.85.",
+    "searchAttribution": "Place search: OpenStreetMap Nominatim",
+    "tools": {
+      "select": "Select and edit",
+      "polygon": "Draw polygon",
+      "rectangle": "Draw rectangle",
+      "delete": "Delete drawing",
+      "locate": "Go to the sample area"
+    },
+    "layers": {
+      "title": "Map layer",
+      "gibs": "NASA GIBS · HLS true colour",
+      "gibsNote": "30 m · {date}",
+      "s2": "Sentinel-2 cloudless",
+      "s2Note": "10 m · 2024 · EOX, not NASA",
+      "grid": "NASA POWER grid cell",
+      "ndvi": "NDVI (vegetation)",
+      "planned": "Planned"
+    },
+    "selected": "Selected field",
+    "stats": {
+      "area": "Field area",
+      "perimeter": "Perimeter",
+      "centre": "Coordinates (centre)",
+      "cell": "NASA POWER grid cell",
+      "areaHint": "Preview in the browser. The saved area is computed by PostGIS."
+    },
+    "form": {
+      "name": "Field name",
+      "namePlaceholder": "North parcel",
+      "crop": "Current crop",
+      "irrigation": "Irrigation",
+      "none": "Not set",
+      "save": "Save field and continue",
+      "saving": "Saving",
+      "drawFirst": "Draw a field on the map first."
+    },
+    "sources": {
+      "title": "NASA data sources",
+      "lead": "Main datasets used in the analysis."
+    }
+  },
+  "crops": {
+    "winter_wheat": "Winter wheat",
+    "barley": "Barley",
+    "sugar_beet": "Sugar beet",
+    "maize": "Maize",
+    "sunflower": "Sunflower",
+    "chickpea": "Chickpea",
+    "lentil": "Lentil",
+    "alfalfa": "Alfalfa",
+    "dry_bean": "Dry bean",
+    "fallow": "Fallow"
+  },
+  "irrigation": {
+    "rainfed": "Rainfed",
+    "drip": "Drip",
+    "sprinkler": "Sprinkler",
+    "center_pivot": "Center pivot",
+    "furrow": "Furrow"
+  },
+  "field": {
+    "title": "Field",
+    "emphasis": "overview",
+    "description": "Your field's current climate picture from real NASA data.",
+    "mapTitle": "Field map",
+    "mapLead": "NASA GIBS HLS imagery with the NASA POWER grid cell.",
+    "infoTitle": "Field details",
+    "area": "Area",
+    "perimeter": "Perimeter",
+    "centre": "Centre",
+    "crop": "Crop",
+    "irrigation": "Irrigation",
+    "history": "Crop history",
+    "last30": "Last 30 days",
+    "metrics": {
+      "rain": "Precipitation",
+      "rainNote": "Total, last 30 days",
+      "temp": "Temperature",
+      "tempNote": "Mean, last 30 days",
+      "humidity": "Relative humidity",
+      "humidityNote": "Mean, last 30 days",
+      "wind": "Wind at 2 m",
+      "windNote": "Mean, last 30 days",
+      "vsPrevious": "{delta} vs previous 30 days",
+      "missingDays": "{count, plural, one {# day missing} other {# days missing}}"
+    },
+    "climateTitle": "Climate over the last 12 months",
+    "climateLead": "Daily NASA POWER values for the field's grid cell.",
+    "tempChart": "Air temperature: daily range and mean",
+    "rainChart": "Daily precipitation",
+    "mean": "Mean",
+    "cumulative": "Cumulative",
+    "ndviTitle": "Vegetation health (NDVI)",
+    "ndviBody": "Planned: NDVI from Landsat/HLS for this field. It stays hidden until the real layer is connected; we do not draw estimated colours.",
+    "nextTitle": "Analyses for this field",
+    "latest": "Latest NASA day: {date}",
+    "notPublished": "NASA POWER publishes daily values with a delay of a few days; the latest days appear as gaps.",
+    "gridCaption": "Values describe this ≈50 km grid cell, not a point inside your field.",
+    "notFound": "This field was not found. It may belong to another demo session or have expired."
+  },
+  "comingSoon": {
+    "body": "This section arrives in phase {phase}. The field overview and NASA data are already live.",
+    "back": "Go to field overview"
   },
   "dataSource": {
     "live_nasa": "NASA",
@@ -74,6 +251,8 @@
     "cachedBody": "Fetched {time}. The live service is not responding right now.",
     "errorTitle": "NASA POWER did not respond",
     "errorBody": "Your field data is safe. Try again in a moment.",
+    "apiErrorTitle": "The Sat2Soil service is not reachable",
+    "apiErrorBody": "It may be waking up. Try again in a few seconds.",
     "emptyTitle": "No data for this period yet",
     "emptyBody": "Choose another date range or sync your field.",
     "simulatedTitle": "Concept device · Simulated data",
@@ -81,18 +260,28 @@
   },
   "nav": {
     "main": "Main navigation",
-    "field": "Field",
+    "section": "Application",
+    "overview": "Field overview",
     "nasa": "NASA data",
-    "planning": "Planning",
-    "water": "Water",
-    "rotation": "Rotation",
+    "water": "Water management",
+    "rotation": "Crop rotation",
     "twin": "Digital twin",
-    "spray": "AgriSpray",
-    "summary": "Summary"
+    "spray": "Spray analysis",
+    "summary": "Summary",
+    "promoTitle": "Smarter farm decisions with satellite data",
+    "promoCta": "Draw a new field"
   },
   "shell": {
     "changeField": "Change field",
-    "nasaSynced": "NASA POWER · synced {time}",
-    "nasaNotSynced": "NASA data not synced yet"
+    "nasaSynced": "NASA POWER · {time}",
+    "nasaCached": "NASA POWER · cached {time}",
+    "nasaNotSynced": "NASA data not loaded yet"
+  },
+  "units": {
+    "donum": "decares",
+    "north": "N",
+    "east": "E",
+    "pp": "pts",
+    "mmPerDay": "mm/day"
   }
 }

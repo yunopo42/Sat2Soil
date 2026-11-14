@@ -5,39 +5,216 @@
   },
   "common": {
     "brand": "Sat2Soil",
-    "devPreview": "Geliştirme önizlemesi — henüz canlı NASA verisi gösterilmiyor.",
     "languageSwitcher": "Dil",
-    "backHome": "Ana sayfaya dön"
+    "backHome": "Ana sayfaya dön",
+    "copy": "Kopyala",
+    "copied": "Kopyalandı",
+    "soon": "Yakında"
   },
   "locale": {
     "en": "English",
     "tr": "Türkçe"
   },
+  "site": {
+    "home": "Ana Sayfa",
+    "how": "Nasıl Çalışır?",
+    "solutions": "Çözümler",
+    "data": "Veri Kaynakları",
+    "about": "Hakkımızda",
+    "cta": "Demo'yu Başlat"
+  },
   "landing": {
-    "eyebrow": "NASA Space Apps Challenge 2026",
-    "title": "Uydudan tarlana, veriden karara.",
-    "lead": "Sat2Soil, NASA Dünya gözlem verilerini tek bir tarla için açık ve açıklanabilir kararlara dönüştürür: su, ürün rotasyonu ve iklim uyumu.",
-    "ctaPrimary": "Demoyu Başlat",
-    "ctaSecondary": "Nasıl çalışır?",
-    "howTitle": "Nasıl çalışır?",
-    "steps": {
-      "data": {
-        "title": "Açıkça etiketlenmiş NASA verisi",
-        "body": "Tarlanın konumu için NASA POWER iklim serileri; her grafikte kaynak, birim, dönem ve grid çözünürlüğü yazılı."
+    "titleLine1": "From Satellite to Soil,",
+    "titleLine2": "From Data to Decisions.",
+    "lead": "<b>NASA</b> uydu verilerini tarla analizleriyle birleştirerek tarlalarınız için uygulanabilir ve açıklanabilir karar desteği sunuyoruz.",
+    "ctaPrimary": "Demo'yu Başlat",
+    "ctaSecondary": "Nasıl Çalışır?",
+    "features": {
+      "nasa": "NASA Verileri",
+      "water": "Su Yönetimi",
+      "rotation": "Ürün Rotasyonu",
+      "twin": "Dijital İkiz",
+      "spray": "Zirai İlaçlama"
+    },
+    "intelTitle": "Tarlanız İçin Uzaydan Gelen Akıl",
+    "intelLead": "Uydu verilerinden sahadaki uygulamaya uzanan entegre bir tarım aracı.",
+    "cards": {
+      "monitor": {
+        "title": "Tarlanızın İklimini Uzaydan İzleyin",
+        "body": "Tarlanızın konumu için günlük NASA POWER serileri: yağış, sıcaklık, nem, rüzgâr ve güneşlenme."
       },
       "decide": {
-        "title": "Su ve ürün rotasyonu",
-        "body": "Mevcut planını alternatif bir rotasyonla karşılaştır; her varsayım ve belirsizlik açıkça yazılı."
+        "title": "Daha Bilinçli Kararlar Alın",
+        "body": "Su ihtiyacını ve ürün rotasyonu planlarını, her varsayımı açıkça yazılı biçimde karşılaştırın."
       },
-      "device": {
-        "title": "Sahada ölçüm konsepti",
-        "body": "AgriSpray, gelecekteki taşınabilir cihazın neler katabileceğini gösterir. Bugün değerleri simüledir ve her zaman öyle etiketlenir."
+      "twin": {
+        "title": "Tarlanızın Dijital İkizini Oluşturun",
+        "body": "Kurak yıl ya da farklı ürün gibi senaryoları deneyin; gözlenen veriden açıkça ayrı tutulur."
       }
-    }
+    },
+    "howTitle": "Nasıl çalışır?",
+    "steps": {
+      "field": {
+        "title": "Tarlanı seç",
+        "body": "Konya Ovası'ndaki örnek tarlayı aç ya da uydu görüntüsü üzerinde kendi tarlanı çiz."
+      },
+      "data": {
+        "title": "Konumu için NASA verisini gör",
+        "body": "Tarlanın bulunduğu ızgara hücresi için gerçek NASA POWER serileri; kaynak, birim ve tarihiyle."
+      },
+      "decide": {
+        "title": "Planları karşılaştır",
+        "body": "Su dengesi ve ürün rotasyonu seçenekleri, adım adım açıklanmış."
+      }
+    },
+    "dataTitle": "Güvenebileceğiniz veri",
+    "dataLead": "Her sayının nereden geldiğini açıkça söyleriz; henüz bağlanmamış kaynakları da.",
+    "sources": {
+      "power": "İklim ve meteoroloji",
+      "gibs": "Gerçek renkli uydu görüntüsü, 30 m",
+      "gpm": "Yağış",
+      "landsat": "Bitki örtüsü indeksi (NDVI)",
+      "smap": "Toprak nemi",
+      "device": "Saha ölçümleri"
+    },
+    "deviceName": "AgriSpray cihazı",
+    "status": {
+      "live": "Canlı",
+      "planned": "Planlı",
+      "simulated": "Simüle konsept"
+    },
+    "gridNote": "Uydu ve model verileri bir ızgara hücresini temsil eder; tarlanızın içindeki noktasal bir ölçüm değildir.",
+    "footerChallenge": "NASA Space Apps Challenge 2026",
+    "footerData": "Veri: NASA POWER ve NASA GIBS. Sat2Soil, NASA ile bağlantılı değildir ve NASA tarafından onaylanmamıştır.",
+    "footerTeam": "Sat2Soil ekibi tarafından geliştirildi."
   },
   "demo": {
-    "title": "Demo",
-    "comingSoon": "Tarla seçimi Faz 3'te geliyor: Konya Ovası'ndaki örnek tarlayı aç ya da kendi tarlanı çiz."
+    "title": "Tarla Seçimi / Harita",
+    "description": "Analiz etmek istediğiniz tarlayı seçin veya yeni bir tarla çizin. Seçtiğiniz alan, konumu için NASA verileriyle analiz edilir.",
+    "steps": {
+      "select": {
+        "title": "Tarla Seçimi",
+        "body": "Harita üzerinde tarla çizin ya da örnek tarlayı açın."
+      },
+      "nasa": {
+        "title": "NASA Veri Analizi",
+        "body": "Tarlanın ızgara hücresi için iklim serileri: yağış, sıcaklık, nem, rüzgâr."
+      },
+      "results": {
+        "title": "Sonuç ve Planlar",
+        "body": "Su dengesi, ürün rotasyonu ve senaryolar, açıklamalarıyla."
+      }
+    },
+    "startDrawing": "Tarla Çizimine Başla",
+    "drawingHint": "Köşe eklemek için tıklayın. Bitirmek için ilk köşeye tıklayın.",
+    "trySample": "Örnek Tarla ile Dene",
+    "myFields": "Tarlalarınız",
+    "searchPlaceholder": "Konum arayın veya koordinat girin (37.62, 32.85)",
+    "search": "Ara",
+    "searchNotFound": "Konum bulunamadı. 37.62, 32.85 gibi bir koordinat deneyin.",
+    "searchAttribution": "Konum arama: OpenStreetMap Nominatim",
+    "tools": {
+      "select": "Seç ve düzenle",
+      "polygon": "Çokgen çiz",
+      "rectangle": "Dikdörtgen çiz",
+      "delete": "Çizimi sil",
+      "locate": "Örnek bölgeye git"
+    },
+    "layers": {
+      "title": "Harita Katmanı",
+      "gibs": "NASA GIBS · HLS gerçek renk",
+      "gibsNote": "30 m · {date}",
+      "s2": "Sentinel-2 cloudless",
+      "s2Note": "10 m · 2024 · EOX, NASA değil",
+      "grid": "NASA POWER ızgara hücresi",
+      "ndvi": "NDVI (bitki sağlığı)",
+      "planned": "Planlı"
+    },
+    "selected": "Seçilen Tarla",
+    "stats": {
+      "area": "Tarla Alanı",
+      "perimeter": "Çevre Uzunluğu",
+      "centre": "Koordinatlar (Merkez)",
+      "cell": "NASA POWER ızgara hücresi",
+      "areaHint": "Tarayıcıda önizleme. Kaydedilen alan PostGIS ile hesaplanır."
+    },
+    "form": {
+      "name": "Tarla adı",
+      "namePlaceholder": "Kuzey parsel",
+      "crop": "Mevcut ürün",
+      "irrigation": "Sulama",
+      "none": "Seçilmedi",
+      "save": "Tarlayı kaydet ve devam et",
+      "saving": "Kaydediliyor",
+      "drawFirst": "Önce harita üzerinde bir tarla çizin."
+    },
+    "sources": {
+      "title": "NASA Veri Kaynakları",
+      "lead": "Analizlerde kullanılan başlıca veri setleri."
+    }
+  },
+  "crops": {
+    "winter_wheat": "Kışlık buğday",
+    "barley": "Arpa",
+    "sugar_beet": "Şeker pancarı",
+    "maize": "Mısır",
+    "sunflower": "Ayçiçeği",
+    "chickpea": "Nohut",
+    "lentil": "Mercimek",
+    "alfalfa": "Yonca",
+    "dry_bean": "Kuru fasulye",
+    "fallow": "Nadas"
+  },
+  "irrigation": {
+    "rainfed": "Kuru tarım",
+    "drip": "Damla",
+    "sprinkler": "Yağmurlama",
+    "center_pivot": "Merkezi pivot",
+    "furrow": "Karık"
+  },
+  "field": {
+    "title": "Tarla",
+    "emphasis": "Paneli",
+    "description": "Tarlanızın gerçek NASA verileriyle güncel iklim görünümü.",
+    "mapTitle": "Tarla Haritası",
+    "mapLead": "NASA GIBS HLS görüntüsü ve NASA POWER ızgara hücresi.",
+    "infoTitle": "Tarla Bilgileri",
+    "area": "Alan",
+    "perimeter": "Çevre",
+    "centre": "Merkez",
+    "crop": "Ürün",
+    "irrigation": "Sulama",
+    "history": "Ürün geçmişi",
+    "last30": "Son 30 gün",
+    "metrics": {
+      "rain": "Yağış",
+      "rainNote": "Toplam, son 30 gün",
+      "temp": "Sıcaklık",
+      "tempNote": "Ortalama, son 30 gün",
+      "humidity": "Bağıl nem",
+      "humidityNote": "Ortalama, son 30 gün",
+      "wind": "Rüzgâr (2 m)",
+      "windNote": "Ortalama, son 30 gün",
+      "vsPrevious": "önceki 30 güne göre {delta}",
+      "missingDays": "{count} gün eksik"
+    },
+    "climateTitle": "Son 12 ayın iklimi",
+    "climateLead": "Tarlanın ızgara hücresi için günlük NASA POWER değerleri.",
+    "tempChart": "Hava sıcaklığı: günlük aralık ve ortalama",
+    "rainChart": "Günlük yağış",
+    "mean": "Ortalama",
+    "cumulative": "Kümülatif",
+    "ndviTitle": "Bitki sağlığı (NDVI)",
+    "ndviBody": "Planlı: Bu tarla için Landsat/HLS tabanlı NDVI. Gerçek katman bağlanana kadar gösterilmez; tahmini renk çizmeyiz.",
+    "nextTitle": "Bu tarla için analizler",
+    "latest": "Son NASA günü: {date}",
+    "notPublished": "NASA POWER günlük değerleri birkaç gün gecikmeyle yayımlar; son günler boşluk olarak görünür.",
+    "gridCaption": "Değerler bu ≈50 km'lik ızgara hücresini temsil eder; tarlanızın içindeki bir nokta değildir.",
+    "notFound": "Bu tarla bulunamadı. Başka bir demo oturumuna ait olabilir ya da süresi dolmuş olabilir."
+  },
+  "comingSoon": {
+    "body": "Bu bölüm Faz {phase}'te geliyor. Tarla paneli ve NASA verisi şimdiden kullanılabilir.",
+    "back": "Tarla paneline git"
   },
   "dataSource": {
     "live_nasa": "NASA",
@@ -74,6 +251,8 @@
     "cachedBody": "{time} tarihinde alındı. Canlı servis şu an yanıt vermiyor.",
     "errorTitle": "NASA POWER yanıt vermedi",
     "errorBody": "Tarla verilerin güvende. Birazdan tekrar dene.",
+    "apiErrorTitle": "Sat2Soil servisine ulaşılamıyor",
+    "apiErrorBody": "Servis uyanıyor olabilir. Birkaç saniye sonra tekrar dene.",
     "emptyTitle": "Bu dönem için henüz veri yok",
     "emptyBody": "Başka bir tarih aralığı seç ya da tarlanı eşitle.",
     "simulatedTitle": "Konsept cihaz · Simüle veri",
@@ -81,18 +260,28 @@
   },
   "nav": {
     "main": "Ana gezinme",
-    "field": "Tarla",
-    "nasa": "NASA verisi",
-    "planning": "Planlama",
-    "water": "Su",
-    "rotation": "Rotasyon",
-    "twin": "Dijital ikiz",
-    "spray": "AgriSpray",
-    "summary": "Özet"
+    "section": "Uygulama",
+    "overview": "Genel Bakış",
+    "nasa": "NASA Verileri",
+    "water": "Su Yönetimi",
+    "rotation": "Ürün Rotasyonu",
+    "twin": "Dijital İkiz",
+    "spray": "Zirai İlaçlama",
+    "summary": "Özet",
+    "promoTitle": "Uydu verisiyle daha akıllı tarım kararları",
+    "promoCta": "Yeni tarla çiz"
   },
   "shell": {
     "changeField": "Tarlayı değiştir",
-    "nasaSynced": "NASA POWER · eşitlendi {time}",
-    "nasaNotSynced": "NASA verisi henüz eşitlenmedi"
+    "nasaSynced": "NASA POWER · {time}",
+    "nasaCached": "NASA POWER · önbellek {time}",
+    "nasaNotSynced": "NASA verisi henüz yüklenmedi"
+  },
+  "units": {
+    "donum": "dönüm",
+    "north": "K",
+    "east": "D",
+    "pp": "puan",
+    "mmPerDay": "mm/gün"
   }
 }

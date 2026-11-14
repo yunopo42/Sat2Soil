@@ -1,6 +1,6 @@
 # CLAUDE.md — Sat2Soil
 
-> **Durum: v0.3 · 2026-11-14** — D-001…D-015 ve D-017 kabul edildi, D-016 (mobil) ertelendi. Faz 0 tamamlandı.
+> **Durum: v0.4 · 2026-11-15** — Faz 0–3 tamam (yayın kullanıcıda). Kararlar D-001…D-023, `docs/DECISIONS.md`.
 > Kararların tamamı `docs/DECISIONS.md` içinde; bu dosya onların kısa özetidir.
 
 **Sat2Soil** — NASA Space Apps Challenge 2026.
@@ -93,7 +93,11 @@ Demo tarlası: **Konya Ovası** (D-013). Arayüz dili: **İngilizce varsayılan 
 - Phosphor ikonları her yerde `@phosphor-icons/react/ssr`'den (server ve client'ta çalışır); `Icon` tipi kök paketten.
 - Bileşen haritası: `components/ui` (Button, Card, Banner, StatePanel/Skeleton, SegmentedControl, Tabs, Tooltip, Field),
   `components/data` (SourceBadge, ProvenanceFooter, MetricCard, AnimatedNumber), `components/charts` (LineChart, BarChart),
-  `components/shell` (TopBar, NavRail, FieldSelector, NasaStatusPill), `components/motion` (MotionProvider, Reveal).
+  `components/shell` (TopBar, AppSidebar/AppTabs, FieldSelector, NasaStatusPill, ComingSoon), `components/map`
+  (FieldMap: MapLibre + terra-draw, MapSearch, DrawToolbar, LayerMenu), `components/motion` (MotionProvider, Reveal),
+  `components/ui/page-header` (Eyebrow, PageHeader). API istemcisi `src/lib/api.ts`, şemalar `packages/contracts/src/api.ts`.
+- Harita: MapLibre konteynerine `position: relative` ekler; boyutu `h-full w-full` ile ver. Çizimde `change` olayları
+  yalnız select modunda işlenir (çizim sırasındaki `update`'ler yarım şekildir).
 - Her veri gösterimi `SourceBadge` + `ProvenanceFooter` taşır. Eksik değer `null` → "—" + "Veri yok"; asla 0.
 - `/styleguide` iç referans sayfasıdır: İngilizce, `noindex`, sentetik örnek veriler "Sample" etiketli. Ürün sayfalarındaki
   "metin yalnız messages dosyalarında" kuralının tek istisnası.
@@ -108,13 +112,15 @@ docs/                 ürün/tasarım/veri belgeleri · DECISIONS.md · MOTION_S
 apps/web/             Next.js — src/app/[locale]/{(marketing),(app)} · src/i18n · src/components · src/styles
                       messages/{en,tr}.json · .env.example
 apps/mobile/          yalnız task.md — mobil ertelendi (D-016)
-services/api/         FastAPI — app/{core,api,models} (+ adapters, engines, repositories fazlarla) · tests/ · .env.example
-supabase/             migrations/ · seed.sql
+services/api/         FastAPI — app/{core,api/v1,adapters,services,repositories,models} · scripts/migrate.py · tests/
+supabase/             migrations/ · seed.sql (pnpm db:migrate --seed)
+render.yaml           Render Blueprint (API)
 packages/contracts/   OpenAPI → TS tipleri + Zod · DataSource enum
 ```
 
 Rotalar (TR'de `/tr` önekiyle): `/` → `/demo` → `/fields/[id]` (harita) → `/climate` → `/planning/water` · `/planning/rotation`
-→ `/twin` → `/spray` → `/summary`. Harita `fields/[id]/layout.tsx` içinde kalıcıdır, sayfalar arasında yeniden yüklenmez.
+→ `/twin` → `/spray` → `/summary`. `fields/[id]/layout.tsx` = kabuk (üst bar + menü); `params` Suspense içinde okunur (cacheComponents). Faz 4–9 sayfaları
+şimdilik `ComingSoon` yer tutucusu.
 
 ## 6. Veri kaynağı tipleri (tek enum — D-001)
 
@@ -122,17 +128,21 @@ Rotalar (TR'de `/tr` önekiyle): `/` → `/demo` → `/fields/[id]` (harita) →
 (+ `actual_device_future` rezerve, MVP'de kullanılmaz). Zaman alanları: `observed_at` (verinin geçerli olduğu an),
 `fetched_at` (API'den alındığı an). Workspace alanı: `workspace_id`.
 
-## 7. Tasarım sistemi özeti
+## 7. Tasarım sistemi özeti (v2 — kullanıcının tasarımları, D-020)
 
-- **Landing:** sinematik, lacivert uzaydan kırık beyaz yüzeye inen tek anlatı. Neon/cyberpunk yok.
-- **Uygulama:** açık tema, ferah, harita odaklı. Dark theme ana tema değil.
-- **Renk semantiği:** lacivert = uydudan gelen (NASA kaynaklı) · yeşil = tarla ve çiftçinin kararı · amber = simüle/uyarı.
-- Tokenlar: `bg #F7F9F5` · `surface #FFFFFF` · `surface-2 #EFF2EE` · `border #E6ECE8` · `ink #173B32` · `ink-muted #5A6B64`
-  · `green-600 #2D7A53` · `green-200 #A9D7A9` · `navy-900 #0E2240` · `navy-600 #2B4C7E` · `amber-600 #B66A28` (yalnız dolgu/kenar)
-  · `amber-700 #8F5119` (metin).
-- Tipografi: Geist Sans (UI) + Geist Mono (sayılar, koordinat, künye). Ölçek 12/14/16/20/28/44 (+ landing display).
-- 8px spacing · radius 12/16/20 · gölge minimum, ayrımı kenarlık yapar.
+- **Kaynak:** `docs/design/stitch/*.webp` (6 sayfa) ve `docs/design/brand/` (logo). Görsel yön bunlardır; veri dürüstlüğü
+  kurallarıyla çelişen kısımlar uygulanmaz (D-020 listesi).
+- **Görünüm:** krem zemin, beyaz kart + yumuşak gölge, lacivert ana buton, yeşil italik vurgu kelimesi, "SAT2SOIL ——"
+  etiketi, sayfa başlığında sağda uydu→tarla görseli, renkli çizgi ikonlar. Landing sinematik 3D Faz 8'de.
+- Tokenlar (`src/styles/globals.css`): `bg #F7F4EE` · `surface #FFF` · `surface-2 #F3EFE8` · `line #EBE5DA` · `ink #0F1B2D`
+  · `ink-muted #545E6B` · `green-100 #E4EDCF` (aktif menü) · `green-600 #4B7A22` · `green-700 #3E6A1C` (italik vurgu)
+  · `navy-800 #0A2F57` (ana buton) · `navy-900 #0B1F3A` · `sky-600 #2F6DB5` (yağış/gözlem) · `orange-500 #E07B2E` (sıcaklık)
+  · `amber-600/700` (simüle) · `brand-orange #F26B1D` (yalnız logo).
+- Tipografi: Plus Jakarta Sans (UI + italik vurgu) + Geist Mono (sayılar, koordinat, künye).
+- Logo: `Wordmark` = canlı "Sat" + "2" cihaz görseli (`public/images/logo-device.png`) + "Soil" + toprak şeridi.
 - Kaynak ayrımı yalnız renkle değil: ikon + desen (simüle = tarama deseni, senaryo = kesikli çizgi) + metin.
+- Grafik dili: gözlem = düz mavi, sıcaklık = düz turuncu + min–maks bandı, senaryo = kesikli yeşil + aralık bandı.
+  Sıcaklık/nem değişimi yüzde değil mutlak fark; trend çipleri nötr.
 
 ## 8. Motion kuralları
 
@@ -156,22 +166,25 @@ Kökten çalıştır (`pnpm install` ve `uv sync --directory services/api` sonra
 | `pnpm api:lint` · `pnpm api:format` · `pnpm api:test` | ruff check · ruff format · pytest |
 | `pnpm check` | Hepsini sırayla (commit öncesi) |
 | `SAT2SOIL_LIVE_TESTS=1 uv run --directory services/api pytest -m live` | Gerçek NASA POWER'a karşı duman testi |
+| `pnpm db:migrate` · `pnpm db:migrate --seed` | Supabase migration'ları · + örnek tarla |
+| `SAT2SOIL_DB_TESTS=1 uv run --directory services/api pytest -m db` | Gerçek Supabase'e karşı entegrasyon testi |
 
-API uçları: `GET /health` · `GET /v1/nasa/power/daily?lat=&lon=&start=&end=&parameters=` (OpenAPI: `/docs`).
+API uçları (OpenAPI: `/docs`): `GET /health` (db durumu dahil) · `POST /v1/demo/session` · `GET /v1/demo/fields` ·
+`GET|POST /v1/fields` · `GET|PATCH|DELETE /v1/fields/{id}` · `GET /v1/fields/{id}/nasa/power/daily` ·
+`GET /v1/nasa/power/daily?lat=&lon=&start=&end=`. Yazma uçları Bearer demo token ister; IP başına rate limit.
 POWER davranışı ve doğrulanmış gerçekler: `docs/DECISIONS.md` D-019.
 
-Deploy ayarları (kullanıcı bağlar): Vercel root `apps/web`. Render root `services/api`, start komutu
-`uvicorn app.main:app --host 0.0.0.0 --port $PORT`, sağlık kontrolü `/health`. Env adları `*.env.example` dosyalarında.
+Deploy (kullanıcı bağlar, D-023): Render → Blueprint → `render.yaml`. Vercel root `apps/web`,
+`NEXT_PUBLIC_API_BASE_URL` = Render adresi. Env adları `*.env.example` dosyalarında. Supabase'e IPv4 pooler ile bağlanılır (D-021).
+Windows'ta API'yi `--reload` ile çalıştır (psycopg async, Proactor döngüsünde çalışmaz).
 
 ## 10. Güncel durum
 
-- **Faz:** Faz 0 (iskelet) ve Faz 1 (tasarım sistemi: tokenlar, bileşenler, grafikler, kabuk, `/styleguide`,
-  `docs/MOTION_STORYBOARD.md`) tamam. G0 kullanıcı onayı bekliyor; kullanıcı Stitch ekranları üretiyor (D-018), zip
-  gelince görsel yön bunlara göre güncellenecek. Supabase/Vercel/Render bağlı değil.
-- **Faz 2 tamam:** NASA POWER adaptörü (izin listesi, retry/backoff, -999 → null, birim kontrolü), ızgara hücresi
-  önbelleği + bayat yedek, `/v1/nasa/power/daily`, 36 birim testi + canlı duman testi. Canlı API'de doğrulandı (D-019).
-- **Deploy öncesi zorunlu (Faz 3):** `/v1/nasa/power/daily` şu an herkese açık bir nokta ucu. Yayına almadan önce
-  rate limit (slowapi) ve demo oturumu kapsamı eklenmeli; tarla uçları (`/v1/fields/{id}/observations`) bunu kullanacak.
-- **Sıradaki:** Faz 3 — Supabase şeması, tarla CRUD, demo oturumu, harita + çizim, ilk canlı yayın (kullanıcı bağlantıları gerekli).
-- **Faz sırası:** 0 iskelet → 1 tasarım sistemi (G0) → 2 API + NASA POWER → 3 demo + harita + ilk canlı yayın
-  → 4 NASA veri merkezi → 5 su + rotasyon → 6 dijital ikiz → 7 AgriSpray → 8 sinematik landing → 9 özet + QA. Mobil ertelendi.
+- **Faz 0–2 tamam:** iskelet, tasarım sistemi, gerçek NASA POWER adaptörü (D-019).
+- **Faz 3 tamam (yayın hariç):** Supabase şeması + örnek parsel, demo oturumu, tarla CRUD, rate limit, kullanıcının
+  tasarımlarıyla yeni görsel dil, landing (statik), tarla seçimi/çizim haritası (NASA GIBS), tarla paneli (gerçek POWER
+  metrikleri + 12 ay grafiği). Vercel/Render bağlantısı kullanıcıda (D-023).
+- **Sıradaki:** yayın → Faz 4 NASA veri merkezi → Faz 5 su + rotasyon → Faz 6 dijital ikiz → Faz 7 AgriSpray →
+  Faz 8 sinematik landing → Faz 9 özet + QA.
+- **Açık riskler:** DB parolası sohbette paylaşıldı, değiştirilmeli (D-021). POWER yağış toplamı istasyon verisiyle
+  karşılaştırılmalı (D-019). Hero/kart görselleri tasarım ekran görüntüsünden kırpıldı; yüksek çözünürlüklü export gelirse değişir.

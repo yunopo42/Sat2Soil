@@ -1,10 +1,11 @@
 @import "tailwindcss";
 
 /*
- * Sat2Soil design tokens (CLAUDE.md §7, docs/DECISIONS.md D-006).
+ * Sat2Soil design tokens v2 — from the approved Stitch designs (docs/design/stitch, D-018, D-020).
+ * Warm cream page, white cards with a soft shadow, deep navy for primary actions and the space
+ * theme, olive-leaf green for the field, emphasis words and active states.
  * Tailwind's default palette and type scale are cleared: only these tokens exist.
- * Colour semantics: navy = came from a satellite / NASA · green = the field and the farmer's decision
- * · amber = simulated or needs attention. Never encode meaning by colour alone (see SourceBadge).
+ * Never encode meaning by colour alone (see SourceBadge).
  */
 @theme {
   --color-*: initial;
@@ -13,29 +14,38 @@
   --color-current: currentColor;
 
   /* Surfaces */
-  --color-bg: #f7f9f5;
+  --color-bg: #f7f4ee;
   --color-surface: #ffffff;
-  --color-surface-2: #eff2ee;
-  --color-line: #e6ece8;
-  --color-line-strong: #d3dcd6;
+  --color-surface-2: #f3efe8;
+  --color-line: #ebe5da;
+  --color-line-strong: #d9d0c2;
 
-  /* Text. ink-subtle is for decoration only (gridlines, dividers), never for text */
-  --color-ink: #173b32;
-  --color-ink-muted: #5a6b64;
-  --color-ink-subtle: #a7b3ad;
+  /* Text. ink-subtle is decoration only (gridlines, dividers), never text */
+  --color-ink: #0f1b2d;
+  --color-ink-muted: #545e6b;
+  --color-ink-subtle: #b9b1a4;
 
-  /* Soil */
-  --color-green-50: #e6f2ea;
-  --color-green-200: #a9d7a9;
-  --color-green-600: #2d7a53;
-  --color-green-700: #246343;
-  --color-green-800: #1f5a3c;
+  /* Leaf green: the field, decisions, emphasis words, active navigation */
+  --color-green-50: #f0f5e6;
+  --color-green-100: #e4edcf;
+  --color-green-200: #c9dca8;
+  --color-green-600: #4b7a22;
+  --color-green-700: #3e6a1c;
+  --color-green-800: #2f5216;
 
-  /* Satellite */
-  --color-navy-50: #e3e9f2;
-  --color-navy-200: #b7c6dc;
+  /* Navy: primary actions, the space theme, NASA badges */
+  --color-navy-50: #e8eef6;
+  --color-navy-200: #b9c9de;
   --color-navy-600: #2b4c7e;
-  --color-navy-900: #0e2240;
+  --color-navy-700: #123e6e;
+  --color-navy-800: #0a2f57;
+  --color-navy-900: #0b1f3a;
+
+  /* Data series: precipitation / observed (sky) and temperature (orange) */
+  --color-sky-200: #c6dbf2;
+  --color-sky-600: #2f6db5;
+  --color-orange-200: #f7d9bf;
+  --color-orange-500: #e07b2e;
 
   /* Simulated / attention. amber-600 for fills and borders only; amber-700 for text (WCAG AA) */
   --color-amber-50: #f8eee3;
@@ -46,6 +56,9 @@
   /* Destructive actions only (delete a field). Errors use calm neutral styling. */
   --color-red-50: #f7e8e5;
   --color-red-700: #8e3426;
+
+  /* Brand accent from the logo (the "2" device). Logo and illustrations only. */
+  --color-brand-orange: #f26b1d;
 
   /* Type scale: 11 (provenance) · 12 · 14 · 16 · 20 · 28 · 44 · 60 (landing) */
   --text-*: initial;
@@ -62,9 +75,9 @@
   --text-xl: 1.75rem;
   --text-xl--line-height: 2.125rem;
   --text-2xl: 2.75rem;
-  --text-2xl--line-height: 1.1;
+  --text-2xl--line-height: 1.08;
   --text-3xl: 3.75rem;
-  --text-3xl--line-height: 1.05;
+  --text-3xl--line-height: 1.04;
 
   /* Radius: controls 12 · cards 16 · large panels 20 */
   --radius-sm: 0.5rem;
@@ -72,18 +85,15 @@
   --radius-lg: 1rem;
   --radius-xl: 1.25rem;
 
-  /* Elevation: borders separate surfaces; this shadow is for floating layers only */
   --shadow-*: initial;
-  --shadow-float: 0 1px 2px rgb(14 34 64 / 0.06), 0 8px 24px rgb(14 34 64 / 0.08);
+  --shadow-card: 0 1px 2px rgb(15 27 45 / 0.04), 0 8px 24px rgb(15 27 45 / 0.06);
+  --shadow-float: 0 2px 6px rgb(15 27 45 / 0.08), 0 16px 40px rgb(15 27 45 / 0.12);
 
-  /* Motion (mirrors src/lib/motion/tokens.ts for CSS-only transitions) */
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
-  --duration-fast: 150ms;
-  --duration-normal: 250ms;
 }
 
 @theme inline {
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
@@ -98,6 +108,13 @@
 
 @utility tabular {
   font-variant-numeric: tabular-nums;
+}
+
+/* Soil strip under the wordmark (logo). */
+@utility soil-strip {
+  background:
+    linear-gradient(var(--color-green-600), var(--color-green-600)) top / 100% 2px no-repeat,
+    linear-gradient(180deg, #8a5a32 0%, #6e4426 55%, #5a361e 100%);
 }
 
 :root {
@@ -116,6 +133,12 @@ body {
 ::selection {
   background: var(--color-green-200);
   color: var(--color-ink);
+}
+
+/* MapLibre controls in our type and colours. */
+.maplibregl-ctrl-attrib {
+  font-family: var(--font-sans);
+  font-size: 10px;
 }
 
 @media (prefers-reduced-motion: reduce) {

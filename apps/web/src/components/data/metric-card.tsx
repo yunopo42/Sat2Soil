@@ -18,6 +18,8 @@ export function MetricCard({
   sourceDetail,
   provenance,
   note,
+  trend,
+  icon,
   method,
 }: {
   label: string;
@@ -28,6 +30,10 @@ export function MetricCard({
   sourceDetail?: string;
   provenance: string[];
   note?: ReactNode;
+  /** Small comparison chip, e.g. "+12% vs previous 30 days". */
+  trend?: ReactNode;
+  /** Coloured line icon shown before the label (approved designs). */
+  icon?: ReactNode;
   method?: ReactNode;
 }) {
   const missing = value === null;
@@ -36,18 +42,26 @@ export function MetricCard({
     <Card>
       <div className="flex flex-1 flex-col px-5 pt-5 pb-4">
         <div className="flex items-start justify-between gap-3">
-          <p className="text-sm text-ink-muted">{label}</p>
+          <div className="flex min-w-0 items-center gap-2.5">
+            {icon ? <span aria-hidden="true" className="shrink-0 [&_svg]:size-7">{icon}</span> : null}
+            <div className="min-w-0">
+              <p className="truncate text-sm font-bold text-ink">{label}</p>
+              {note ? <p className="truncate text-2xs text-ink-muted">{note}</p> : null}
+            </div>
+          </div>
           <SourceBadge source={missing ? "unavailable" : source} detail={missing ? undefined : sourceDetail} />
         </div>
-        <p className="mt-4 flex items-baseline gap-1.5 font-mono text-ink">
-          {missing ? (
-            <span className="text-xl text-ink-muted">—</span>
-          ) : (
-            <AnimatedNumber value={value} fractionDigits={fractionDigits} className="text-xl" />
-          )}
-          <span className="text-sm text-ink-muted">{unit}</span>
-        </p>
-        {note ? <p className="mt-2 text-xs text-ink-muted">{note}</p> : null}
+        <div className="mt-4 flex items-end justify-between gap-3">
+          <p className="flex items-baseline gap-1.5 font-mono text-ink">
+            {missing ? (
+              <span className="text-xl text-ink-muted">—</span>
+            ) : (
+              <AnimatedNumber value={value} fractionDigits={fractionDigits} className="text-xl font-bold" />
+            )}
+            <span className="text-sm text-ink-muted">{unit}</span>
+          </p>
+          {trend && !missing ? trend : null}
+        </div>
       </div>
       <ProvenanceFooter items={provenance} method={method} />
     </Card>

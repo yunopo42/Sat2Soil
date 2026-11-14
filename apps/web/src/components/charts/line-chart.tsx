@@ -22,7 +22,13 @@ import {
 import { useElementWidth } from "./use-element-width";
 
 const tone: Record<SeriesTone, { line: string; band: string; dash?: string; dot: string; label: string }> = {
-  observed: { line: "stroke-navy-600", band: "fill-navy-200/45", dot: "fill-navy-600", label: "fill-navy-900" },
+  observed: { line: "stroke-sky-600", band: "fill-sky-200/50", dot: "fill-sky-600", label: "fill-navy-800" },
+  temperature: {
+    line: "stroke-orange-500",
+    band: "fill-orange-200/55",
+    dot: "fill-orange-500",
+    label: "fill-amber-700",
+  },
   derived: { line: "stroke-green-600", band: "fill-green-200/40", dot: "fill-green-600", label: "fill-green-800" },
   scenario: {
     line: "stroke-green-600",
@@ -100,7 +106,8 @@ export function LineChart({
     // points at empty space.
     const ends = series.map((s) => lastDefined(s.points));
     const endXs = ends.map((p) => (p ? x(p.t) : innerWidth));
-    const atEdge = endXs.map((ex) => ex >= innerWidth - 1);
+    // "Near the edge" tolerates the few trailing days NASA has not published yet.
+    const atEdge = endXs.map((ex) => ex >= innerWidth * 0.96);
     const edgeYs = spreadLabels(
       ends.filter((_, i) => atEdge[i]).map((p) => (p ? y(p.v as number) : innerHeight)),
       14,

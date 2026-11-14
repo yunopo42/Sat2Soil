@@ -7,7 +7,7 @@ export function NasaStatusPill({ state, time }: { state: "live" | "cached" | "ne
   return (
     <span
       className={cn(
-        "inline-flex h-7 items-center gap-2 rounded-full border px-3 font-mono text-2xs",
+        "inline-flex h-9 items-center gap-2 rounded-full border px-3.5 font-mono text-2xs",
         state === "never" ? "border-line text-ink-muted" : "border-navy-200 bg-navy-50 text-navy-900",
       )}
     >
@@ -20,7 +20,11 @@ export function NasaStatusPill({ state, time }: { state: "live" | "cached" | "ne
           state === "never" && "bg-ink-subtle",
         )}
       />
-      {state === "never" || !time ? t("nasaNotSynced") : t("nasaSynced", { time })}
+      {state === "never" || !time
+        ? t("nasaNotSynced")
+        : state === "cached"
+          ? t("nasaCached", { time })
+          : t("nasaSynced", { time })}
     </span>
   );
 }

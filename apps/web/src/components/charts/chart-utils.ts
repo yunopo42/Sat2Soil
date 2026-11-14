@@ -5,10 +5,10 @@ export type BandPoint = { t: Date; lo: number | null; hi: number | null };
 
 /**
  * How a series is drawn. The visual grammar is fixed across the app:
- * observed = solid navy (came from NASA) · derived = solid green (calculated by us)
+ * observed = solid sky blue (came from NASA) · temperature = solid orange · derived = solid green (calculated by us)
  * · scenario = dashed green with a light band (what-if) · reference = thin grey.
  */
-export type SeriesTone = "observed" | "derived" | "scenario" | "reference";
+export type SeriesTone = "observed" | "temperature" | "derived" | "scenario" | "reference";
 
 export type LineSeries = {
   id: string;

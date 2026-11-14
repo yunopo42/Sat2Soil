@@ -13,7 +13,8 @@
     "api:test": "uv run --directory services/api pytest",
     "api:lint": "uv run --directory services/api ruff check .",
     "api:format": "uv run --directory services/api ruff format .",
-    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm api:lint && pnpm api:test"
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm api:lint && pnpm api:test",
+    "db:migrate": "uv run --directory services/api python -m scripts.migrate"
   },
   "engines": {
     "node": ">=24"

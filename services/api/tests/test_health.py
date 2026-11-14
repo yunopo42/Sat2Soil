@@ -19,6 +19,7 @@ def test_health_reports_ok() -> None:
         "service": "sat2soil-api",
         "version": __version__,
         "environment": "development",
+        "database": "not_configured",
     }
 
 

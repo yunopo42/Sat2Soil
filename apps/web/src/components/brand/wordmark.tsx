@@ -1,15 +1,24 @@
+import Image from "next/image";
 import { cn } from "@/lib/cn";
+import logoDevice from "../../../public/images/logo-device.png";
 
-/** Logo mark: a field (green) under an orbit (navy). Text stays live for accessibility and i18n. */
-export function Wordmark({ className }: { className?: string }) {
+/**
+ * Sat2Soil logo: "Sat" + the "2" field device (from the team's logo artwork, docs/design/brand)
+ * + "Soil", standing on a soil strip. Text stays live for accessibility and crisp rendering.
+ */
+export function Wordmark({ size = "md", className }: { size?: "sm" | "md" | "lg"; className?: string }) {
+  const text = { sm: "text-[22px]", md: "text-[28px]", lg: "text-[40px]" }[size];
+  const device = { sm: "h-[34px]", md: "h-[44px]", lg: "h-[62px]" }[size];
+  const strip = { sm: "h-[6px]", md: "h-[8px]", lg: "h-[11px]" }[size];
+
   return (
-    <span className={cn("inline-flex items-center gap-2", className)}>
-      <svg viewBox="0 0 32 32" aria-hidden="true" className="size-6">
-        <circle cx="16" cy="18" r="8" className="fill-green-600" />
-        <path d="M5 13c4-6 18-6 22 0" fill="none" strokeWidth="1.8" strokeLinecap="round" className="stroke-navy-900" />
-        <circle cx="24.5" cy="9.8" r="2.1" className="fill-navy-900" />
-      </svg>
-      <span className="text-[15px] font-semibold tracking-tight text-ink">Sat2Soil</span>
+    <span className={cn("relative inline-flex flex-col items-stretch", className)} aria-label="Sat2Soil">
+      <span aria-hidden="true" className={cn("flex items-end font-extrabold leading-none tracking-tight text-navy-900", text)}>
+        <span className="pb-[0.12em]">Sat</span>
+        <Image src={logoDevice} alt="" priority className={cn("-mx-[0.04em] w-auto translate-y-[18%]", device)} />
+        <span className="pb-[0.12em]">Soil</span>
+      </span>
+      <span aria-hidden="true" className={cn("soil-strip -mt-[2px] rounded-[2px]", strip)} />
     </span>
   );
 }

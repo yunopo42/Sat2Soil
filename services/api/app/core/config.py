@@ -8,7 +8,9 @@ from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 class Settings(BaseSettings):
     """Runtime configuration from environment variables (see .env.example)."""
 
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
+    model_config = SettingsConfigDict(
+        env_file=".env", env_file_encoding="utf-8", extra="ignore", env_ignore_empty=True
+    )
 
     environment: Literal["development", "preview", "production"] = "development"
     # Exact origins only (docs/ARCHITECTURE.md: CORS allowlist). Comma-separated in the env var.
@@ -25,6 +27,10 @@ class Settings(BaseSettings):
     supabase_url: str | None = None
     supabase_service_role_key: SecretStr | None = None
     demo_session_secret: SecretStr | None = None
+    # A visitor's workspace (and the fields drawn in it) lives this long, then is purged.
+    demo_session_ttl_hours: int = 7 * 24
+    # Per-IP limits (slowapi). Off only in unit tests.
+    rate_limit_enabled: bool = True
 
     @field_validator("cors_origins", mode="before")
     @classmethod

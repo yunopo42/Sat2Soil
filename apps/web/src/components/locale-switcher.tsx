@@ -1,10 +1,12 @@
 "use client";
 
+import { Globe } from "@phosphor-icons/react/ssr";
 import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
+import { cn } from "@/lib/cn";
 
-export function LocaleSwitcher() {
+export function LocaleSwitcher({ className }: { className?: string }) {
   const current = useLocale();
   const pathname = usePathname();
   const tLocale = useTranslations("locale");
@@ -13,8 +15,9 @@ export function LocaleSwitcher() {
   return (
     <nav
       aria-label={tCommon("languageSwitcher")}
-      className="flex items-center gap-0.5 rounded-full border border-line bg-surface p-0.5 font-mono text-xs"
+      className={cn("flex h-10 items-center gap-1 rounded-full border border-line bg-surface pr-1 pl-3 text-xs shadow-card", className)}
     >
+      <Globe aria-hidden="true" className="mr-1 size-4 text-ink-muted" />
       {routing.locales.map((locale) => {
         const active = locale === current;
         return (
@@ -25,11 +28,10 @@ export function LocaleSwitcher() {
             lang={locale}
             title={tLocale(locale)}
             aria-current={active ? "true" : undefined}
-            className={
-              active
-                ? "rounded-full bg-ink px-2.5 py-1 text-white"
-                : "rounded-full px-2.5 py-1 text-ink-muted transition-colors hover:text-ink"
-            }
+            className={cn(
+              "rounded-full px-2.5 py-1.5 font-bold transition-colors",
+              active ? "bg-navy-800 text-white" : "text-ink-muted hover:text-ink",
+            )}
           >
             {locale.toUpperCase()}
           </Link>

@@ -4,22 +4,43 @@ import type { ReactNode } from "react";
 import { Wordmark } from "@/components/brand/wordmark";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 
-/** 56 px top bar: brand · active field · NASA data status · summary · language. */
-export function TopBar({ field, nasaStatus }: { field: ReactNode; nasaStatus: ReactNode }) {
+/** App top bar: brand · active field · NASA data status · summary · language. */
+export function TopBar({
+  field,
+  nasaStatus,
+  summaryHref,
+}: {
+  field?: ReactNode;
+  nasaStatus?: ReactNode;
+  summaryHref?: string;
+}) {
   const t = useTranslations("nav");
   return (
-    <header className="flex h-14 shrink-0 items-center gap-3 border-b border-line bg-surface px-4">
-      <Wordmark />
-      <span aria-hidden="true" className="h-6 w-px bg-line" />
-      {field}
-      <div className="ml-auto flex items-center gap-2">
-        <span className="hidden md:inline-flex">{nasaStatus}</span>
-        <Button variant="ghost" size="sm">
-          <Presentation aria-hidden="true" />
-          {t("summary")}
-        </Button>
-        <LocaleSwitcher />
+    <header className="sticky top-0 z-30 border-b border-line bg-bg/90 backdrop-blur">
+      <div className="flex h-16 items-center gap-4 px-4 lg:px-6">
+        <Link href="/" className="shrink-0 rounded-sm">
+          <Wordmark size="sm" />
+        </Link>
+        {field ? (
+          <>
+            <span aria-hidden="true" className="hidden h-8 w-px bg-line sm:block" />
+            <div className="min-w-0">{field}</div>
+          </>
+        ) : null}
+        <div className="ml-auto flex items-center gap-2">
+          {nasaStatus ? <span className="hidden md:inline-flex">{nasaStatus}</span> : null}
+          {summaryHref ? (
+            <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
+              <Link href={summaryHref}>
+                <Presentation aria-hidden="true" />
+                {t("summary")}
+              </Link>
+            </Button>
+          ) : null}
+          <LocaleSwitcher />
+        </div>
       </div>
     </header>
   );

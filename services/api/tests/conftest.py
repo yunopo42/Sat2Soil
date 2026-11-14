@@ -1,4 +1,6 @@
+import asyncio
 import json
+import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -8,6 +10,10 @@ from app.adapters.nasa_power import PARAMETERS, PowerDaily, parse_daily
 
 FIXTURES = Path(__file__).parent / "fixtures"
 ALL_PARAMETERS = tuple(PARAMETERS)
+
+# psycopg's async driver cannot use Windows' default Proactor loop (local dev; Render is Linux).
+if sys.platform == "win32":
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 
 @pytest.fixture

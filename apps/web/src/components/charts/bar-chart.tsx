@@ -226,7 +226,7 @@ export function BarChart({
                       y={model.y(p.v)}
                       width={model.barWidth}
                       height={innerHeight - model.y(p.v)}
-                      className={i === active ? "fill-navy-900" : "fill-navy-600/70"}
+                      className={i === active ? "fill-navy-800" : "fill-sky-600/75"}
                     />
                   ),
                 )}

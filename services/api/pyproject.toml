@@ -6,7 +6,11 @@ requires-python = ">=3.13"
 dependencies = [
     "fastapi>=0.163.0",
     "httpx>=0.28.1",
+    "psycopg-pool>=3.3.3",
+    "psycopg[binary]>=3.3.9",
     "pydantic-settings>=2.16.3",
+    "pyjwt>=2.15.1",
+    "slowapi>=0.1.10",
     "tenacity>=9.2.1",
     "uvicorn[standard]>=0.54.0",
 ]
@@ -25,7 +29,10 @@ package = false
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
-markers = ["live: calls the real NASA POWER API (run with SAT2SOIL_LIVE_TESTS=1)"]
+markers = [
+    "live: calls the real NASA POWER API (run with SAT2SOIL_LIVE_TESTS=1)",
+    "db: uses the real Supabase database (run with SAT2SOIL_DB_TESTS=1)",
+]
 
 [tool.ruff]
 line-length = 100

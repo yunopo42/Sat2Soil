@@ -1,20 +1,21 @@
 import { getTranslations } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
+import { NasaSourcesStrip } from "@/components/data/nasa-sources-strip";
+import { TopBar } from "@/components/shell/top-bar";
+import { PageHeader } from "@/components/ui/page-header";
+import { FieldPicker } from "./field-picker";
 
-// Placeholder until phase 3 (field selection: sample field in the Konya Plain or draw your own).
+/** Field selection / map (approved design P02, UI_UX_DESIGN S-02/S-03). No login. */
 export default async function DemoPage() {
   const t = await getTranslations("demo");
-  const tCommon = await getTranslations("common");
 
   return (
-    <main className="mx-auto flex min-h-dvh max-w-2xl flex-col justify-center px-4 sm:px-8">
-      <p className="font-mono text-xs text-ink-muted">{tCommon("devPreview")}</p>
-      <h1 className="mt-3 text-xl font-semibold tracking-tight">{t("title")}</h1>
-      <p className="mt-4 leading-relaxed text-ink-muted">{t("comingSoon")}</p>
-      <Link href="/" className="mt-8 w-fit text-sm font-medium text-green-600 underline-offset-4 hover:underline">
-        <span aria-hidden="true">← </span>
-        {tCommon("backHome")}
-      </Link>
-    </main>
+    <div className="flex min-h-dvh flex-col">
+      <TopBar />
+      <main className="mx-auto flex w-full max-w-[1440px] flex-1 flex-col gap-6 px-4 pb-10 lg:px-8">
+        <PageHeader title={t("title")} description={t("description")} banner />
+        <FieldPicker />
+        <NasaSourcesStrip />
+      </main>
+    </div>
   );
 }

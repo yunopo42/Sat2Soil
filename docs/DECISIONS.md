@@ -125,3 +125,39 @@ Doğrulama: 2026-11-14, POWER Daily API v2.10.3, nokta 37.58 K / 32.79 D.
 - **Dikkat:** Bu hücre için son 12 ayın `PRECTOTCORR` toplamı ≈ 705 mm. Konya Ovası'nın uzun yıllar ortalaması (~320 mm)
   bunun çok altında. Model/uydu tabanlı ızgara tahmini istasyon ölçümünden sapabilir. Sunumdan önce MGM istasyon verisiyle
   karşılaştırılmalı; UI bu değeri "ızgara hücresi tahmini" olarak etiketler.
+
+### D-020 · Onaylanan görsel dil ve tasarımlardan bilinçli sapmalar — `KABUL`
+Kullanıcının 6 tasarımı (`docs/design/stitch/`) ve logosu (`docs/design/brand/`) temel alındı: krem zemin, lacivert ana buton,
+yeşil italik vurgu kelimeleri, "SAT2SOIL ——" etiketi, yumuşak gölgeli beyaz kartlar, yeşil hap aktif menü, uydu görselli sayfa
+başlıkları, düz menü listesi (Genel Bakış, NASA Verileri, Su Yönetimi, Ürün Rotasyonu, Dijital İkiz, Zirai İlaçlama, Özet).
+Yazı tipi Plus Jakarta Sans (italik dahil) + sayılar için Geist Mono. D-003'teki "en fazla 5 menü" kuralı bu tasarımla değişti
+(rotalar aynı kaldı). Tasarımlarda olup kurallarımızla çeliştiği için **uygulanmayanlar**:
+- NASA logosu (rozetlerde, uydularda): kullanılmaz; uydulardaki logolar görselden silindi. Kaynak metinle yazılır.
+- Bağlanmamış veriler canlıymış gibi (SMAP toprak nemi, GPM, Landsat NDVI, ECOSTRESS, SRTM haritaları, tarla içi NDVI renkleri):
+  "Planlı" etiketiyle gösterilir, sahte harita/sayı yok.
+- Verim tahmini (t/ha), "%20 daha yüksek verim", m³/ha su reçetesi, "3–5 gün içinde sulayın": üretilmez.
+- AgriSpray'de "Canlı (Gerçek Zamanlı)", etkinlik %92, hastalık şiddeti, yapay zekâ ölçümü, "Sentinel-2 NASA verisi" (Sentinel-2
+  ESA/Copernicus'tur): Faz 7'de "Konsept cihaz · Simüle" olarak yapılacak.
+- Bildirim, kullanıcı avatarı, "Çalışmalarım" gibi giriş gerektiren öğeler: login olmadığı için yok.
+- Sıcaklık ve nem değişimi yüzde olarak değil mutlak fark (°C, puan) olarak gösterilir; trend çipleri "iyi/kötü" renklendirmez.
+
+### D-021 · Supabase bağlantısı ve şema — `KABUL`
+- Proje `eu-west-3` (Paris). Doğrudan `db.<ref>.supabase.co` adresi yalnız IPv6; yerel ağ ve Render'dan erişilemiyor.
+  API **session pooler** (`aws-0-eu-west-3.pooler.supabase.com:5432`, IPv4) kullanır.
+- Migration'lar `supabase/migrations` → `pnpm db:migrate [--seed]` (Supabase CLI ile aynı kayıt tablosu). PostGIS 3.3.7.
+- Örnek tarla: Konya Ovası'nda gerçek bir parsel (≈5 ha, 37.6208 K / 32.8546 D), EOX Sentinel-2 görüntüsünden renk
+  bölütlemesiyle çıkarıldı, NASA GIBS HLS ile hizası kontrol edildi. Ürün geçmişi ve sulama tipi örnek değerdir.
+- **Güvenlik notu:** Veritabanı parolası sohbette paylaşıldı. Jüri öncesi Supabase → Database → Reset password ile
+  değiştirilmeli; yeni değer yalnız `services/api/.env` ve Render ortam değişkenine yazılır.
+
+### D-022 · Harita kaynakları ve lisanslar — `KABUL`
+- Varsayılan: NASA GIBS Blue Marble + HLS S30 gerçek renk (2026-10-24, bulutsuz gün döşemeler incelenerek seçildi; günlük
+  ürün olduğu için tarih sabit ve etikette yazılı). 30 m; yakın zoomda bulanık, bu dürüst bir sınır.
+- Alternatif: EOX Sentinel-2 cloudless 2024 (10 m, CC BY-NC-SA 4.0, ticari olmayan kullanım), "NASA değil" etiketli.
+- Konum arama: OpenStreetMap Nominatim, yalnız kullanıcı "Ara"ya basınca (otomatik tamamlama yok, kullanım politikası).
+- MapLibre GL 6 worker dosyası `public/vendor/` altına kopyalanır (`scripts/copy-maplibre-worker.mjs`).
+
+### D-023 · Yayın düzeni — `ÖNERİ` (kullanıcı bağlar)
+- API: Render Blueprint (`render.yaml`), Frankfurt, `/health` sağlık kontrolü, `--proxy-headers` ile gerçek IP'ye göre rate limit.
+- Web: Vercel, Root Directory `apps/web`, ortam değişkeni `NEXT_PUBLIC_API_BASE_URL` = Render adresi.
+- Render'da `CORS_ORIGINS` = Vercel production adresi (tam adres, joker yok).

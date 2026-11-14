@@ -1,23 +1,25 @@
-import { CaretUpDown } from "@phosphor-icons/react/ssr";
+import { CaretDown, MapPin } from "@phosphor-icons/react/ssr";
 import { useTranslations } from "next-intl";
 import { SourceBadge } from "@/components/data/source-badge";
+import { Link } from "@/i18n/navigation";
 
-/** Shows the active field. Opens the field switcher from phase 3 on. */
-export function FieldSelector({ name, region, sample }: { name: string; region: string; sample?: boolean }) {
+/** Active field pill in the top bar. Opens the field selection page. */
+export function FieldSelector({ name, detail, sample }: { name: string; detail?: string; sample?: boolean }) {
   const t = useTranslations("shell");
   return (
-    <button
-      type="button"
+    <Link
+      href="/demo"
       title={t("changeField")}
-      className="flex h-9 min-w-0 items-center gap-2.5 rounded-md px-2.5 text-left transition-colors duration-150 hover:bg-surface-2"
+      className="flex h-10 min-w-0 items-center gap-2.5 rounded-full border border-line bg-surface px-3.5 shadow-card transition-colors duration-150 hover:border-line-strong"
     >
-      <span className="min-w-0">
-        <span className="block truncate text-sm font-medium text-ink">{name}</span>
-        <span className="block truncate text-2xs text-ink-muted">{region}</span>
+      <MapPin aria-hidden="true" weight="fill" className="size-4 shrink-0 text-green-600" />
+      <span className="min-w-0 truncate text-sm font-semibold text-ink">
+        {name}
+        {detail ? <span className="font-medium text-ink-muted"> ({detail})</span> : null}
       </span>
-      {sample ? <SourceBadge source="demo_sample" /> : null}
-      <CaretUpDown aria-hidden="true" className="size-3.5 shrink-0 text-ink-muted" weight="bold" />
+      {sample ? <SourceBadge source="demo_sample" className="hidden sm:inline-flex" /> : null}
+      <CaretDown aria-hidden="true" className="size-3.5 shrink-0 text-ink-muted" weight="bold" />
       <span className="sr-only">{t("changeField")}</span>
-    </button>
+    </Link>
   );
 }
