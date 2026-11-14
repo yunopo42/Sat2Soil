@@ -1,5 +1,13 @@
-import { ComingSoon } from "@/components/shell/coming-soon";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/state-panel";
+import { RotationPlanner } from "./rotation-planner";
 
-export default function Page({ params }: PageProps<"/[locale]/fields/[id]/planning/rotation">) {
-  return <ComingSoon params={params} section="rotation" phase={5} />;
+export default function RotationPage({ params }: PageProps<"/[locale]/fields/[id]/planning/rotation">) {
+  return (
+    <Suspense fallback={<Skeleton className="mt-8 h-96 w-full" />}>
+      {params.then(({ id }) => (
+        <RotationPlanner fieldId={id} />
+      ))}
+    </Suspense>
+  );
 }

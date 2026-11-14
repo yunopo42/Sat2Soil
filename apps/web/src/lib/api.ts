@@ -3,10 +3,14 @@ import {
   DemoSessionSchema,
   FieldSchema,
   PowerDailySchema,
+  RotationSchema,
+  WaterBalanceSchema,
   type Field,
   type IrrigationType,
   type Polygon,
   type PowerDaily,
+  type Rotation,
+  type WaterBalance,
 } from "@sat2soil/contracts";
 import { z } from "zod";
 
@@ -133,4 +137,21 @@ export function fetchFieldPower(
   if (options.parameters?.length) params.set("parameters", options.parameters.join(","));
   const query = params.size ? `?${params}` : "";
   return request(`/v1/fields/${encodeURIComponent(id)}/nasa/power/daily${query}`, { auth: "optional" }, PowerDailySchema);
+}
+
+export function fetchWaterBalance(id: string, crop: string, season: "last" | "current"): Promise<WaterBalance> {
+  const query = new URLSearchParams({ crop, season });
+  return request(`/v1/fields/${encodeURIComponent(id)}/water-balance?${query}`, { auth: "optional" }, WaterBalanceSchema);
+}
+
+export function fetchRotation(id: string): Promise<Rotation> {
+  return request(`/v1/fields/${encodeURIComponent(id)}/rotation`, { auth: "optional" }, RotationSchema);
+}
+
+export function compareRotation(id: string, plans: string[][]): Promise<Rotation> {
+  return request(
+    `/v1/fields/${encodeURIComponent(id)}/rotation/compare`,
+    { method: "POST", body: JSON.stringify({ plans }), auth: "optional" },
+    RotationSchema,
+  );
 }

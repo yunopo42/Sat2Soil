@@ -167,3 +167,15 @@ Yazı tipi Plus Jakarta Sans (italik dahil) + sayılar için Geist Mono. D-003't
   geliştirildi" rozeti) ve footer'da kullanılır (`docs/design/brand/space-apps-konya.jpg`).
 - NASA "meatball" logosu kullanılmaz (14 CFR 1221, onay izlenimi). NASA kaynakları metinle yazılır; footer'da
   "NASA ile bağlantılı değildir" notu kalır.
+
+### D-025 · Su dengesi ve rotasyon motorları — `KABUL` (Faz 5, 2026-11-15)
+- **Su:** FAO-56 Penman–Monteith ET₀ (Örnek 8 ve 18 ile test edildi) → ETc = Kc × ET₀ (tek Kc eğrisi, 4 dönem) →
+  denge = ETc − yağış, ekimden hasada. Girdisi eksik gün iki taraftan da çıkarılır; `covered_until` yalnız tam girdili son gün.
+  Ekim tarihleri Orta Anadolu tipik tarihleri (varsayım olarak gösterilir). Toprak depolama, etkili yağış modellenmez.
+  Çıktı `derived_indicator`; **litre/sulama reçetesi yok** (CLAUDE.md §2.3).
+- **Rotasyon:** Puan = %50 su uyumu (her yıl ürünün son tamamlanan sezon ETc/yağış oranı) + %50 kural
+  (`no_repeat`, `cereal_limit`, `legume_break`, `beet_interval`, `rainfed_water` — yalnız kuru tarımda). Öneri,
+  katalogdaki önerilebilir ürünlerin 3 yıllık tüm kombinasyonlarından en yüksek puan. Mevcut plan = son iki sezon döngüsünün
+  devamı. Puan verim tahmini değildir; UI bunu söyler.
+- Uçlar: `GET /v1/crops` · `GET /v1/fields/{id}/water-balance?crop=&season=last|current` · `GET /v1/fields/{id}/rotation` ·
+  `POST /v1/fields/{id}/rotation/compare {plans}`. Örnek tarla geçmişi buğday/pancar döngüsü (seed).

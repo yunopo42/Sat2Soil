@@ -1,6 +1,6 @@
 # CLAUDE.md — Sat2Soil
 
-> **Durum: v0.4 · 2026-11-15** — Faz 0–3 tamam (yayın kullanıcıda). Kararlar D-001…D-023, `docs/DECISIONS.md`.
+> **Durum: v0.5 · 2026-11-15** — Faz 0–5 tamam. Kararlar D-001…D-025, `docs/DECISIONS.md`.
 > Kararların tamamı `docs/DECISIONS.md` içinde; bu dosya onların kısa özetidir.
 
 **Sat2Soil** — NASA Space Apps Challenge 2026.
@@ -54,7 +54,10 @@ Demo tarlası: **Konya Ovası** (D-013). Arayüz dili: **İngilizce varsayılan 
 - Kullanıcıyla **Türkçe** iletişim. Kod, değişken ve commit mesajları İngilizce.
 - UI metinleri yalnız `apps/web/messages/{en,tr}.json` içinde (next-intl). **EN varsayılan**, TR ikinci dil; bileşende sabit metin yok.
 - Adım adım ilerle. Her büyük faz sonunda: **ne yapıldı · hangi dosyalar · ne çalışıyor · ne eksik → onay iste.**
-- Repo: `origin` → `https://github.com/yunopo42/Sat2Soil.git`, dal `main`. Faz sonunda commit önerilir; push kullanıcı onayıyla.
+- Repo: `origin` → `https://github.com/yunopo42/Sat2Soil.git`, dal `main`.
+- **Her faz sonunda (kullanıcı kararı, 2026-11-15):** `pnpm check` + `pnpm build` geçince commit **ve push** yap,
+  `docs/HANDOFF.md`'yi güncelle ve kullanıcıya başka bir Claude hesabından devam edebileceği hazır promptu ver.
+- Başka bir hesaptan/oturumdan başlıyorsan önce `docs/HANDOFF.md`, sonra bu dosya ve `docs/DECISIONS.md`'yi oku.
 - Supabase, Vercel, Render bağlantılarını ve tüm env değerlerini **kullanıcı yapar.**
   Claude gereken değişkenleri ve adımları yazar, bağlantıyı kendisi kurmaya çalışmaz.
 - Mevcut dosya yapısını sebepsiz değiştirme. Alan `task.md` dosyaları kendi klasörlerinde kalır.
@@ -171,7 +174,8 @@ Kökten çalıştır (`pnpm install` ve `uv sync --directory services/api` sonra
 
 API uçları (OpenAPI: `/docs`): `GET /health` (db durumu dahil) · `POST /v1/demo/session` · `GET /v1/demo/fields` ·
 `GET|POST /v1/fields` · `GET|PATCH|DELETE /v1/fields/{id}` · `GET /v1/fields/{id}/nasa/power/daily` ·
-`GET /v1/nasa/power/daily?lat=&lon=&start=&end=`. Yazma uçları Bearer demo token ister; IP başına rate limit.
+`GET /v1/nasa/power/daily?lat=&lon=&start=&end=` · `GET /v1/crops` · `GET /v1/fields/{id}/water-balance` ·
+`GET /v1/fields/{id}/rotation` · `POST /v1/fields/{id}/rotation/compare` (D-025). Yazma uçları Bearer demo token ister; IP başına rate limit.
 POWER davranışı ve doğrulanmış gerçekler: `docs/DECISIONS.md` D-019.
 
 Deploy (kullanıcı bağlar, D-023): Render → Blueprint → `render.yaml`. Vercel root `apps/web`,
@@ -187,7 +191,10 @@ Windows'ta API'yi `--reload` ile çalıştır (psycopg async, Proactor döngüs�
 - **Faz 4 tamam:** `/fields/[id]/climate` NASA Veri Merkezi (90 gün/12 ay/3 yıl, POWER canlı, diğer kaynaklar
   "Planlı" + teknik özellik, 5 parametre grafiği, ızgara hücresi haritası, "Bu veri hakkında", CSV indirme).
   Yayın: Render + Vercel kullanıcı tarafından bağlandı.
-- **Sıradaki:** Faz 5 su + rotasyon → Faz 6 dijital ikiz → Faz 7 AgriSpray →
-  Faz 8 sinematik landing → Faz 9 özet + QA.
+- **Faz 5 tamam:** `/planning/water` (FAO-56 su dengesi, ürün + sezon seçimi, kümülatif grafik, Kc eğrisi, varsayımlar)
+  ve `/planning/rotation` (mevcut vs önerilen 3 yıllık plan, düzenlenebilir, API ile yeniden puanlama, kural listesi) — D-025.
+  Motorlar `services/api/app/engines/`.
+- **Sıradaki:** Faz 6 dijital ikiz → Faz 7 AgriSpray → Faz 8 sinematik landing → Faz 9 özet + QA.
+  Devam etmek için: `docs/HANDOFF.md`.
 - **Açık riskler:** DB parolası sohbette paylaşıldı, değiştirilmeli (D-021). POWER yağış toplamı istasyon verisiyle
   karşılaştırılmalı (D-019). Hero/kart görselleri tasarım ekran görüntüsünden kırpıldı; yüksek çözünürlüklü export gelirse değişir.

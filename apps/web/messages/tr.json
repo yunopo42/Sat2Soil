@@ -371,5 +371,105 @@
         "use": "Eğim ve yüzey akışı bağlamı"
       }
     }
+  },
+  "planning": {
+    "tabs": {
+      "water": "Su Yönetimi",
+      "rotation": "Ürün Rotasyonu"
+    },
+    "assumptions": {
+      "title": "Varsayımlar",
+      "grid_cell_climate": "İklim girdileri tarlanın içindeki bir noktayı değil, ≈55 km'lik NASA POWER ızgara hücresini temsil eder.",
+      "fao56_typical_kc": "Bitki katsayıları ve dönem uzunlukları FAO-56'nın tipik değerleridir; bu tarla için kalibre edilmedi.",
+      "sowing_date_assumed": "Ekim tarihi Orta Anadolu için tipik bir tarihtir, tarlanın gerçek ekim tarihi değildir.",
+      "no_soil_storage": "Topraktaki su depolama, yeraltı suyu ve yüzey akışı modellenmedi.",
+      "rain_not_effective": "Yağışın tamamı sayıldı; köke gerçekten ulaşan pay daha az olabilir.",
+      "not_prescription": "Bu bir karşılaştırma göstergesidir, sulama reçetesi değildir.",
+      "same_climate_each_year": "Planın her yılı, her ürünün son tamamlanan sezonundaki iklimle hesaplandı.",
+      "rules_simplified": "Rotasyon kuralları sadeleştirilmiş tarımsal ilkelerdir, yerel uzman görüşünün yerini tutmaz.",
+      "not_yield": "Puanlar planları karşılaştırır; verim tahmini değildir, gübre ya da ilaç önerisi vermez."
+    },
+    "uncertainty": {
+      "grid_cell_not_field": "Değerler ≈55 km'lik bir ızgara hücresini temsil eder. Tarla, hücresinden daha nemli ya da kuru olabilir.",
+      "score_not_yield": "Yüksek puan, planın su ihtiyacının daha büyük kısmının tipik yağışla karşılandığı ve daha çok rotasyon kuralına uyulduğu anlamına gelir. Verim tahmini değildir."
+    },
+    "water": {
+      "title": "Su",
+      "emphasis": "Yönetimi",
+      "description": "Yağışın bir ürünün su ihtiyacının ne kadarını karşıladığı; NASA POWER iklim verisi ve FAO-56 yöntemiyle.",
+      "crop": "Ürün",
+      "season": "Sezon",
+      "seasons": {
+        "last": "Son tamamlanan sezon",
+        "current": "Mevcut sezon"
+      },
+      "coverage": "{period} döneminde yağış, {crop} için tahmini su ihtiyacının yaklaşık %{pct}'ini karşıladı.",
+      "surplus": "Yağış, tahmini bitki su ihtiyacını {mm} mm aştı.",
+      "shortfall": "Tahmini bitki su ihtiyacı yağışı {mm} mm aştı.",
+      "notPrescription": "Bu bir sulama reçetesi değildir.",
+      "notActive": "{crop} şu an tarlada değil (tipik ekim: {date}). Son tamamlanan sezona bakın.",
+      "metrics": {
+        "rain": "Yağış",
+        "rainNote": "NASA POWER, ekimden hasada",
+        "et0": "Referans evapotranspirasyon ET₀",
+        "et0Note": "FAO-56 Penman–Monteith",
+        "etc": "Bitki su ihtiyacı ETc",
+        "etcNote": "Kc × ET₀",
+        "deficit": "Denge",
+        "deficitNote": "ETc − yağış"
+      },
+      "chartTitle": "Kümülatif yağış ve bitki su ihtiyacı",
+      "rainSeries": "Yağış",
+      "etcSeries": "Bitki ihtiyacı (ETc)",
+      "kcTitle": "Sezon boyunca bitki katsayısı Kc",
+      "period": "Ekim {sowing} · hasat {harvest} · veri {until} tarihine kadar",
+      "stages": "Dönemler (gün): başlangıç {ini} · gelişme {dev} · orta {mid} · geç {late}",
+      "methodTitle": "Nasıl hesaplandı?",
+      "steps": {
+        "s1": "Tarlanın ızgara hücresi için günlük NASA POWER değerleri: en yüksek/en düşük sıcaklık, nem, rüzgâr, güneş ışınımı, yağış.",
+        "s2": "Referans evapotranspirasyon ET₀, FAO-56 Penman–Monteith denklemiyle (FAO-56 Örnek 18 ile doğrulandı).",
+        "s3": "Bitki su ihtiyacı ETc = Kc × ET₀; Kc ürünün dört gelişim dönemini izler.",
+        "s4": "Denge = ETc − yağış, ekimden hasada toplanır. Girdisi eksik günler iki taraftan da çıkarılır."
+      }
+    },
+    "rotation": {
+      "title": "Ürün",
+      "emphasis": "Rotasyonu",
+      "description": "Mevcut planın yanında bir alternatif; açık kurallarla ve her ürünün bu ızgara hücresindeki su ihtiyacıyla puanlanır.",
+      "historyTitle": "Tarla geçmişi",
+      "conditionsTitle": "Tarla koşulları, son 12 ay",
+      "annualRain": "Yağış",
+      "meanTemp": "Ortalama sıcaklık",
+      "frostDays": "Donlu gün",
+      "cropsTitle": "Ürünlere göre su ihtiyacı",
+      "cropsLead": "Bu ızgara hücresinde son tamamlanan sezon (ETc ve yağış).",
+      "current": "Mevcut plan",
+      "suggested": "Alternatif plan",
+      "suggestedTag": "Önerilen",
+      "currentLead": "Tarlanın son iki sezonluk döngüsünü sürdürür.",
+      "suggestedLead": "Ürün kataloğundaki en yüksek puan; her yılı değiştirebilirsin.",
+      "yearCrop": "{year} yılı ürünü",
+      "total": "3 yıllık toplam",
+      "covered": "yağışla karşılanan",
+      "score": "Plan puanı",
+      "waterFit": "Su uyumu",
+      "rulesFit": "Rotasyon kuralları",
+      "weights": "Puan = %{water} su uyumu + %{rules} rotasyon kuralları",
+      "rules": {
+        "no_repeat": "Aynı ürün üst üste ekilmiyor",
+        "cereal_limit": "Üç yıl üst üste tahıl yok",
+        "legume_break": "Planda en az bir baklagil var",
+        "beet_interval": "Şeker pancarı en fazla 3 yılda bir",
+        "rainfed_water": "Yağış ihtiyacın en az yarısını karşılıyor (kuru tarım)"
+      },
+      "ruleYears": "{years} yılları",
+      "whyTitle": "Neden bu alternatif?",
+      "whyWater": "Yaklaşık %{pct} daha az su ister (üç yılda {mm} mm).",
+      "whyMoreWater": "Yaklaşık %{pct} daha fazla su ister (üç yılda {mm} mm).",
+      "whyRules": "{total} rotasyon kuralının {passed} tanesini geçer (mevcut plan: {current}).",
+      "whyLegume": "Bir baklagil içerir; bu, tahıl hastalık döngülerini kırar.",
+      "reset": "Planları sıfırla",
+      "recalculating": "Yeniden hesaplanıyor"
+    }
   }
 }

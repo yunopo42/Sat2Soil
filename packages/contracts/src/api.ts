@@ -104,3 +104,115 @@ export type PowerDaily = z.infer<typeof PowerDailySchema>;
 export const ApiErrorBodySchema = z.object({
   error: z.object({ code: z.string(), message: z.string() }),
 });
+
+const DataSourceRefSchema = z.object({
+  name: z.string(),
+  product: z.string(),
+  parameters: z.array(z.string()),
+  grid_cell: z.string(),
+  fetched_at: z.string(),
+  source_type: DataSourceSchema,
+});
+
+export const CropParamsSchema = z.object({
+  code: z.string(),
+  family: z.string(),
+  kc_ini: z.number(),
+  kc_mid: z.number(),
+  kc_end: z.number(),
+  stages: z.array(z.number()),
+  sowing_month: z.number(),
+  sowing_day: z.number(),
+  season_days: z.number(),
+  suggestible: z.boolean(),
+});
+export type CropParams = z.infer<typeof CropParamsSchema>;
+
+export const WaterBalanceSchema = z.object({
+  field_id: z.string(),
+  crop: z.string(),
+  season: z.enum(["last", "current"]),
+  status: z.enum(["ok", "season_not_active"]),
+  source_type: DataSourceSchema,
+  method: z.string(),
+  sowing: z.string().nullable(),
+  harvest: z.string().nullable(),
+  covered_until: z.string().nullable(),
+  missing_days: z.number(),
+  totals: z
+    .object({
+      precip_mm: z.number(),
+      et0_mm: z.number(),
+      etc_mm: z.number(),
+      deficit_mm: z.number(),
+      coverage_pct: z.number().nullable(),
+    })
+    .nullable(),
+  days: z.array(
+    z.object({
+      date: z.string(),
+      kc: z.number(),
+      et0: z.number().nullable(),
+      etc: z.number().nullable(),
+      precip: z.number().nullable(),
+    }),
+  ),
+  crop_params: CropParamsSchema,
+  data_sources: z.array(DataSourceRefSchema),
+  assumptions: z.array(z.string()),
+  uncertainty_note: z.string(),
+});
+export type WaterBalance = z.infer<typeof WaterBalanceSchema>;
+
+const PlanSchema = z.object({
+  label: z.enum(["current", "suggested", "custom"]),
+  crops: z.array(z.string()),
+  years: z.array(
+    z.object({
+      year: z.number(),
+      crop: z.string(),
+      etc_mm: z.number().nullable(),
+      precip_mm: z.number().nullable(),
+      coverage_pct: z.number().nullable(),
+    }),
+  ),
+  total_etc_mm: z.number(),
+  total_precip_mm: z.number(),
+  water_score: z.number(),
+  rules_score: z.number(),
+  score: z.number(),
+  rules: z.array(z.object({ code: z.string(), passed: z.boolean(), years: z.array(z.number()) })),
+});
+export type Plan = z.infer<typeof PlanSchema>;
+
+export const RotationSchema = z.object({
+  field_id: z.string(),
+  source_type: DataSourceSchema,
+  method: z.string(),
+  weights: z.record(z.string(), z.number()),
+  history: z.array(z.object({ season_year: z.number(), crop: z.string() })),
+  conditions: z.object({
+    annual_precip_mm: z.number().nullable(),
+    mean_temp_c: z.number().nullable(),
+    frost_days: z.number(),
+    start: z.string(),
+    end: z.string(),
+    source_type: DataSourceSchema,
+  }),
+  crops: z.array(
+    z.object({
+      code: z.string(),
+      family: z.string(),
+      season_start: z.string(),
+      season_end: z.string(),
+      etc_mm: z.number(),
+      precip_mm: z.number(),
+      coverage_pct: z.number().nullable(),
+    }),
+  ),
+  plans: z.array(PlanSchema),
+  data_sources: z.array(DataSourceRefSchema),
+  assumptions: z.array(z.string()),
+  uncertainty_note: z.string(),
+});
+export type Rotation = z.infer<typeof RotationSchema>;

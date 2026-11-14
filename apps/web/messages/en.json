@@ -371,5 +371,105 @@
         "use": "Slope and runoff context"
       }
     }
+  },
+  "planning": {
+    "tabs": {
+      "water": "Water management",
+      "rotation": "Crop rotation"
+    },
+    "assumptions": {
+      "title": "Assumptions",
+      "grid_cell_climate": "Climate inputs describe the ≈55 km NASA POWER grid cell, not a point inside the field.",
+      "fao56_typical_kc": "Crop coefficients and stage lengths are typical FAO-56 values, not calibrated for this field.",
+      "sowing_date_assumed": "The sowing date is a typical date for Central Anatolia, not the field's real date.",
+      "no_soil_storage": "Soil water storage, groundwater and runoff are not modelled.",
+      "rain_not_effective": "All rainfall is counted; the share that actually reaches the roots may be smaller.",
+      "not_prescription": "This is an indicator for comparison, not an irrigation prescription.",
+      "same_climate_each_year": "Every plan year uses the climate of each crop's most recent complete season.",
+      "rules_simplified": "Rotation rules are simplified agronomic guidelines, not local expert advice.",
+      "not_yield": "Scores compare plans; they are not yield predictions and give no fertiliser or pesticide advice."
+    },
+    "uncertainty": {
+      "grid_cell_not_field": "Values describe a ≈55 km grid cell. A field can be wetter or drier than its cell.",
+      "score_not_yield": "A higher score means more of the plan's water demand is met by typical rain and more rotation rules are followed. It is not a yield estimate."
+    },
+    "water": {
+      "title": "Water",
+      "emphasis": "management",
+      "description": "How much of a crop's water demand rainfall covered, from NASA POWER climate and the FAO-56 method.",
+      "crop": "Crop",
+      "season": "Season",
+      "seasons": {
+        "last": "Last complete season",
+        "current": "Current season"
+      },
+      "coverage": "In {period}, rainfall covered about {pct}% of the estimated water demand of {crop}.",
+      "surplus": "Rainfall exceeded the estimated crop demand by {mm} mm.",
+      "shortfall": "Estimated crop demand exceeded rainfall by {mm} mm.",
+      "notPrescription": "This is not an irrigation prescription.",
+      "notActive": "{crop} is not in the ground right now (typical sowing: {date}). Look at the last complete season instead.",
+      "metrics": {
+        "rain": "Rainfall",
+        "rainNote": "NASA POWER, sowing to harvest",
+        "et0": "Reference evapotranspiration ET₀",
+        "et0Note": "FAO-56 Penman–Monteith",
+        "etc": "Crop water demand ETc",
+        "etcNote": "Kc × ET₀",
+        "deficit": "Balance",
+        "deficitNote": "ETc − rainfall"
+      },
+      "chartTitle": "Cumulative rainfall and crop water demand",
+      "rainSeries": "Rainfall",
+      "etcSeries": "Crop demand (ETc)",
+      "kcTitle": "Crop coefficient Kc over the season",
+      "period": "Sowing {sowing} · harvest {harvest} · data until {until}",
+      "stages": "Stages (days): initial {ini} · development {dev} · mid-season {mid} · late {late}",
+      "methodTitle": "How was this calculated?",
+      "steps": {
+        "s1": "Daily NASA POWER values for the field's grid cell: max/min temperature, humidity, wind, solar radiation, rainfall.",
+        "s2": "Reference evapotranspiration ET₀ with the FAO-56 Penman–Monteith equation (validated against FAO-56 Example 18).",
+        "s3": "Crop water demand ETc = Kc × ET₀, with Kc following the crop's four growth stages.",
+        "s4": "Balance = ETc − rainfall, summed from sowing to harvest. Days with missing inputs are left out on both sides."
+      }
+    },
+    "rotation": {
+      "title": "Crop",
+      "emphasis": "rotation",
+      "description": "Your current plan next to an alternative, scored with open rules and the water demand of each crop in this grid cell.",
+      "historyTitle": "Field history",
+      "conditionsTitle": "Field conditions, last 12 months",
+      "annualRain": "Rainfall",
+      "meanTemp": "Mean temperature",
+      "frostDays": "Frost days",
+      "cropsTitle": "Water demand by crop",
+      "cropsLead": "Most recent complete season in this grid cell (ETc vs rainfall).",
+      "current": "Current plan",
+      "suggested": "Alternative plan",
+      "suggestedTag": "Suggested",
+      "currentLead": "Continues the field's last two-season cycle.",
+      "suggestedLead": "Best score in the crop catalogue; edit any year.",
+      "yearCrop": "Crop in {year}",
+      "total": "Total over 3 years",
+      "covered": "covered by rain",
+      "score": "Plan score",
+      "waterFit": "Water fit",
+      "rulesFit": "Rotation rules",
+      "weights": "Score = {water}% water fit + {rules}% rotation rules",
+      "rules": {
+        "no_repeat": "Same crop not grown twice in a row",
+        "cereal_limit": "No three cereals in a row",
+        "legume_break": "At least one legume in the plan",
+        "beet_interval": "Sugar beet at most once every 3 years",
+        "rainfed_water": "Rain covers at least half the demand (rainfed field)"
+      },
+      "ruleYears": "years {years}",
+      "whyTitle": "Why this alternative?",
+      "whyWater": "It needs about {pct}% less water ({mm} mm over three years).",
+      "whyMoreWater": "It needs about {pct}% more water ({mm} mm over three years).",
+      "whyRules": "It passes {passed} of {total} rotation rules (current plan: {current}).",
+      "whyLegume": "It includes a legume, which breaks cereal disease cycles.",
+      "reset": "Reset plans",
+      "recalculating": "Recalculating"
+    }
   }
 }
