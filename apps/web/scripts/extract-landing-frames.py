@@ -37,7 +37,7 @@ def main() -> None:
     parser.add_argument("--start", type=float, default=0.0)
     parser.add_argument("--end", type=float, required=True)
     parser.add_argument("--fps", type=float, default=15)
-    parser.add_argument("--quality", type=int, default=72)
+    parser.add_argument("--quality", type=int, default=85)
     args = parser.parse_args()
 
     with tempfile.TemporaryDirectory() as tmp:

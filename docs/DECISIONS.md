@@ -215,7 +215,10 @@ Yazı tipi Plus Jakarta Sans (italik dahil) + sayılar için Geist Mono. D-003't
   aynen geçerli: başlık + CTA ilk karede, native scroll + sticky bölüm (scroll hijack yok), boşta döngü yok (kare yalnız
   kaydırma değişince çizilir), `prefers-reduced-motion` / Save-Data → statik poster, son kare gerçek UI önizlemesine döner.
 - Kesim **0–6,875 sn**: 7,0 sn'de cihaz ekranında uydurma bir panel (rastgele sayılar) beliriyor; gösterilmez.
-  15 fps → 103 kare; `wide` 1280×720 (yatay ekran, 5,4 MB) ve `tall` 405×720 orta kırpım (dikey telefon, 2,0 MB), WebP.
+  15 fps → 103 kare; `wide` 1280×720 (yatay ekran, 8,1 MB) ve `tall` 405×720 orta kırpım (dikey telefon, 3,0 MB), WebP q85.
+  Kare seti pencere yönüne göre canlı seçilir (`orientation` media query; yeniden boyutlandırmada değişir). Kare
+  **kırpılmaz**: ekrana sığdırılır (contain), boşluklar aynı karenin bulanık + koyulaştırılmış kopyasıyla dolar.
+  Kaynak 720p olduğu için geniş ekranda netlik kaynağın üstüne çıkamaz; 1080p/4K export gelirse aynı betikle değiştirilir.
   Kareler kademeli yüklenir (önce her 16. kare, sonra aradakiler; 4 paralel istek); çizimde en yakın yüklü kare kullanılır.
 - Video yenilenirse tek komut: `python apps/web/scripts/extract-landing-frames.py video.mp4 --end <sn>` (kareleri ve
   `src/lib/landing-frames.ts`'yi yeniden üretir; ses atılır).

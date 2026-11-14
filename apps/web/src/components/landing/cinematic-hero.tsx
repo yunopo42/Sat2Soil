@@ -42,11 +42,16 @@ const FIELD_PATH = (() => {
   );
 })();
 
-const subscribeNever = () => () => {};
+const PORTRAIT = "(orientation: portrait)";
+function subscribeShape(onChange: () => void) {
+  const query = window.matchMedia(PORTRAIT);
+  query.addEventListener("change", onChange);
+  return () => query.removeEventListener("change", onChange);
+}
 function readDevice(): "wide" | "tall" | "static" {
   const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
   if (saveData) return "static";
-  return window.innerHeight > window.innerWidth ? "tall" : "wide";
+  return window.matchMedia(PORTRAIT).matches ? "tall" : "wide";
 }
 
 /** Progressive load order: every 16th frame first, then halve the gap, so scrubbing works early. */
@@ -79,9 +84,11 @@ export function CinematicHero() {
   const frames = useRef<(HTMLImageElement | null)[]>([]);
   const target = useRef(0);
   const pending = useRef(0);
-  // Server and first paint: the static poster. On the client: portrait phones get the 9:16 crop,
-  // reduced motion and Save-Data keep the poster only.
-  const device = useSyncExternalStore(subscribeNever, readDevice, () => "server");
+  const backdrop = useRef<HTMLCanvasElement | null>(null);
+  // Server and first paint: the static poster. On the client: portrait screens get the 9:16 crop,
+  // landscape screens the 16:9 frames (re-evaluated when the window changes shape); reduced
+  // motion and Save-Data keep the poster only.
+  const device = useSyncExternalStore(subscribeShape, readDevice, () => "server");
   const set: FrameSet = device === "tall" ? "tall" : "wide";
   const animated = device !== "server" && device !== "static" && !reduce;
   const { scrollYProgress } = useScroll({ target: section, offset: ["start start", "end end"] });
@@ -106,9 +113,24 @@ export function CinematicHero() {
     }
     const ctx = el.getContext("2d");
     if (!ctx) return;
-    const scale = Math.max(w / image.naturalWidth, h / image.naturalHeight); // object-fit: cover
-    const dw = image.naturalWidth * scale;
-    const dh = image.naturalHeight * scale;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+    const iw = image.naturalWidth;
+    const ih = image.naturalHeight;
+
+    // Backdrop: the same frame shrunk to a few pixels and stretched back (a cheap blur), darkened.
+    backdrop.current ??= Object.assign(document.createElement("canvas"), { width: 48, height: 48 });
+    const tiny = backdrop.current;
+    tiny.getContext("2d")?.drawImage(image, 0, 0, tiny.width, tiny.height);
+    const cover = Math.max(w / iw, h / ih);
+    ctx.drawImage(tiny, (w - iw * cover) / 2, (h - ih * cover) / 2, iw * cover, ih * cover);
+    ctx.fillStyle = "rgba(11, 31, 58, 0.55)";
+    ctx.fillRect(0, 0, w, h);
+
+    // The frame itself, never cropped and never upscaled more than the screen needs.
+    const fit = Math.min(w / iw, h / ih);
+    const dw = iw * fit;
+    const dh = ih * fit;
     ctx.drawImage(image, (w - dw) / 2, (h - dh) / 2, dw, dh);
   };
   const schedule = () => {
@@ -174,8 +196,17 @@ export function CinematicHero() {
       <div className={cn("relative overflow-hidden", animated ? "sticky top-0 h-dvh" : "min-h-[92dvh]")}>
         {/* Poster: first frame, server-rendered (also the reduced-motion / Save-Data view). */}
         <picture>
-          <source media="(orientation: portrait)" srcSet={frameSrc("tall", 0)} />
-          <img src={frameSrc("wide", 0)} alt="" fetchPriority="high" className="absolute inset-0 h-full w-full object-cover" />
+          <source media={PORTRAIT} srcSet={frameSrc("tall", 0)} />
+          <img
+            src={frameSrc("wide", 0)}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 h-full w-full scale-110 object-cover blur-2xl brightness-[0.45]"
+          />
+        </picture>
+        <picture>
+          <source media={PORTRAIT} srcSet={frameSrc("tall", 0)} />
+          <img src={frameSrc("wide", 0)} alt="" fetchPriority="high" className="absolute inset-0 h-full w-full object-contain" />
         </picture>
         <canvas ref={canvas} aria-hidden="true" className="absolute inset-0 h-full w-full" />
         <div aria-hidden="true" className="absolute inset-0 bg-linear-to-r from-navy-900/85 via-navy-900/35 to-transparent" />
