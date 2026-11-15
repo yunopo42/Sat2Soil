@@ -78,8 +78,11 @@ tests · SolidWorks (device CAD), ESP32-S3 hardware.
 - Code: written with the help of an AI coding assistant (Claude); all code was reviewed, tested (unit, end-to-end and
   accessibility tests) and is open source.
 - Landing animation: generated with an AI video tool; labelled "Concept animation (AI-generated)" on the page.
+- Mobile app: not built yet; the screens show the planned design.
 - Mobile app screens in the demo: AI-generated design mockups; watermarked "Design concept · AI-generated mockup ·
   sample values", NASA insignia removed.
+- Device front image (title slide, AgriSpray page, landing): AI-generated render of our prototype, watermarked
+  "AI-generated render". The exploded view is the team's own CAD model (SolidWorks).
 - No AI model makes the agronomic decisions: water balance (FAO-56), rotation rules and scenarios are transparent
   calculations.
 
