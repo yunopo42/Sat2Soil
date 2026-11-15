@@ -20,6 +20,7 @@
 | 9 | ✅ | `/summary` + demo flow + A4 print; `e2e/` Playwright + axe suite (D-029) |
 | + | ✅ | AgriSpray prototype in front: redesigned page, landing section, nav badge, hints (D-030); e2e 22/22 | `/summary` + QA (Playwright + axe, 390 px mobile check, prod smoke test) |
 | + | ✅ | Presentations: `docs/presentation/` (EN 7-slide Space Apps demo + TR 16-slide jury deck, HTML → PDF via `render.py`), `docs/SPACE_APPS_SUBMISSION.md` (project page text). Live e2e 22/22 on 08d740f | Team Hermes Five filled in; AI device render watermarked. Submit on spaceappschallenge.org before 15 Nov 23:59 |
+| + | ✅ | Local pitch deck `sat2soil-pitch-tr` (12 slides, marketing tone, Konya pilot, device as our original angle). Every deck has PDF + editable PPTX (`make_pptx.py`: background picture + text boxes, Segoe UI/Consolas) | — |
 
 Every page is built; `ComingSoon` is no longer used. Specs: `docs/PRODUCT_SCOPE.md`, `docs/UI_UX_DESIGN.md`,
 `docs/ANALYSIS_AI.md` (§3 digital twin, §4 AgriSpray), `apps/web/task.md`, `services/api/task.md`.

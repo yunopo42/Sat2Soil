@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920">
+<title>Sat2Soil · Konya pilot sunumu</title>
+<link rel="stylesheet" href="deck.css">
+<style>
+  .q { font-size: 44px; font-weight: 800; line-height: 1.15; letter-spacing: -.01em; }
+  .big-num { font: 600 72px/1 "Geist Mono", monospace; color: var(--green-700); letter-spacing: -.03em; }
+  .feat { position: absolute; width: 400px; }
+  .feat h3 { font-size: 26px; margin-bottom: 4px; }
+  .feat p { font-size: 20px; line-height: 1.35; color: var(--muted); }
+  .dot { width: 18px; height: 18px; border-radius: 50%; background: var(--brand-orange); display: inline-block; margin-right: 10px; vertical-align: middle; }
+  .yes { color: var(--green-600); font-weight: 800; font-size: 30px; }
+  .no { color: #b8b0a2; font-weight: 700; font-size: 30px; }
+  .part { color: var(--orange-500); font-weight: 800; font-size: 26px; }
+  .cmp td, .cmp th { text-align: center; }
+  .cmp td:first-child, .cmp th:first-child { text-align: left; }
+  .cmp th.us { color: var(--green-700); }
+  .cmp td.us { background: var(--green-100); }
+  .phase { border-left: 0; }
+  .tag { display: inline-block; font: 600 18px "Geist Mono", monospace; color: var(--green-700); letter-spacing: .08em; text-transform: uppercase; }
+</style>
+</head>
+<body>
+
+<!-- 1 · Kapak -->
+<section class="slide dark" style="padding-right: 0">
+  <div class="row grow" style="gap: 0">
+    <div class="col" style="flex: 1.2; justify-content: center; gap: 0">
+      <div class="row center" style="gap: 22px">
+        <img src="assets/space-apps-konya.webp" alt="NASA Space Apps Konya" style="height: 96px; border-radius: 16px">
+        <div class="eyebrow">Pilot bölge · Konya Ovası</div>
+      </div>
+      <div class="wordmark mt" style="font-size: 120px">
+        <div class="w">Sat<img src="assets/logo-device.png" alt="2">Soil</div>
+        <div class="soil"></div>
+      </div>
+      <h2 style="font-size: 66px; margin-top: 40px">Uydunun gözü,<br><em>tarlanın içinde.</em></h2>
+      <p class="lead" style="max-width: 1000px">NASA uydu verisi, cebinizdeki uygulama ve elinizdeki saha cihazı: tarlanız için ne ekeceğinize, suyunuzu nasıl kullanacağınıza ve ilacın her yere ulaşıp ulaşmadığına birlikte karar verin.</p>
+      <p class="small mt" style="color: #9fb0c6"><b style="color:#fff">Hermes Five</b> · Yunus Emre Atmaz · Ela Nur Göçel · Onur Bayram · Umut Talha Berberoğlu · Mehmet Ali Alkan</p>
+    </div>
+    <div style="flex: .9; position: relative">
+      <img src="assets/agrispray-device.webp" alt="Sat2Soil saha cihazı, yapay zekâ ile üretilmiş görsel" style="position: absolute; right: 150px; top: 30px; height: 900px; filter: drop-shadow(0 30px 60px rgba(0,0,0,.45))">
+    </div>
+  </div>
+</section>
+
+<!-- 2 · Çiftçinin üç sorusu -->
+<section class="slide">
+  <div class="eyebrow">Her sezon aynı sorular</div>
+  <h2>Konya'da bir çiftçinin <em>üç büyük sorusu</em></h2>
+  <div class="grid3 mt grow" style="align-items: stretch">
+    <div class="card col" style="justify-content: space-between">
+      <div class="big-num">01</div>
+      <p class="q">“Bu sezon ne ekeyim?”</p>
+      <p class="muted">Aynı ürünü üst üste ekmek toprağı yorar; yeni ürün ise risk demek.</p>
+    </div>
+    <div class="card col" style="justify-content: space-between">
+      <div class="big-num" style="color: var(--sky-600)">02</div>
+      <p class="q">“Suyum bu ürüne yetecek mi?”</p>
+      <p class="muted">Kurak yazlar ve azalan yeraltı suyu, su isteyen ürünlerde hatayı pahalı yapar.</p>
+    </div>
+    <div class="card col" style="justify-content: space-between">
+      <div class="big-num" style="color: var(--orange-500)">03</div>
+      <p class="q">“İlaç tarlanın her yerine eşit gitti mi?”</p>
+      <p class="muted">Bir köşe çok, bir köşe az ilaç alırsa hem para hem ürün kaybedilir.</p>
+    </div>
+  </div>
+  <div class="card green mt"><p style="font-size: 30px"><b>Sat2Soil bu üç soruyu tek sistemde cevaplamak için tasarlandı:</b> uydudan bölgenin iklimi, tarladan toprağın ve ilacın durumu.</p></div>
+  <div class="foot"><span>Sat2Soil · Konya pilot sunumu</span><span>2</span></div>
+</section>
+
+<!-- 3 · Neden Konya -->
+<section class="slide">
+  <div class="row grow">
+    <div class="col" style="flex: .8">
+      <div class="eyebrow">Pilot bölge</div>
+      <h2>Neden <em>Konya Ovası?</em></h2>
+      <ul class="ticks mt-s">
+        <li><b>Türkiye'nin tahıl ambarı:</b> doğru kararın etkisi en büyük burada</li>
+        <li><b>Su baskısı:</b> kuraklık ve yeraltı suyu, her ekim kararını su kararına çeviriyor</li>
+        <li><b>Buğday ↔ şeker pancarı döngüsü:</b> alternatif rotasyonların en çok fark yaratacağı yer</li>
+        <li><b>Geniş, düz parseller:</b> nokta nokta saha ölçümü için ideal</li>
+        <li><b>Yerel ekip:</b> çiftçiye, kooperatife ve ziraat odasına yakınız</li>
+      </ul>
+      <div class="card soft mt-s"><p class="small">Demo tarlamız: <b>Konya Ovası örnek parseli (5 ha)</b>. Verileri NASA POWER'dan, bugün canlı geliyor.</p></div>
+    </div>
+    <div class="col" style="flex: 1.2; justify-content: center">
+      <img class="shot" src="assets/web-field-tr.webp" alt="Konya örnek parsel tarla paneli" style="height: 740px">
+      <div class="cap">Canlı uygulama · Konya Ovası örnek parsel · NASA GIBS uydu görüntüsü + NASA POWER iklim verisi</div>
+    </div>
+  </div>
+  <div class="foot"><span>Pilot: Konya Ovası</span><span>3</span></div>
+</section>
+
+<!-- 4 · Sat2Soil nedir -->
+<section class="slide">
+  <div class="eyebrow">Sat2Soil nedir?</div>
+  <h2>Üç parça, <em>tek karar sistemi</em></h2>
+  <div class="flow mt">
+    <div class="card col">
+      <span class="badge b-live" style="align-self: flex-start">Gerçek NASA verisi</span>
+      <h3 style="font-size: 36px">Uydu</h3>
+      <p>NASA POWER ile tarlanızın 20+ yıllık sıcaklık, yağış, nem, rüzgâr ve güneş geçmişi; NASA GIBS uydu görüntüsü.</p>
+    </div>
+    <div class="arrow">+</div>
+    <div class="card green col">
+      <span class="badge b-live" style="align-self: flex-start">Web canlı · mobil tasarımda</span>
+      <h3 style="font-size: 36px">Uygulama</h3>
+      <p>Haritada tarlanızı çizin; ürün rotasyonu, su bütçesi ve “sezon kurak geçerse ne olur?” senaryoları.</p>
+    </div>
+    <div class="arrow">+</div>
+    <div class="card sim col">
+      <span class="badge b-sim" style="align-self: flex-start">Fiziksel prototip</span>
+      <h3 style="font-size: 36px">Saha cihazı</h3>
+      <p>Tarlanın içinden toprak nemi, sıcaklığı, EC ve yapraktaki ilaç izini ölçen el cihazı.</p>
+    </div>
+  </div>
+  <div class="grid2 mt">
+    <div class="card"><h3>NASA görevini nasıl karşılıyoruz?</h3><p class="small">“Field Shift” görevi NASA verisiyle rotasyon kararı destekleyen bir araç istiyor. <b>Web sitemiz ve mobil uygulamamız</b> bunu tek başına karşılıyor.</p></div>
+    <div class="card" style="background: var(--navy-900); color: #fff; border: 0"><h3>Bizi farklı kılan</h3><p class="small" style="color:#c9d4e2">Uydu verisi bölgeseldir. Biz bir adım ileri gidip <b style="color:#fff">tarlanın içini ölçen bir cihaz</b> geliştirebileceğimizi düşündük ve prototipini ürettik.</p></div>
+  </div>
+  <div class="foot"><span>Uydu + uygulama + cihaz</span><span>4</span></div>
+</section>
+
+<!-- 5 · Ürünle tanışın -->
+<section class="slide" style="background: radial-gradient(circle at 50% 55%, #eef3e2 0, #f7f4ee 55%)">
+  <div class="eyebrow">Ürünle tanışın</div>
+  <h2>Sat2Soil <em>saha cihazı</em></h2>
+  <div class="rel grow">
+    <img src="assets/agrispray-device.webp" alt="Sat2Soil saha cihazı, yapay zekâ ile üretilmiş görsel" style="position: absolute; left: 50%; transform: translateX(-50%); top: -30px; height: 820px; filter: drop-shadow(0 30px 40px rgba(15,27,45,.25))">
+    <div class="feat" style="left: 0; top: 30px"><h3><span class="dot"></span>3,5" dokunmatik ekran</h3><p>Sonucu sahada, tarlada görün; telefon şart değil.</p></div>
+    <div class="feat" style="left: 0; top: 250px"><h3><span class="dot"></span>Makro kamera + LED halka</h3><p>Yaprağa yakından bakar, ilaç izini homojen ışıkla çeker.</p></div>
+    <div class="feat" style="left: 0; top: 470px"><h3><span class="dot"></span>GNSS konum</h3><p>Her ölçüm haritadaki noktasına ve saatine kaydedilir.</p></div>
+    <div class="feat" style="right: 0; top: 30px"><h3><span class="dot"></span>Sensör tacı</h3><p>Hava sıcaklığı ve nemi: ilaçlama koşulu uygun mu?</p></div>
+    <div class="feat" style="right: 0; top: 250px"><h3><span class="dot"></span>Değiştirilebilir prob</h3><p>3 paslanmaz iğne: toprak nemi, sıcaklığı ve EC (tuzluluk göstergesi).</p></div>
+    <div class="feat" style="right: 0; top: 470px"><h3><span class="dot"></span>Sahaya dayanıklı</h3><p>IP65 conta, darbe bandı, 2× 18650 pil, USB-C şarj.</p></div>
+  </div>
+  <div class="foot"><span>Görsel yapay zekâ ile üretildi · fiziksel prototip ekibimizce SolidWorks'te tasarlandı</span><span>5</span></div>
+</section>
+
+<!-- 6 · Neden özgün -->
+<section class="slide">
+  <div class="eyebrow">Özgünlüğümüz</div>
+  <h2>Uydu ile toprağı <em>aynı raporda</em> buluşturuyoruz</h2>
+  <div class="row mt grow">
+    <div style="flex: 1.35">
+      <table class="cmp">
+        <tr><th></th><th>Yalnız uydu<br>uygulaması</th><th>Yalnız toprak<br>sensörü</th><th class="us">Sat2Soil</th></tr>
+        <tr><td>Bölgenin 20+ yıllık iklim geçmişi</td><td class="yes">✓</td><td class="no">–</td><td class="us yes">✓</td></tr>
+        <tr><td>Tarlanın içinden toprak ölçümü</td><td class="no">–</td><td class="yes">✓</td><td class="us yes">✓</td></tr>
+        <tr><td>Yapraktaki ilaç izinin kontrolü</td><td class="no">–</td><td class="no">–</td><td class="us yes">✓</td></tr>
+        <tr><td>Rotasyon ve su planı, gerekçesiyle</td><td class="part">~</td><td class="no">–</td><td class="us yes">✓</td></tr>
+        <tr><td>Sahada internetsiz çalışma</td><td class="no">–</td><td class="part">~</td><td class="us yes">✓</td></tr>
+        <tr><td>Tek cihazla birden çok tarla</td><td class="part">~</td><td class="no">–</td><td class="us yes">✓</td></tr>
+      </table>
+      <p class="tiny muted" style="margin-top: 12px">Karşılaştırma ürün kategorileri içindir, belirli bir markayı değil tipik yaklaşımı gösterir. Sat2Soil sütunu hedef sistemdir.</p>
+    </div>
+    <div class="col" style="flex: .65">
+      <div class="card green"><h3>Uydu “ne olabilir?”i söyler</h3><p class="small">Bölgenin iklimi, kuraklık, don ve yağış geçmişi.</p></div>
+      <div class="card sim"><h3>Cihaz “ne oldu?”yu söyler</h3><p class="small">Bu tarlada, bu noktada, bugün toprak ve ilaç.</p></div>
+      <div class="card" style="background: var(--navy-900); color: #fff; border: 0"><h3>Sat2Soil “ne yapmalı?”yı açıklar</h3><p class="small" style="color:#c9d4e2">İkisini birleştirip gerekçeli öneri sunar; kararı çiftçi verir.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>Uydu + saha = özgün yaklaşım</span><span>6</span></div>
+</section>
+
+<!-- 7 · Sahada kullanım -->
+<section class="slide">
+  <div class="eyebrow">Sahada bir gün</div>
+  <h2>Tarlaya git, ölç, <em>internetsiz</em> sonucu gör</h2>
+  <div class="row mt grow">
+    <div class="col" style="flex: 1.3">
+      <img class="shot contain" src="assets/mobile-device-tr.webp" alt="Mobil cihaz bağlantısı tasarımı" style="height: 640px; background: #f7f6f2">
+    </div>
+    <div class="col" style="flex: .7">
+      <ol class="steps">
+        <li><b>Bağlan:</b> cihaz telefona Bluetooth ile bağlanır</li>
+        <li><b>Ölç:</b> haritadaki noktada probu toprağa sok, yaprağı çek</li>
+        <li><b>Gör:</b> ilaç dağılımı ve toprak verisi telefonda, internetsiz</li>
+        <li><b>Karşılaştır:</b> tarlanın 6–7 noktası yan yana</li>
+        <li><b>Senkronla:</b> internet gelince rapor NASA verisiyle birleşir</li>
+      </ol>
+      <div class="card soft" style="padding: 20px 24px"><p class="small">Harita ve tarla bilgileri önceden indirilir; köyde, ovada çekim olmasa da çalışır.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>Mobil ekranlar planlanan uygulamanın tasarımıdır (yapay zekâ ile üretildi, filigranlı)</span><span>7</span></div>
+</section>
+
+<!-- 8 · Çiftçiye ne kazandırır -->
+<section class="slide">
+  <div class="eyebrow">Çiftçiye ne kazandırır?</div>
+  <h2>Tahmin yerine <em>veriyle</em> karar</h2>
+  <div class="grid3 mt grow">
+    <div class="card"><div class="big-num">−%47</div><h3 style="margin-top: 14px">Su tasarrufu fırsatı</h3><p class="small muted">Konya örnek tarlasında sistem, mevcut pancar–buğday döngüsüne göre 3 yılda yaklaşık yarı su isteyen bir rotasyon buldu.</p></div>
+    <div class="card"><div class="big-num" style="color: var(--sky-600)">20</div><h3 style="margin-top: 14px">Riski önceden görün</h3><p class="small muted">Planınız geçmiş 20 sezonla denenir: kurak, normal ve yağışlı yıl nasıl biterdi?</p></div>
+    <div class="card"><div class="big-num" style="color: var(--orange-500)">7</div><h3 style="margin-top: 14px">İlacı nokta nokta kontrol</h3><p class="small muted">Tarlanın farklı noktalarında ilaç izi karşılaştırılır; az ya da çok alan bölge görünür olur.</p></div>
+    <div class="card soft"><h3>Gerekçeli ürün seçimi</h3><p class="small muted">“Neden nohut?” sorusunun cevabı ekranda: su ihtiyacı, rotasyon kuralları, iklim.</p></div>
+    <div class="card soft"><h3>Tek cihaz, tüm tarlalar</h3><p class="small muted">Her tarlanın ölçüm geçmişi, NASA kaydı ve planı ayrı tutulur.</p></div>
+    <div class="card soft"><h3>Kayıt ve güven</h3><p class="small muted">Her sayı kaynağıyla gelir; danışmana, kooperatife gösterilebilir rapor.</p></div>
+  </div>
+  <div class="foot"><span>Değerler örnek tarla için NASA POWER ile hesaplandı; verim tahmini ve sulama reçetesi değildir</span><span>8</span></div>
+</section>
+
+<!-- 9 · Bugün çalışıyor -->
+<section class="slide">
+  <div class="eyebrow">Bugün çalışıyor</div>
+  <h2>Web uygulaması <em>canlıda</em>, kendiniz deneyin</h2>
+  <div class="grid3 mt grow" style="gap: 24px">
+    <div class="col" style="gap: 10px"><img class="shot" src="assets/web-rotation-plans-tr.webp" alt="Ürün rotasyonu" style="height: 560px"><p class="cap">Ürün rotasyonu · mevcut ve alternatif plan</p></div>
+    <div class="col" style="gap: 10px"><img class="shot" src="assets/web-twin-tr.webp" alt="Dijital ikiz" style="height: 560px"><p class="cap">Dijital ikiz · kurak / normal / yağışlı sezon</p></div>
+    <div class="col" style="gap: 10px"><img class="shot" src="assets/web-spray-tr.webp" alt="AgriSpray" style="height: 560px"><p class="cap">AgriSpray · ölçüm noktaları ve ilaç kartı</p></div>
+  </div>
+  <div class="card row center" style="margin-top: 22px; justify-content: space-between; padding: 22px 32px">
+    <p style="font-size: 30px"><b class="mono" style="color: var(--green-700)">sat2-soil.vercel.app</b> → “Demoyu başlat” → Konya örnek tarla</p>
+    <span class="badge b-live">NASA verisi gerçek</span>
+  </div>
+  <div class="foot"><span>Cihaz verileri demoda simüle ve etiketlidir</span><span>9</span></div>
+</section>
+
+<!-- 10 · Mobil uygulama -->
+<section class="slide">
+  <div class="row grow">
+    <div class="col" style="flex: .75">
+      <div class="eyebrow">Mobil uygulama</div>
+      <h2>Tarlanız <em>cebinizde</em></h2>
+      <ul class="ticks mt-s">
+        <li>Tarlalarım: haritada tüm parseller</li>
+        <li>Su durumu, ürün planı, son ölçüm tek ekranda</li>
+        <li>NASA POWER ile haftalık hava</li>
+        <li>Çevrimdışı harita paketi</li>
+        <li>Cihazla tek dokunuşta eşleşme</li>
+      </ul>
+      <div class="card soft mt-s"><p class="small">Web uygulamasının bugün yaptığı her şey, sahaya uygun sade bir arayüzle telefona geliyor.</p></div>
+    </div>
+    <div class="col" style="flex: 1.25; justify-content: center">
+      <img class="shot contain" src="assets/mobile-app-tr.webp" alt="Mobil uygulama tasarımı" style="height: 760px; background: #efe9df">
+    </div>
+  </div>
+  <div class="foot"><span>Planlanan mobil uygulamanın tasarımı (yapay zekâ ile üretildi, filigranlı)</span><span>10</span></div>
+</section>
+
+<!-- 11 · Konya pilot planı -->
+<section class="slide">
+  <div class="eyebrow">Yol haritası</div>
+  <h2>Konya'dan başlayan <em>pilot planımız</em></h2>
+  <div class="grid3 mt">
+    <div class="card"><span class="tag">Aşama 1 · Pilot</span><h3 style="margin-top: 10px">Konya'da saha doğrulaması</h3><ul class="ticks small" style="margin-top: 10px"><li>Gönüllü çiftçilerle pilot tarlalar</li><li>Cihazın veri bağlantısı</li><li>Ölçümlerin laboratuvarla karşılaştırılması</li></ul></div>
+    <div class="card"><span class="tag">Aşama 2 · Ürün</span><h3 style="margin-top: 10px">Mobil uygulama ve model</h3><ul class="ticks small" style="margin-top: 10px"><li>Çevrimdışı mobil uygulama</li><li>İlaç izi modelinin sahada eğitilmesi</li><li>GPM, SMAP, Landsat verileri</li></ul></div>
+    <div class="card"><span class="tag">Aşama 3 · Yaygınlaşma</span><h3 style="margin-top: 10px">Kooperatif ve danışmanlar</h3><ul class="ticks small" style="margin-top: 10px"><li>Ziraat odası ve kooperatif iş birliği</li><li>Ziraat mühendisleri için panel</li><li>Konya'dan diğer ovalara</li></ul></div>
+  </div>
+  <div class="grid3 mt">
+    <div class="card green"><h3>Çiftçi</h3><p class="small">Tarlası için gerekçeli ekim, su ve ilaçlama kararı.</p></div>
+    <div class="card green"><h3>Ziraat mühendisi</h3><p class="small">Birden çok çiftçinin tarlasını aynı panelden takip.</p></div>
+    <div class="card green"><h3>Kooperatif</h3><p class="small">Üyelerine ortak cihaz ve bölge raporu.</p></div>
+  </div>
+  <div class="foot"><span>Plan ve hedef kitlemiz · fiyatlandırma pilot sonrasında belirlenecek</span><span>11</span></div>
+</section>
+
+<!-- 12 · Kapanış -->
+<section class="slide dark">
+  <div class="eyebrow">Sat2Soil</div>
+  <h2 style="font-size: 84px">Uydudan tarlana,<br><em>veriden karara.</em></h2>
+  <p class="lead">NASA'nın uydusu bölgeyi görür, Sat2Soil cihazı tarlanızı ölçer, uygulamamız ikisini birleştirip size gerekçesiyle anlatır.</p>
+  <div class="grid3 mt">
+    <div class="card"><div class="num" style="color:#a9d46f">Konya</div><p class="small" style="color:#c9d4e2; margin-top: 10px">pilot bölgemiz ve demo tarlamız</p></div>
+    <div class="card"><div class="num" style="color:#a9d46f">NASA</div><p class="small" style="color:#c9d4e2; margin-top: 10px">POWER ve GIBS verisi, bugün canlı</p></div>
+    <div class="card"><div class="num" style="color:#a9d46f">1 cihaz</div><p class="small" style="color:#c9d4e2; margin-top: 10px">tüm tarlalarınız için saha ölçümü</p></div>
+  </div>
+  <div class="grid2 mt">
+    <div class="card"><h3>Dene</h3><p class="mono" style="font-size: 30px; color: #a9d46f">sat2-soil.vercel.app</p></div>
+    <div class="card"><h3>Hermes Five</h3><p class="small" style="color:#c9d4e2">Yunus Emre Atmaz · Ela Nur Göçel · Onur Bayram · Umut Talha Berberoğlu · Mehmet Ali Alkan</p></div>
+  </div>
+  <div class="foot"><span>Demo: NASA verisi gerçek · cihaz verisi simüle (prototip henüz veri göndermiyor) · mobil ekranlar tasarım · görseller YZ ile üretildi</span><span>12</span></div>
+</section>
+
+</body>
+</html>
