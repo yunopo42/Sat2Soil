@@ -74,7 +74,9 @@ Before every commit: `pnpm check` and `pnpm build`.
 
 - The DB password was shared in chat earlier: the user should reset it in Supabase and update `.env` + Render (D-021).
 - POWER rainfall totals not yet compared with a ground station (D-019).
-- Not yet checked on production: run the e2e suite against the Vercel/Render URLs (Q12).
+- Production verified 2026-11-15: e2e 21/21 green against https://sat2-soil.vercel.app and
+  https://sat2soil-api.onrender.com. Render did **not** auto-deploy pushes: after a push, check the Render
+  service's Events list and use Manual Deploy → Deploy latest commit if needed.
 - Not yet done: 3-minute rehearsal on the live URL and a backup video (Q14).
 
 ## 6. Protocol at the end of each phase
@@ -89,7 +91,7 @@ Before every commit: `pnpm check` and `pnpm build`.
 ```text
 Sat2Soil projesine devam ediyoruz (https://github.com/yunopo42/Sat2Soil, dal main).
 Önce docs/HANDOFF.md, sonra CLAUDE.md ve docs/DECISIONS.md dosyalarını oku; kurallara aynen uy.
-Faz 0–9 tamam (MVP). Açık işler: prod duman testi (pnpm e2e canlı URL'lerle), sunum provası (Q14),
+Faz 0–9 tamam (MVP), canlıda doğrulandı (e2e 21/21). Açık işler: sunum provası (Q14),
 P1 fikirleri (apps/web/task.md "P1 sonra"). P1 işleri onayım olmadan başlamaz.
 Kurulum eksikse HANDOFF §2'yi uygula; services/api/.env değerlerini bana sor, kendin uydurma.
 Benimle Türkçe konuş. Her iş sonunda pnpm check + pnpm build (+ pnpm e2e), commit + push, HANDOFF.md'yi güncelle.

@@ -207,7 +207,8 @@ Windows'ta API'yi `--reload` ile çalıştır (psycopg async, Proactor döngüs�
   Kareleri yeniden üretmek: `python apps/web/scripts/extract-landing-frames.py video.mp4 --end 6.875`.
 - **Faz 9 tamam:** `/fields/[id]/summary` özet + yöntem/kaynak tablosu + A4 yazdırma, demo akışı hapı
   (`components/shell/demo-tour.tsx`), `e2e/` uçtan uca + axe testleri (21 test, D-029).
-- **Kalan (kullanıcı tarafı):** prod duman testi (`SAT2SOIL_E2E_BASE_URL=… SAT2SOIL_E2E_API_URL=… pnpm e2e`),
-  3 dk sunum provası + yedek video (Q14), DB parolasını değiştirmek. P1 fikirleri `apps/web/task.md` "P1 sonra".
+- **Canlı doğrulandı (2026-11-15):** https://sat2-soil.vercel.app + https://sat2soil-api.onrender.com, e2e 21/21.
+  Render push'ları kendiliğinden deploy etmedi; push sonrası Render Events'i kontrol et.
+- **Kalan (kullanıcı tarafı):** 3 dk sunum provası + yedek video (Q14), DB parolasını değiştirmek. P1 fikirleri `apps/web/task.md` "P1 sonra".
 - **Açık riskler:** DB parolası sohbette paylaşıldı, değiştirilmeli (D-021). POWER yağış toplamı istasyon verisiyle
   karşılaştırılmalı (D-019). Hero/kart görselleri tasarım ekran görüntüsünden kırpıldı; yüksek çözünürlüklü export gelirse değişir.

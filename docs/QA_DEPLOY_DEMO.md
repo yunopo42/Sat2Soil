@@ -7,9 +7,9 @@
 
 ## Canlıya alma checklist
 - [ ] Q01 `main` production, PR preview, Git version/tag.
-- [ ] Q02 API Render URL üzerinde HTTPS `/health` 200, DB connect, request logs, startup/soğuk başlatma test.
+- [x] Q02 API Render URL üzerinde HTTPS `/health` 200, DB connect, request logs, startup/soğuk başlatma test.
 - [ ] Q03 Supabase migration, GIS indexes, RLS default-deny, demo-session workspace isolation.
-- [ ] Q04 Vercel env production/preview ayır, CORS exact domain, secret audit.
+- [x] Q04 Vercel env production/preview ayır, CORS exact domain, secret audit.
 - [x] Q05 `next build`, eslint/typecheck, Python pytest ve API schema testleri temiz.
 - [ ] Q06 NASA POWER gerçek ağ testleri: başarı, 429/500, timeout, eksik değer, yenileme ve cache.
 - [ ] Q07 Tarla çiz → kaydet → sayfa yenile → veri eşleşti; NASA grafik ve değer doğrula.
@@ -17,9 +17,17 @@
 - [x] Q09 AgriSpray: `Konsept cihaz · Simüle` ibaresi, % etkinlik diye yanıltma yok.
 - [ ] Q10 Masaüstü 1440, tablet 768, mobil-web 390; klavye, screenreader, reduced-motion; kritik accessibility issue yok.
 - [ ] Q11 Görsel performans: map/chart lazy load, img optimizasyonu, font, ölçülen Web Vitals.
-- [ ] Q12 Preview ve prod end-to-end Playwright smoke; loglarda hassas veri yok.
+- [x] Q12 Preview ve prod end-to-end Playwright smoke; loglarda hassas veri yok.
 - [x] Q13 API erişilemezse görünür `Önbellek` / `Örnek demo` fallback; hatada boş beyaz ekran yok.
 - [ ] Q14 3 dakikalık sunum provasını canlı URL üzerinden yap; ekran görüntüsü ve kısa yedek video al.
+
+## Canlı doğrulama (2026-11-15)
+- Web: https://sat2-soil.vercel.app · API: https://sat2soil-api.onrender.com (commit `ac9f804`).
+- `/health` 200, `database: ok`; soğuk başlatma ~34 sn. CORS yalnız Vercel adresine izin veriyor.
+- `SAT2SOIL_E2E_BASE_URL=https://sat2-soil.vercel.app SAT2SOIL_E2E_API_URL=https://sat2soil-api.onrender.com pnpm e2e`
+  → **21/21 geçti** (jüri akışı, 10 sayfada axe, API kesintisi).
+- **Dikkat:** Render yeni commit'leri kendiliğinden deploy etmedi (Faz 3'te kalmıştı). Push sonrası Render'da
+  "Manual Deploy → Deploy latest commit" gerekebilir; Settings → Auto-Deploy "On Commit" olmalı.
 
 ## Tek akışlı sunum
 Landing → örnek tarla / poligon çizimi → gerçek POWER grafik/künye → su & rotasyon kıyas → dijital ikiz senaryo → AgriSpray `simüle cihaz` ve kart analizi → etki/gelecek.
