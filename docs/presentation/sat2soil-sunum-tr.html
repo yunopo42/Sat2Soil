@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920">
+<title>Sat2Soil · Jüri sunumu</title>
+<link rel="stylesheet" href="deck.css">
+</head>
+<body>
+
+<!-- 1 · Kapak -->
+<section class="slide dark" style="padding-right: 0">
+  <div class="row grow" style="gap: 0">
+    <div class="col" style="flex: 1.15; justify-content: center; gap: 0">
+      <div class="row center" style="gap: 22px">
+        <img src="assets/space-apps-konya.webp" alt="NASA Space Apps Konya" style="height: 96px; border-radius: 16px">
+        <div class="eyebrow">NASA Space Apps 2026 · Konya</div>
+      </div>
+      <div class="wordmark mt" style="font-size: 132px">
+        <div class="w">Sat<img src="assets/logo-device.png" alt="2">Soil</div>
+        <div class="soil"></div>
+      </div>
+      <h2 style="font-size: 60px; margin-top: 40px">Uydudan tarlana,<br><em>veriden karara.</em></h2>
+      <p class="lead" style="max-width: 1000px">NASA Dünya gözlem verilerini tarlanın içinden alınan ölçümlerle aynı karar destek platformunda birleştiriyoruz.</p>
+      <div class="mt card" style="max-width: 1000px; padding: 26px 32px">
+        <p class="small"><b>Görev (challenge):</b> Field Shift: Adapting Farms with NASA Data</p>
+        <p class="small" style="margin-top: 6px"><b>Takım:</b> <span data-team-name>[Takım adı]</span> · <span data-team-members>[Takım üyeleri]</span></p>
+        <p class="small mono" style="margin-top: 6px">sat2-soil.vercel.app · github.com/yunopo42/Sat2Soil</p>
+      </div>
+    </div>
+    <div style="flex: 1; position: relative">
+      <img src="assets/agrispray-device.webp" alt="Sat2Soil el cihazı prototipi" style="position: absolute; right: 120px; top: 20px; height: 900px; filter: drop-shadow(0 30px 60px rgba(0,0,0,.45))">
+      <span class="badge b-sim" style="position: absolute; right: 160px; bottom: 30px">Prototip · demoda simüle veri</span>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · Problem -->
+<section class="slide">
+  <div class="eyebrow">Problem</div>
+  <h2>Çiftçi kararı <em>tarla tarla</em> verir; iklim verisi ise bölgeseldir.</h2>
+  <div class="grid3 mt">
+    <div class="card"><h3>Değişen iklim</h3><p class="muted">Konya Ovası'nda sıcak ve kurak yazlar, ilkbahar donları, düzensiz yağış.</p></div>
+    <div class="card"><h3>Su tüketen döngüler</h3><p class="muted">Buğday ↔ şeker pancarı tekrarı azalan yeraltı suyuna yük bindiriyor. Alternatifleri karşılaştırmak zor.</p></div>
+    <div class="card"><h3>Uydu ≠ tarla</h3><p class="muted">NASA POWER'ın bir ızgara hücresi ≈ 55 km. Bağlam verir; tek bir tarlanın ölçümü değildir.</p></div>
+  </div>
+  <div class="card green mt">
+    <p style="font-size: 28px"><b>NASA görevi (Field Shift):</b> NASA Dünya gözlemlerini yerel toprak bilgisi, ürün özellikleri ve çiftçi öncelikleriyle birleştirip, toprak sağlığını koruyan ve değişen iklime uyum sağlayan <b>ürün rotasyonu stratejilerini</b> keşfetmeye yardım eden bir karar destek aracı.</p>
+  </div>
+  <div class="foot"><span>Sat2Soil · Jüri sunumu</span><span>2</span></div>
+</section>
+
+<!-- 3 · Çözüm: iki bileşen -->
+<section class="slide">
+  <div class="eyebrow">Çözümümüz</div>
+  <h2>Birbirini tamamlayan <em>iki bileşen</em>.</h2>
+  <div class="flow mt">
+    <div class="card green col">
+      <span class="badge b-live" style="align-self: flex-start">Çalışıyor · canlı</span>
+      <h3 style="font-size: 38px">① NASA destekli tarımsal planlama</h3>
+      <p>Hangi ürünü ekeceği, ürün rotasyonu ve su kaynaklarını nasıl yöneteceği konusunda çiftçiye açıklanabilir karar desteği.</p>
+      <ul class="ticks small"><li>Tarla sınırı çizimi (NASA GIBS altlığı)</li><li>NASA POWER iklim geçmişi</li><li>FAO-56 su bütçesi · rotasyon karşılaştırması</li><li>Dijital ikiz: 20 geçmiş sezonla senaryo</li></ul>
+    </div>
+    <div class="arrow">+</div>
+    <div class="card sim col">
+      <span class="badge b-sim" style="align-self: flex-start">Fiziksel prototip · veri henüz simüle</span>
+      <h3 style="font-size: 38px">② Taşınabilir saha analiz cihazı</h3>
+      <p>Tarlanın farklı noktalarında toprak ölçümü ve doğrudan yaprak görüntülemesiyle ilaçlama uygulamasını değerlendirme.</p>
+      <ul class="ticks small"><li>Toprak nemi · sıcaklığı · EC</li><li>Makro kamera: görünür püskürtme izi (SprayVision)</li><li>Konum + zaman damgalı her ölçüm</li><li>Çevrimdışı: BLE + yerel Wi-Fi</li></ul>
+    </div>
+  </div>
+  <div class="foot"><span>NASA yarışmasında ana çözüm: rotasyon, su, iklim uyumu · Girişimcilikte öne çıkan: cihaz</span><span>3</span></div>
+</section>
+
+<!-- 4 · Sistem akışı -->
+<section class="slide">
+  <div class="eyebrow">Sistem nasıl çalışır?</div>
+  <h2>Uydudan, telefondan, cihazdan gelen veri <em>tek raporda</em>.</h2>
+  <div class="flow mt">
+    <div class="card"><p class="small muted">1</p><h3>Tarla tanımı</h3><p class="small">Haritadan sınır çizimi, ölçüm noktaları, ürün geçmişi, sulama imkânı.</p></div>
+    <div class="arrow">→</div>
+    <div class="card"><p class="small muted">2</p><h3>NASA verisi</h3><p class="small">Tarla koordinatı için POWER günlük seriler (2004 → bugün) otomatik çekilir.</p></div>
+    <div class="arrow">→</div>
+    <div class="card"><p class="small muted">3</p><h3>Saha ölçümü</h3><p class="small">İlaçlama sonrası her noktada yaprak fotoğrafı + nem, sıcaklık, EC.</p></div>
+    <div class="arrow">→</div>
+    <div class="card"><p class="small muted">4</p><h3>Telefonda analiz</h3><p class="small">BLE / yerel Wi-Fi ile aktarım; SprayVision çevrimdışı çalışır.</p></div>
+    <div class="arrow">→</div>
+    <div class="card"><p class="small muted">5</p><h3>Senkron + rapor</h3><p class="small">İnternet gelince sunucuya kayıt, NASA verileriyle eşleştirme, web raporu.</p></div>
+  </div>
+  <div class="grid3 mt">
+    <div class="card soft"><h3>Web (Next.js · Vercel)</h3><p class="small muted">Harita, grafikler, raporlar. EN + TR arayüz.</p></div>
+    <div class="card soft"><h3>API (FastAPI · Render)</h3><p class="small muted">NASA adaptörü, FAO-56, rotasyon, senaryo ve AgriSpray motorları.</p></div>
+    <div class="card soft"><h3>Veri (Supabase · PostGIS)</h3><p class="small muted">Tarla geometrisi, geçmiş, ölçüm kayıtları; her tarla ayrı.</p></div>
+  </div>
+  <div class="foot"><span>Adım 3–4 hedef mimari: cihaz ve mobil uygulama henüz veri göndermiyor</span><span>4</span></div>
+</section>
+
+<!-- 5 · NASA verileri -->
+<section class="slide">
+  <div class="row grow">
+    <div class="col" style="flex: 1">
+      <div class="eyebrow">NASA verileri</div>
+      <h2>Gerçek kaynaktan, <em>künyesiyle</em>.</h2>
+      <table class="mt-s">
+        <tr><th>Kaynak</th><th>Sat2Soil'daki görevi</th><th>Durum</th></tr>
+        <tr><td>POWER</td><td>Sıcaklık, nem, rüzgâr, güneş radyasyonu, yağış (PRECTOTCORR), iklim geçmişi</td><td><span class="badge b-live">Canlı</span></td></tr>
+        <tr><td>GIBS</td><td>Tarih etiketli uydu altlığı (HLS S30, Blue Marble)</td><td><span class="badge b-live">Canlı</span></td></tr>
+        <tr><td>GPM / IMERG</td><td>Geçmiş yağış, su bütçesi (≈ 10 km)</td><td><span class="badge b-planned">Planlı</span></td></tr>
+        <tr><td>SMAP</td><td>Bölgesel toprak nemi, kuraklık (≈ 9 km)</td><td><span class="badge b-planned">Planlı</span></td></tr>
+        <tr><td>Landsat</td><td>NDVI, bitki gelişimi</td><td><span class="badge b-planned">Planlı</span></td></tr>
+        <tr><td>SRTM</td><td>Eğim, erozyon koşulları</td><td><span class="badge b-planned">Planlı</span></td></tr>
+      </table>
+    </div>
+    <div class="col" style="flex: 1; justify-content: center">
+      <img class="shot" src="assets/web-climate-tr.webp" alt="NASA Veri Merkezi" style="height: 640px">
+      <div class="cap">Canlı uygulama · NASA Veri Merkezi · Konya örnek tarla</div>
+      <div class="card soft" style="padding: 20px 26px"><p class="small"><b>Kural:</b> POWER yağışı asla GPM/IMERG diye gösterilmez. Bağlı olmayan kaynak “Planlı” yazar, canlı görünmez.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>Uydu verisi bölgesel bağlamdır; tarla içi noktasal ölçüm değildir</span><span>5</span></div>
+</section>
+
+<!-- 6 · Ürün uygunluğu algoritması -->
+<section class="slide">
+  <div class="eyebrow">Karar algoritması</div>
+  <h2>“Şunu ek” demiyoruz; <em>neden</em> uygun olduğunu gösteriyoruz.</h2>
+  <div class="flow mt">
+    <div class="card"><h3>A · Ön eleme</h3><p class="small">Agro-ekolojik uygunluk: sezon sıcaklığı, don ve sıcaklık stresi, gelişme süresi, sulama imkânı. Uymayan ürün elenir.</p></div>
+    <div class="arrow">→</div>
+    <div class="card"><h3>B · Su ihtiyacı</h3><p class="small">FAO-56 Penman–Monteith ile ET<sub>0</sub>, ürün katsayısıyla ET<sub>c</sub>; yağışla karşılaştırma.</p></div>
+    <div class="arrow">→</div>
+    <div class="card"><h3>C · Çok kriterli puan</h3><p class="small">İklim, su, toprak ve rotasyon birlikte; gerekçeli sıralama.</p></div>
+  </div>
+  <div class="row mt center">
+    <div class="formula" style="font-size: 32px; white-space: nowrap">S<sub>i</sub> = 0,30·C<sub>i</sub> + 0,30·W<sub>i</sub> + 0,20·T<sub>i</sub> + 0,20·R<sub>i</sub></div>
+    <p class="small muted" style="max-width: 760px">C iklim · W su · T toprak · R rotasyon (0–100). Ağırlıklar <b>bizim başlangıç önerimiz</b>; NASA/FAO katsayısı değil, ziraat mühendisleriyle kalibre edilecek.</p>
+  </div>
+  <div class="grid2 mt-s">
+    <div class="card green"><p class="small"><b>Bugün çalışan:</b> su uyumu (FAO-56) + açık rotasyon kuralları (aynı ürün üst üste yok, 3 tahıl üst üste yok, baklagil var, pancar 3 yılda bir).</p></div>
+    <div class="card soft"><p class="small"><b>Sonraki adım:</b> FAO GAEZ ürün profilleriyle iklim ve toprak kriterleri; eksik toprak verisinde düşük güven uyarısı.</p></div>
+  </div>
+  <div class="foot"><span>Açıklanabilir, kurala dayalı karar desteği · verim tahmin modeli değildir</span><span>6</span></div>
+</section>
+
+<!-- 7 · Su yönetimi -->
+<section class="slide">
+  <div class="row grow">
+    <div class="col" style="flex: .8">
+      <div class="eyebrow">Su yönetimi</div>
+      <h2>FAO-56 ile <em>su bütçesi</em>.</h2>
+      <div class="formula mt-s">ET<sub>c</sub> = K<sub>c</sub> × ET<sub>0</sub></div>
+      <p class="small"><b>ET<sub>0</sub>:</b> NASA POWER sıcaklık, nem, rüzgâr ve radyasyonundan referans evapotranspirasyon<br><b>K<sub>c</sub>:</b> ürüne ve gelişim dönemine göre katsayı<br><b>ET<sub>c</sub>:</b> bitkinin tahmini su tüketimi</p>
+      <div class="formula" style="font-size: 30px">Net ihtiyaç ≈ ET<sub>c</sub> − P<sub>etkili</sub> − ΔS</div>
+      <div class="card sim" style="padding: 20px 26px"><p class="small">Gösterge, reçete değil: litre bazlı sulama programı üretmiyoruz. Hassas sulama için yerel kalibrasyon ve saha doğrulaması gerekir.</p></div>
+    </div>
+    <div class="col" style="flex: 1.2; justify-content: center">
+      <img class="shot" src="assets/web-water-tr.webp" alt="Su yönetimi sayfası" style="height: 720px">
+      <div class="cap">Canlı · kışlık buğday, son tam sezon</div>
+    </div>
+  </div>
+  <div class="foot"><span>Kaynak: FAO Irrigation and Drainage Paper 56</span><span>7</span></div>
+</section>
+
+<!-- 8 · Rotasyon -->
+<section class="slide">
+  <div class="eyebrow">Ürün rotasyonu</div>
+  <h2>Mevcut plan ile alternatif, <em>yan yana</em>.</h2>
+  <div class="row mt grow">
+    <div class="col" style="flex: 1.2">
+      <img class="shot" src="assets/web-rotation-plans-tr.webp" alt="Rotasyon karşılaştırması" style="height: 700px">
+      <div class="cap">Canlı · Konya örnek tarla · plan düzenlenebilir, API ile yeniden puanlanır</div>
+    </div>
+    <div class="col" style="flex: 1">
+      <div class="grid2" style="gap: 20px">
+        <div class="card soft"><p class="small muted">Mevcut · pancar–buğday–pancar</p><div class="num">2.078<small>mm</small></div><p class="small">3 yıllık su ihtiyacı · puan 45</p></div>
+        <div class="card green"><p class="small muted">Alternatif · arpa–nohut–arpa</p><div class="num">1.091<small>mm</small></div><p class="small">3 yıllık su ihtiyacı · puan 100</p></div>
+      </div>
+      <div class="card">
+        <h3>Algoritma neyi hesaba katar?</h3>
+        <ul class="ticks small"><li>Aynı veya yakın familyanın tekrarı</li><li>Baklagillerin rotasyona katkısı (nohut)</li><li>Hasat → ekim takvim uyumu</li><li>Her ürünün bu ızgara hücresindeki su ihtiyacı</li></ul>
+      </div>
+      <div class="card soft"><p class="small">Tek sezonun en iyisi değil, <b>3 sezonluk</b> plan karşılaştırılır. Sonuç verim tahmini değildir; yerel agronomik doğrulama gerekir.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>Değerler 15 Kasım 2026'da NASA POWER ile canlı hesaplandı</span><span>8</span></div>
+</section>
+
+<!-- 9 · Dijital ikiz -->
+<section class="slide">
+  <div class="row grow">
+    <div class="col" style="flex: .8">
+      <div class="eyebrow">Dijital ikiz</div>
+      <h2>Sezon nasıl biterse <em>ne olur?</em></h2>
+      <p class="lead" style="font-size: 26px">Sezonun gözlenen kısmı NASA POWER'dan; kalanı aynı hücrenin 20 geçmiş sezonundan (2004–2026) yeniden oynatılır.</p>
+      <div class="grid3" style="gap: 16px">
+        <div class="card soft" style="padding: 22px"><h3>Kurak</h3><p class="small mono">P10</p></div>
+        <div class="card green" style="padding: 22px"><h3>Normal</h3><p class="small mono">P50</p></div>
+        <div class="card soft" style="padding: 22px"><h3>Yağışlı</h3><p class="small mono">P90</p></div>
+      </div>
+      <div class="card"><p class="small">Normal sezonda <b>arpa</b>, şeker pancarına göre yaklaşık <b>741 mm daha az su açığı</b> bırakıyor.</p><span class="badge b-scen" style="margin-top: 12px">Senaryo tahmini · tahmin/verim değil</span></div>
+    </div>
+    <div class="col" style="flex: 1.2; justify-content: center">
+      <img class="shot" src="assets/web-twin-tr.webp" alt="Dijital ikiz sayfası" style="height: 760px">
+      <div class="cap">Canlı · A/B ürün kıyası, zaman çizgisi ve tarla haritası</div>
+    </div>
+  </div>
+  <div class="foot"><span>Tarla ortalaması; tarla içi farklılık modellenmez</span><span>9</span></div>
+</section>
+
+<!-- 10 · Cihaz -->
+<section class="slide">
+  <div class="row grow">
+    <div class="col" style="flex: .75">
+      <div class="eyebrow">Sat2Soil cihazı</div>
+      <h2>Uydunun göremediğini <em>cihaz ölçer</em>.</h2>
+      <ul class="ticks mt-s">
+        <li>ESP32-S3 ana kart · Wi-Fi/BLE · IMU</li>
+        <li>OV5640 5 MP makro kamera + 12 LED halka + ışık bariyeri</li>
+        <li>Sensör tacı: GNSS anteni + SHT45 sıcaklık/nem</li>
+        <li>Döner kilitli prob: 3× paslanmaz çelik iğne, pogo temas</li>
+        <li>2× 18650 Li-ion · USB-C · IP65 conta · 3,5" dokunmatik ekran</li>
+      </ul>
+      <div class="card sim mt-s"><p class="small"><b>Dürüst durum:</b> fiziksel prototip var (SolidWorks tasarım + üretim) ama henüz veri göndermiyor. Demodaki cihaz değerleri <b>simüle</b> ve etiketli.</p></div>
+    </div>
+    <div style="flex: 1.25" class="rel">
+      <img class="contain" src="assets/device-exploded.webp" alt="Cihazın patlatılmış görünümü" style="width: 100%; height: 900px; object-fit: contain; border-radius: 22px">
+    </div>
+  </div>
+  <div class="foot"><span>Patlatılmış görünüm: mekatronik ekibi (SolidWorks)</span><span>10</span></div>
+</section>
+
+<!-- 11 · Cihaz neyi ölçer -->
+<section class="slide">
+  <div class="eyebrow">Toprak ölçümü</div>
+  <h2>Cihaz neyi ölçer, <em>neyi ölçmez?</em></h2>
+  <div class="row mt grow">
+    <div style="flex: 1.2">
+      <table>
+        <tr><th>Toprak özelliği</th><th>Planlanan durum</th></tr>
+        <tr><td>Toprak nemi</td><td><span class="badge b-live">Ölçülecek</span></td></tr>
+        <tr><td>Toprak sıcaklığı</td><td><span class="badge b-live">Ölçülecek</span></td></tr>
+        <tr><td>Elektriksel iletkenlik (EC)</td><td><span class="badge b-live">Ölçülecek</span></td></tr>
+        <tr><td>pH</td><td><span class="badge b-planned">Ayrı uygun probla eklenebilir</span></td></tr>
+        <tr><td>Azot, fosfor, potasyum (NPK)</td><td><span class="badge b-planned">Doğrulanmış özel analiz gerekir</span></td></tr>
+        <tr><td>Organik madde</td><td><span class="badge b-planned">Mevcut sensörlerle ölçülmez</span></td></tr>
+        <tr><td>Toprak bünyesi</td><td><span class="badge b-planned">Laboratuvar / çiftçi kaydı</span></td></tr>
+      </table>
+    </div>
+    <div class="col" style="flex: .8">
+      <div class="card"><h3>Ölçüm karara nasıl girer?</h3>
+        <ul class="ticks small"><li>Düşük nem → su stresi değerlendirmesi</li><li>Yüksek EC → tuzluluk için ek inceleme</li><li>Toprak sıcaklığı → ekim ve çimlenme koşulu</li><li>Ürün geçmişi → rotasyon seçenekleri</li></ul>
+      </div>
+      <div class="card soft"><p class="small">EC tek başına verimliliği veya besin miktarını göstermez. Cihazı tam donanımlı bir laboratuvar değil, karar desteğini yerel ölçümle güçlendiren <b>taşınabilir analiz cihazı</b> olarak konumlandırıyoruz.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>Sensör tasarımı mekatronik ekibin doğrulamasına bağlıdır</span><span>11</span></div>
+</section>
+
+<!-- 12 · Mobil: cihaz akışı -->
+<section class="slide">
+  <div class="eyebrow">Mobil · saha akışı</div>
+  <h2>İnternet yok mu? <em>Sorun değil.</em></h2>
+  <div class="row mt grow">
+    <div class="col" style="flex: 1.35">
+      <img class="shot contain" src="assets/mobile-device-tr.webp" alt="Mobil cihaz bağlantısı maketi" style="height: 640px; background: #f7f6f2">
+    </div>
+    <div class="col" style="flex: .85">
+      <div class="card"><h3>Offline-first mimari</h3>
+        <ul class="ticks small"><li>İnternet varken tarla ve harita paketi indirilir</li><li>Sahada: indirilen harita, sınırlar, ölçüm noktaları</li><li>Telefon GPS'iyle yeni nokta kaydı</li><li>Ölçümler telefonda saklanır, sonra senkronlanır</li></ul>
+      </div>
+      <div class="card soft"><h3>Bağlantı</h3><p class="small"><b>Bluetooth LE:</b> eşleştirme ve küçük sensör verileri<br><b>Cihazın yerel Wi-Fi'ı:</b> büyük yaprak fotoğrafları<br>İkisi de internet gerektirmez.</p></div>
+      <p class="tiny muted">Hiç indirilmemiş uydu görüntüsünü internetsiz açmayı vaat etmiyoruz.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Mobil ekranlar tasarım konseptidir (yapay zekâ ile üretildi, filigranlı) · mobil uygulama sonraki aşama</span><span>12</span></div>
+</section>
+
+<!-- 13 · Mobil: uygulama + her tarla ayrı -->
+<section class="slide">
+  <div class="eyebrow">Mobil · tarlalarım</div>
+  <h2>Tek cihaz, birçok tarla; <em>her tarlaya ayrı</em> analiz.</h2>
+  <div class="row mt grow">
+    <div class="col" style="flex: 1.35">
+      <img class="shot contain" src="assets/mobile-app-tr.webp" alt="Mobil uygulama maketi" style="height: 640px; background: #efe9df">
+    </div>
+    <div class="col" style="flex: .85">
+      <div class="grid2" style="gap: 16px">
+        <div class="card sim" style="padding: 22px"><h3>Tarla A</h3><p class="small mono">nem %16<br>EC 1,1 dS/m<br>önceki: buğday</p></div>
+        <div class="card sim" style="padding: 22px"><h3>Tarla B</h3><p class="small mono">nem %34<br>EC 1,8 dS/m<br>önceki: nohut</p></div>
+      </div>
+      <p class="tiny muted">Temsili değerler, gerçek saha ölçümü değildir.</p>
+      <div class="card"><h3>Her tarla için ayrı</h3><ul class="ticks small"><li>Toprak ölçüm geçmişi</li><li>NASA verisi, tarla konumuyla eşleşir</li><li>Su bütçesi ve rotasyon önerisi</li><li>İlaçlama ve yaprak görüntüsü kayıtları</li></ul></div>
+      <p class="tiny muted">Yakın iki tarla aynı NASA hücresine düşebilir; o zaman farkı yerel ölçüm ve tarla geçmişi yaratır.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Mobil ekranlar tasarım konseptidir (yapay zekâ ile üretildi, filigranlı)</span><span>13</span></div>
+</section>
+
+<!-- 14 · SprayVision ve sınırlar -->
+<section class="slide">
+  <div class="eyebrow">AgriSpray · SprayVision</div>
+  <h2>Görünür püskürtme izi; <em>dürüst sınırlarla</em>.</h2>
+  <div class="row mt grow">
+    <div class="col" style="flex: 1.15">
+      <img class="shot" src="assets/web-spray-tr.webp" alt="AgriSpray sayfası" style="height: 500px">
+      <div class="cap">Canlı web · ölçüm noktaları, kart taraması, cihaz verileri (simüle) · NASA POWER rüzgârı (gerçek)</div>
+    </div>
+    <div class="col" style="flex: .85">
+      <div class="card green"><h3>İlk ürünün görevi</h3><p class="small">Yaprak üzerindeki görünür püskürtme izlerini tespit etmek ve tarlanın farklı noktalarını karşılaştırmak. 2023'te RGB kamerayla, işaretleyici kullanmadan doğrudan yapraktan iz tespiti yapılmış bir çalışmayı (UEA) temel alıyoruz.</p></div>
+      <div class="card"><h3>Söylemediklerimiz</h3><ul class="ticks no small"><li>“İlacın etkinliği %85” gibi biyolojik etkinlik</li><li>Doz önerisi</li><li>Hastalık teşhisi (ikinci aşama)</li></ul></div>
+      <div class="card soft"><p class="small">Model emin değilse: <b>“Görüntüden güvenilir değerlendirme yapılamadı.”</b> Şeffaf veya kurumuş kalıntıda analiz güvenilir olmayabilir.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>Demoda suya duyarlı kartın sentetik görüntüsü analiz ediliyor; gerçek fotoğraf yok, uydurulmuyor</span><span>14</span></div>
+</section>
+
+<!-- 15 · Bugün / sonraki aşama -->
+<section class="slide">
+  <div class="eyebrow">Yol haritası</div>
+  <h2>Bugün ne çalışıyor, <em>sonra ne gelecek?</em></h2>
+  <table class="mt">
+    <tr><th>Sistem</th><th>NASA yarışmasında (bugün)</th><th>Sonraki aşama</th></tr>
+    <tr><td>Web uygulaması</td><td><span class="badge b-live">Canlı</span> çalışan demo</td><td>Ticari platform</td></tr>
+    <tr><td>NASA entegrasyonu</td><td><span class="badge b-live">Canlı</span> POWER + GIBS</td><td>GPM, SMAP, Landsat, SRTM</td></tr>
+    <tr><td>Arazi haritalama</td><td><span class="badge b-live">Canlı</span> tarla seçimi ve çizimi</td><td>Çevrimdışı mobil harita</td></tr>
+    <tr><td>Ürün rotasyonu</td><td><span class="badge b-live">Canlı</span> açıklanabilir karşılaştırma</td><td>Yerel saha doğrulaması, 4 kriterli puan</td></tr>
+    <tr><td>Su yönetimi</td><td><span class="badge b-derived">Türetilmiş</span> FAO-56 su bütçesi</td><td>Kalibre edilmiş sulama planı</td></tr>
+    <tr><td>Fiziksel cihaz</td><td><span class="badge b-sim">Prototip</span> SolidWorks + üretim</td><td>Gerçek veri entegrasyonu</td></tr>
+    <tr><td>SprayVision</td><td><span class="badge b-sim">Simüle</span> iş akışı demosu</td><td>Model eğitimi, saha doğrulaması</td></tr>
+    <tr><td>Offline mobil</td><td><span class="badge b-planned">Konsept</span> mimari + arayüz</td><td>Gerçek çevrimdışı uygulama</td></tr>
+    <tr><td>Hastalık tespiti</td><td><span class="badge b-planned">Kapsam dışı</span></td><td>İkinci yapay zekâ modeli</td></tr>
+  </table>
+  <div class="foot"><span>Sat2Soil · Jüri sunumu</span><span>15</span></div>
+</section>
+
+<!-- 16 · Kapanış -->
+<section class="slide dark">
+  <div class="eyebrow">Özet</div>
+  <h2>Uydunun bölgesel bilgisi + <em>tarlanın içinden</em> ölçüm.</h2>
+  <p class="lead">Çiftçiye yalnızca ne ekeceğini değil; bir ürünün neden uygun olabileceğini, ne kadar su gerektireceğini ve uzun vadeli rotasyona nasıl katkı sağlayacağını açıklıyoruz.</p>
+  <div class="grid3 mt">
+    <div class="card"><div class="num" style="color:#a9d46f">−%47</div><p class="small" style="color:#c9d4e2; margin-top: 10px">örnek tarlada alternatif rotasyonun 3 yıllık su ihtiyacı (2.078 → 1.091 mm)</p></div>
+    <div class="card"><div class="num" style="color:#a9d46f">20</div><p class="small" style="color:#c9d4e2; margin-top: 10px">geçmiş NASA POWER sezonu ile kurak, normal ve yağışlı senaryo</p></div>
+    <div class="card"><div class="num" style="color:#a9d46f">1 → n</div><p class="small" style="color:#c9d4e2; margin-top: 10px">tek cihazla birçok tarla; her tarlanın ölçümü, NASA kaydı ve planı ayrı</p></div>
+  </div>
+  <div class="grid2 mt">
+    <div class="card"><h3>Dene</h3><p class="mono" style="font-size: 30px; color: #a9d46f">sat2-soil.vercel.app</p><p class="small" style="color:#c9d4e2">Demoyu başlat → Konya örnek tarla · TR / EN</p></div>
+    <div class="card"><h3>Açık kaynak</h3><p class="mono" style="font-size: 30px; color: #a9d46f">github.com/yunopo42/Sat2Soil</p><p class="small" style="color:#c9d4e2">Karar destek aracıdır; çiftçinin ve uzmanın yerine geçmez.</p></div>
+  </div>
+  <div class="foot"><span>Yapay zekâ kullanımı: landing animasyonu ve mobil maketler YZ ile üretildi, etiketli · kodda YZ desteği</span><span>16</span></div>
+</section>
+
+</body>
+</html>

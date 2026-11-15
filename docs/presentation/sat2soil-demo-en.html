@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920">
+<title>Sat2Soil · Project demo</title>
+<link rel="stylesheet" href="deck.css">
+</head>
+<body>
+
+<!-- 1 · Title -->
+<section class="slide dark" style="padding-right: 0">
+  <div class="row grow" style="gap: 0">
+    <div class="col" style="flex: 1.15; justify-content: center; gap: 0">
+      <div class="eyebrow">NASA Space Apps Challenge 2026 · Konya</div>
+      <div class="wordmark mt" style="font-size: 132px">
+        <div class="w">Sat<img src="assets/logo-device.png" alt="2">Soil</div>
+        <div class="soil"></div>
+      </div>
+      <h2 style="font-size: 58px; margin-top: 40px">From Satellite to Soil,<br><em>From Data to Decisions.</em></h2>
+      <p class="lead" style="max-width: 980px">A decision-support tool that turns open NASA Earth data into explainable crop-rotation and water choices for each field, with a handheld field device that adds what satellites cannot see.</p>
+      <div class="mt card" style="max-width: 1000px; padding: 26px 32px">
+        <p class="small"><b>Challenge:</b> Field Shift: Adapting Farms with NASA Data</p>
+        <p class="small" style="margin-top: 6px"><b>Team:</b> <span data-team-name>[Team name]</span> · <span data-team-members>[Team members]</span></p>
+        <p class="small mono" style="margin-top: 6px">Live app: sat2-soil.vercel.app · Code: github.com/yunopo42/Sat2Soil</p>
+      </div>
+    </div>
+    <div style="flex: 1; position: relative">
+      <img src="assets/agrispray-device.webp" alt="Sat2Soil handheld prototype render" style="position: absolute; right: 120px; top: 20px; height: 900px; filter: drop-shadow(0 30px 60px rgba(0,0,0,.45))">
+      <span class="badge b-sim" style="position: absolute; right: 150px; bottom: 30px">Prototype render · data in demo is simulated</span>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · Intro: problem and approach -->
+<section class="slide">
+  <div class="eyebrow">The problem</div>
+  <h2>Konya farmers decide rotations <em>field by field</em>, but climate data is regional.</h2>
+  <div class="grid3 mt">
+    <div class="card"><h3>Shifting climate</h3><p class="muted">Hot, dry summers, frost in spring and less predictable rain on Türkiye's main grain plain.</p></div>
+    <div class="card"><h3>Water-hungry cycles</h3><p class="muted">Wheat ↔ sugar beet repeats draw on falling groundwater. Alternatives are hard to compare.</p></div>
+    <div class="card"><h3>Satellite ≠ field</h3><p class="muted">A NASA POWER grid cell is ≈ 55 km wide. It gives context, not a reading from one field.</p></div>
+  </div>
+  <div class="flow mt">
+    <div class="card green"><h3>① Web app · NASA data</h3><p>Draw a field, get its NASA climate record, compare rotations and the water each one needs, replay 20 past seasons.</p></div>
+    <div class="arrow">+</div>
+    <div class="card sim"><h3>② Handheld field device</h3><p>Measures soil moisture, temperature and EC and checks visible spray coverage at points inside the same field.</p></div>
+    <div class="arrow">=</div>
+    <div class="card" style="background: var(--navy-900); color: #fff; border: 0"><h3>Field-level decisions</h3><p style="color: #c9d4e2">Regional NASA context and local measurements in one explainable report per field.</p></div>
+  </div>
+  <div class="foot"><span>Sat2Soil · Field Shift: Adapting Farms with NASA Data</span><span>2 / 7</span></div>
+</section>
+
+<!-- 3 · NASA data -->
+<section class="slide">
+  <div class="row grow">
+    <div class="col" style="flex: .9">
+      <div class="eyebrow">NASA data inside</div>
+      <h2>Real NASA data, <em>live</em> from the source.</h2>
+      <p class="lead" style="font-size: 26px">Every number shows its source, parameter, unit, period and fetch time. Sources not yet connected are marked “Planned”, never shown as live.</p>
+      <table class="mt-s">
+        <tr><th>Source</th><th>Use</th><th>Status</th></tr>
+        <tr><td>NASA POWER</td><td>T2M, T2M_MIN/MAX, PRECTOTCORR, RH2M, WS2M, ALLSKY_SFC_SW_DWN · daily, 2004 → today</td><td><span class="badge b-live">Live</span></td></tr>
+        <tr><td>NASA GIBS</td><td>HLS S30 / Blue Marble basemap for drawing fields</td><td><span class="badge b-live">Live</span></td></tr>
+        <tr><td>GPM IMERG · SMAP · Landsat · ECOSTRESS · SRTM</td><td>Rain, soil moisture, NDVI, heat stress, slope</td><td><span class="badge b-planned">Planned</span></td></tr>
+      </table>
+    </div>
+    <div class="col" style="flex: 1.1; justify-content: center">
+      <img class="shot" src="assets/web-climate.webp" alt="NASA data center page" style="height: 780px">
+      <div class="cap">Live app · NASA data center for the Konya sample field (5 ha) · 15 Nov 2026</div>
+    </div>
+  </div>
+  <div class="foot"><span>Sat2Soil · NASA POWER is never presented as GPM/IMERG</span><span>3 / 7</span></div>
+</section>
+
+<!-- 4 · Rotation, water, twin -->
+<section class="slide">
+  <div class="eyebrow">Decision support</div>
+  <h2>Compare rotations by the <em>water they need</em>.</h2>
+  <div class="row mt grow">
+    <div class="col" style="flex: 1.25">
+      <img class="shot" src="assets/web-rotation-plans.webp" alt="Current and alternative rotation plans" style="height: 640px">
+      <div class="cap">Current plan vs alternative · scores from open rules + FAO-56 water demand</div>
+    </div>
+    <div class="col" style="flex: 1">
+      <div class="card">
+        <p class="small muted">FAO-56 Penman–Monteith on NASA POWER</p>
+        <div class="formula" style="margin-top: 10px; font-size: 34px">ET<sub>c</sub> = K<sub>c</sub> × ET<sub>0</sub></div>
+        <p class="small" style="margin-top: 12px">Water balance = ET<sub>c</sub> − rainfall, per crop and season.</p>
+      </div>
+      <div class="grid2" style="gap: 20px">
+        <div class="card soft"><p class="small muted">Current · beet–wheat–beet</p><div class="num">2,078<small>mm</small></div><p class="small">score 45/100</p></div>
+        <div class="card green"><p class="small muted">Alternative · barley–chickpea–barley</p><div class="num">1,091<small>mm</small></div><p class="small">score 100/100</p></div>
+      </div>
+      <div class="card"><h3>Digital twin</h3><p class="small">The rest of the season replayed from 20 past NASA POWER seasons (2004–2026): dry P10 · normal P50 · wet P90.</p><span class="badge b-scen" style="margin-top: 12px">Scenario estimate · not a forecast or yield</span></div>
+    </div>
+  </div>
+  <div class="foot"><span>Sample field values computed live on 15 Nov 2026 · indicators, not irrigation prescriptions</span><span>4 / 7</span></div>
+</section>
+
+<!-- 5 · Device -->
+<section class="slide">
+  <div class="row grow">
+    <div class="col" style="flex: .85">
+      <div class="eyebrow">AgriSpray prototype</div>
+      <h2>What the satellite <em>can't see</em>, the device measures.</h2>
+      <ul class="ticks mt-s">
+        <li>3-pin probe: soil moisture, temperature and EC</li>
+        <li>OV5640 macro camera + 12-LED ring: visible spray trace on leaves</li>
+        <li>SHT45 air sensor + GNSS: every reading has place and time</li>
+        <li>ESP32-S3 · BLE + local Wi-Fi: works offline in the field</li>
+      </ul>
+      <div class="card sim mt-s"><p class="small"><b>Honest status:</b> the prototype exists but does not send data yet. The demo shows <b>simulated</b> readings, clearly labelled. No dose advice, no efficacy %, no disease diagnosis.</p></div>
+    </div>
+    <div style="flex: 1.15" class="row center">
+      <img src="assets/device-exploded-parts.webp" alt="Exploded CAD view of the device" style="height: 860px; border-radius: 22px">
+      <div class="col" style="gap: 14px">
+        <div class="card soft" style="padding: 18px 22px"><p class="small"><b>Sensor crown</b><br>GNSS antenna · SHT45 temp/RH</p></div>
+        <div class="card soft" style="padding: 18px 22px"><p class="small"><b>Main board</b><br>ESP32-S3 · Wi-Fi/BLE · IMU</p></div>
+        <div class="card soft" style="padding: 18px 22px"><p class="small"><b>Camera</b><br>OV5640 5 MP autofocus · 12-LED ring · light shield</p></div>
+        <div class="card soft" style="padding: 18px 22px"><p class="small"><b>Power</b><br>2× 18650 Li-ion 3200 mAh · USB-C</p></div>
+        <div class="card soft" style="padding: 18px 22px"><p class="small"><b>Probe</b><br>3× stainless pins Ø3.2 mm · twist-lock · pogo contacts</p></div>
+        <div class="card soft" style="padding: 18px 22px"><p class="small"><b>Body</b><br>ASA-CF 3D print · TPU bumper · IP65 seal · 3.5" IPS touch</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>CAD exploded view by the team's mechatronics group</span><span>5 / 7</span></div>
+</section>
+
+<!-- 6 · User experience -->
+<section class="slide">
+  <div class="eyebrow">User experience</div>
+  <h2>Measure in the field, <em>offline</em>; decide with NASA context.</h2>
+  <div class="row mt grow">
+    <div class="col" style="flex: .62">
+      <ol class="steps">
+        <li>Draw the field and its measurement points</li>
+        <li>After spraying, measure soil and photograph leaves</li>
+        <li>Device → phone over BLE / local Wi-Fi, no internet</li>
+        <li>On-phone check of visible spray coverage</li>
+        <li>When online: sync, match NASA data, web report</li>
+      </ol>
+      <div class="rel" style="margin-top: 22px"><img class="shot" src="assets/web-spray.webp" alt="AgriSpray page in the live app" style="height: 270px"></div>
+      <div class="cap">Live web app · AgriSpray page (simulated device values)</div>
+    </div>
+    <div class="col" style="flex: 1">
+      <img class="shot contain" src="assets/mobile-device-en.webp" alt="Mobile device-connection mockup" style="height: 370px; background: #f7f6f2">
+      <img class="shot contain" src="assets/mobile-app-en.webp" alt="Mobile app mockup" style="height: 370px; background: #efe9df">
+    </div>
+  </div>
+  <div class="foot"><span>Mobile screens: design concepts for Turkish farmers (AI-generated, watermarked) · web app is live</span><span>6 / 7</span></div>
+</section>
+
+<!-- 7 · Impact & roadmap -->
+<section class="slide dark">
+  <div class="eyebrow">Impact & next steps</div>
+  <h2>Less water per rotation, decisions a farmer can <em>check</em>.</h2>
+  <div class="row mt grow">
+    <div class="col" style="flex: 1">
+      <table style="color: #fff">
+        <tr><th style="color:#9fb0c6; border-color: rgba(255,255,255,.15)">Built and live today</th><th style="color:#9fb0c6; border-color: rgba(255,255,255,.15)">Next</th></tr>
+        <tr><td style="border-color: rgba(255,255,255,.1)">Web app, NASA POWER + GIBS</td><td style="font-weight: 400; border-color: rgba(255,255,255,.1)">GPM, SMAP, Landsat NDVI, SRTM</td></tr>
+        <tr><td style="border-color: rgba(255,255,255,.1)">FAO-56 water balance, rotation scoring</td><td style="font-weight: 400; border-color: rgba(255,255,255,.1)">Calibration with local agronomists</td></tr>
+        <tr><td style="border-color: rgba(255,255,255,.1)">Digital twin, 20-season replay</td><td style="font-weight: 400; border-color: rgba(255,255,255,.1)">Farmer priorities as weights</td></tr>
+        <tr><td style="border-color: rgba(255,255,255,.1)">Physical prototype (CAD + build)</td><td style="font-weight: 400; border-color: rgba(255,255,255,.1)">Live device data, offline mobile app</td></tr>
+        <tr><td style="border-color: rgba(255,255,255,.1)">Spray-trace workflow (simulated)</td><td style="font-weight: 400; border-color: rgba(255,255,255,.1)">Model training + field validation</td></tr>
+      </table>
+    </div>
+    <div class="col" style="flex: .75">
+      <div class="card"><h3>Try it</h3><p class="mono" style="font-size: 26px; color: #a9d46f">sat2-soil.vercel.app</p><p class="small" style="color:#c9d4e2">Start demo → sample field in Konya. English and Turkish.</p></div>
+      <div class="card"><h3>Open source</h3><p class="mono" style="font-size: 24px; color: #a9d46f">github.com/yunopo42/Sat2Soil</p></div>
+      <div class="card"><p class="small" style="color:#c9d4e2">A support tool: it shows patterns and trade-offs. It does not replace the farmer's judgment or local agricultural expertise.</p></div>
+    </div>
+  </div>
+  <div class="grid3" style="margin-bottom: 20px">
+    <div class="card"><div class="num" style="color:#a9d46f">−47%</div><p class="small" style="color:#c9d4e2; margin-top: 10px">3-year crop water demand, current vs alternative rotation on the Konya sample field (2,078 → 1,091 mm)</p></div>
+    <div class="card"><div class="num" style="color:#a9d46f">20</div><p class="small" style="color:#c9d4e2; margin-top: 10px">past NASA POWER seasons replayed per crop, so a plan is tested in dry, normal and wet years</p></div>
+    <div class="card"><div class="num" style="color:#a9d46f">1 → n</div><p class="small" style="color:#c9d4e2; margin-top: 10px">one device, many fields: every field keeps its own measurements, NASA record and plan</p></div>
+  </div>
+  <div class="foot"><span>SI use: landing animation and mobile mockups are AI-generated and labelled; code written with AI assistance</span><span>7 / 7</span></div>
+</section>
+
+</body>
+</html>
