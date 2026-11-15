@@ -33,7 +33,10 @@ https://github.com/yunopo42/Sat2Soil/blob/main/docs/presentation/sat2soil-demo-e
 
 ## Link to Final Project
 
-https://sat2-soil.vercel.app (live app, English and Turkish) · source: https://github.com/yunopo42/Sat2Soil
+https://github.com/yunopo42/Sat2Soil
+
+The repository README links everything: the live app (https://sat2-soil.vercel.app, English and Turkish), the
+7-slide demo, the device CAD (STEP) with its parts list in `hardware/`, and the source code.
 
 ## Detailed Project Description
 
@@ -71,7 +74,7 @@ soil) as weights; calibrate scores with local agronomists; connect the device an
 
 **Tools.** Next.js 16, React 19, TypeScript, Tailwind CSS, MapLibre GL + terra-draw, d3 (web, Vercel) · Python 3.13,
 FastAPI, Pydantic (API, Render) · Supabase PostgreSQL + PostGIS · Playwright + axe-core end-to-end and accessibility
-tests · SolidWorks (device CAD), ESP32-S3 hardware.
+tests · SolidWorks 2024 (device CAD, STEP file in `hardware/cad/Sat2Soil.step`), ESP32-S3 hardware.
 
 ## Use of Super Intelligence (SI)
 

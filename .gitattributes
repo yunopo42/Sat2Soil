@@ -6,3 +6,7 @@
 *.webp binary
 *.ktx2 binary
 *.glb binary
+*.step binary
+*.stp binary
+*.pdf binary
+*.pptx binary
