@@ -228,3 +228,15 @@ Yazı tipi Plus Jakarta Sans (italik dahil) + sayılar için Geist Mono. D-003't
 - Videodaki logo ilk ~3,6 sn'de görünür; header sayfayla birlikte kayıp gittiği için çakışmaz (header'da beyaz hap içinde
   wordmark). Videodaki Dünya Kuzey Amerika'yı gösteriyor ve cihaz AgriSpray görselinden farklı: dekoratif giriş olarak
   kabul edildi; Türkiye görünümlü yeni video gelirse kareler aynı komutla değiştirilir.
+
+### D-029 · Özet sayfası ve uçtan uca testler — `KABUL` (Faz 9, 2026-11-15)
+- `/fields/[id]/summary`: 6 kart (tarla, NASA iklimi, su, rotasyon, ikiz, AgriSpray) gerçek API'den; altta
+  "Yöntemler ve kaynaklar" tablosu (değer · kaynak rozeti · yöntem · sınırlama). "Yazdır / PDF" A4 yatay; kabuk baskıda gizli.
+- "Demo akışını göster": alt ortada adım hapı (Adım n / 7), sayfalar arasında önceki/sonraki; adım bulunulan sayfadan
+  çıkarılır, kendi kendine ilerlemez. Durum `sessionStorage`'da (sekmeye özel).
+- Uçtan uca testler **Python Playwright + pytest** ile (`e2e/`, `pnpm e2e`): npm registry bu ağdan erişilemediği için
+  `@playwright/test` kurulamadı; PyPI erişilebilir. Tarayıcı indirilmez, kurulu Edge kullanılır (`SAT2SOIL_E2E_CHANNEL`).
+  axe-core pnpm deposundaki sürümden enjekte edilir. 21 test: jüri akışı (9), 10 sayfada axe WCAG 2.1 AA (critical/serious
+  = 0), API erişilemezken görünür hata (2). Bulunan erişilebilirlik hataları düzeltildi (wordmark `role="img"`,
+  NASA veri merkezi ve özet sayfasındaki `dl` yapısı).
+- Prod duman testi aynı paketle: `SAT2SOIL_E2E_BASE_URL=<vercel> SAT2SOIL_E2E_API_URL=<render> pnpm e2e`.

@@ -1,6 +1,6 @@
 # HANDOFF: picking the work back up
 
-> Updated at the end of every phase. **Last updated: 2026-11-15, end of Faz 8.**
+> Updated at the end of every phase. **Last updated: 2026-11-15, end of Faz 9 (MVP complete).**
 > If you are opening this repo from another Claude account or session, read this file first, then `CLAUDE.md`, then
 > `docs/DECISIONS.md`. Talk to the user in Turkish; code, variables and commit messages stay in English.
 
@@ -17,9 +17,9 @@
 | 6 | ✅ | `/twin` digital twin: observed season + 20 past seasons replayed, dry/normal/wet, A vs B crops (D-026) |
 | 7 | ✅ | `/spray` AgriSpray concept: simulated sensors, synthetic spray-card measurement, Delta T + NASA wind (D-027) |
 | 8 | ✅ | Cinematic landing: scroll-scrubbed frames from the user's video, 4 acts, real app preview at the end (D-028) |
-| 9 | ◐ in progress (summary + demo flow done; Playwright/axe QA left) | `/summary` + QA (Playwright + axe, 390 px mobile check, prod smoke test) |
+| 9 | ✅ | `/summary` + demo flow + A4 print; `e2e/` Playwright + axe suite, 21 tests green (D-029) | `/summary` + QA (Playwright + axe, 390 px mobile check, prod smoke test) |
 
-Only `/summary` (Faz 9) is still a `ComingSoon` placeholder. Specs: `docs/PRODUCT_SCOPE.md`, `docs/UI_UX_DESIGN.md`,
+Every page is built; `ComingSoon` is no longer used. Specs: `docs/PRODUCT_SCOPE.md`, `docs/UI_UX_DESIGN.md`,
 `docs/ANALYSIS_AI.md` (§3 digital twin, §4 AgriSpray), `apps/web/task.md`, `services/api/task.md`.
 
 Deploy: the user connected Render (API, `render.yaml`) and Vercel (web, root `apps/web`). **Claude does not wire up
@@ -66,16 +66,16 @@ Before every commit: `pnpm check` and `pnpm build`.
   Regenerate frames from a new video with `python apps/web/scripts/extract-landing-frames.py video.mp4 --end <s>`
   (needs Pillow + imageio-ffmpeg). The final act shows real screenshots `public/images/app-preview-twin(-tr).webp`
   taken with headless Edge from the twin page; retake them if that page changes.
-- Faz 9: `/fields/[id]/summary` jury page (UI_UX_DESIGN S-08, STITCH P09): one printable screen with the field map,
-  1–2 NASA charts, water/rotation comparison, twin result, AgriSpray demo and a "methods and sources" table
-  (value · source type badge · method · limitation). Then QA: Playwright happy path, axe, prod smoke test
-  (docs/QA_DEPLOY_DEMO.md).
+- QA: `pnpm e2e` runs `e2e/` (Python Playwright + pytest via uv, installed Edge, axe-core from node_modules).
+  Needs `pnpm dev` and `pnpm api:dev` running. For production:
+  `SAT2SOIL_E2E_BASE_URL=https://<vercel> SAT2SOIL_E2E_API_URL=https://<render> pnpm e2e`.
 
 ## 5. Open risks
 
 - The DB password was shared in chat earlier: the user should reset it in Supabase and update `.env` + Render (D-021).
 - POWER rainfall totals not yet compared with a ground station (D-019).
-- Not yet checked: Playwright/axe; 375 px mobile spot-checked on the twin page only.
+- Not yet checked on production: run the e2e suite against the Vercel/Render URLs (Q12).
+- Not yet done: 3-minute rehearsal on the live URL and a backup video (Q14).
 
 ## 6. Protocol at the end of each phase
 
@@ -89,9 +89,8 @@ Before every commit: `pnpm check` and `pnpm build`.
 ```text
 Sat2Soil projesine devam ediyoruz (https://github.com/yunopo42/Sat2Soil, dal main).
 Önce docs/HANDOFF.md, sonra CLAUDE.md ve docs/DECISIONS.md dosyalarını oku; kurallara aynen uy.
-Faz 0–8 tamam; Faz 9 özet sayfası + demo akışı tamam. Sıradaki iş: QA (docs/QA_DEPLOY_DEMO.md):
-Playwright uçtan uca + axe (kurulu Edge, channel msedge), apps/web/task.md W06.
+Faz 0–9 tamam (MVP). Açık işler: prod duman testi (pnpm e2e canlı URL'lerle), sunum provası (Q14),
+P1 fikirleri (apps/web/task.md "P1 sonra"). P1 işleri onayım olmadan başlamaz.
 Kurulum eksikse HANDOFF §2'yi uygula; services/api/.env değerlerini bana sor, kendin uydurma.
-Benimle Türkçe konuş. Faz bitince pnpm check + pnpm build, commit + push, HANDOFF.md'yi güncelle
-ve bana yeni devam promptunu ver.
+Benimle Türkçe konuş. Her iş sonunda pnpm check + pnpm build (+ pnpm e2e), commit + push, HANDOFF.md'yi güncelle.
 ```

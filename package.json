@@ -1,7 +1,7 @@
 {
   "name": "sat2soil",
   "private": true,
-  "description": "Sat2Soil — NASA Space Apps Challenge 2026. From Satellite to Soil, From Data to Decisions.",
+  "description": "Sat2Soil \u2014 NASA Space Apps Challenge 2026. From Satellite to Soil, From Data to Decisions.",
   "scripts": {
     "dev": "pnpm --filter @sat2soil/web dev",
     "build": "pnpm --filter @sat2soil/web build",
@@ -14,7 +14,8 @@
     "api:lint": "uv run --directory services/api ruff check .",
     "api:format": "uv run --directory services/api ruff format .",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm api:lint && pnpm api:test",
-    "db:migrate": "uv run --directory services/api python -m scripts.migrate"
+    "db:migrate": "uv run --directory services/api python -m scripts.migrate",
+    "e2e": "uv run --no-project --with playwright==1.55.0 --with pytest pytest e2e -q -p no:cacheprovider"
   },
   "engines": {
     "node": ">=24"

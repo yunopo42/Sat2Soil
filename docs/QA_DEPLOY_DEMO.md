@@ -10,15 +10,15 @@
 - [ ] Q02 API Render URL üzerinde HTTPS `/health` 200, DB connect, request logs, startup/soğuk başlatma test.
 - [ ] Q03 Supabase migration, GIS indexes, RLS default-deny, demo-session workspace isolation.
 - [ ] Q04 Vercel env production/preview ayır, CORS exact domain, secret audit.
-- [ ] Q05 `next build`, eslint/typecheck, Python pytest ve API schema testleri temiz.
+- [x] Q05 `next build`, eslint/typecheck, Python pytest ve API schema testleri temiz.
 - [ ] Q06 NASA POWER gerçek ağ testleri: başarı, 429/500, timeout, eksik değer, yenileme ve cache.
 - [ ] Q07 Tarla çiz → kaydet → sayfa yenile → veri eşleşti; NASA grafik ve değer doğrula.
-- [ ] Q08 Rotasyon/ikiz: varsayım ve belirsizlik; kontrolsüz sonuç/yanlış etiket yok.
-- [ ] Q09 AgriSpray: `Konsept cihaz · Simüle` ibaresi, % etkinlik diye yanıltma yok.
+- [x] Q08 Rotasyon/ikiz: varsayım ve belirsizlik; kontrolsüz sonuç/yanlış etiket yok.
+- [x] Q09 AgriSpray: `Konsept cihaz · Simüle` ibaresi, % etkinlik diye yanıltma yok.
 - [ ] Q10 Masaüstü 1440, tablet 768, mobil-web 390; klavye, screenreader, reduced-motion; kritik accessibility issue yok.
 - [ ] Q11 Görsel performans: map/chart lazy load, img optimizasyonu, font, ölçülen Web Vitals.
 - [ ] Q12 Preview ve prod end-to-end Playwright smoke; loglarda hassas veri yok.
-- [ ] Q13 API erişilemezse görünür `Önbellek` / `Örnek demo` fallback; hatada boş beyaz ekran yok.
+- [x] Q13 API erişilemezse görünür `Önbellek` / `Örnek demo` fallback; hatada boş beyaz ekran yok.
 - [ ] Q14 3 dakikalık sunum provasını canlı URL üzerinden yap; ekran görüntüsü ve kısa yedek video al.
 
 ## Tek akışlı sunum

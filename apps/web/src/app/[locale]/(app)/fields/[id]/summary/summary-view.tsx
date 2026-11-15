@@ -143,6 +143,7 @@ function FieldCard({ field, href }: { field: Field | undefined; href: string }) 
   const t = useTranslations("summary.field");
   const tCrops = useTranslations("crops");
   const format = useFormatter();
+  const tField = useTranslations("field");
   const path = useMemo(() => (field ? outline(field) : ""), [field]);
   return (
     <SummaryCard icon={<MapTrifold weight="duotone" className="text-green-600" />} title={t("title")} source="demo_sample" href={href}>
@@ -153,10 +154,12 @@ function FieldCard({ field, href }: { field: Field | undefined; href: string }) 
           </svg>
           <dl className="grid gap-1.5 text-sm">
             <div>
-              <dt className="sr-only">{field.name}</dt>
-              <dd className="font-bold">{field.name}</dd>
+              <dt className="sr-only">{tField("area")}</dt>
+              <dd>
+                <span className="block font-bold">{field.name}</span>
+                <span className="font-mono">{format.number(field.area_ha, { maximumFractionDigits: 2 })} ha</span>
+              </dd>
             </div>
-            <dd className="font-mono">{format.number(field.area_ha, { maximumFractionDigits: 2 })} ha</dd>
             <div>
               <dt className="text-2xs text-ink-muted">{t("crop")}</dt>
               <dd>{field.crop && tCrops.has(field.crop as never) ? tCrops(field.crop as never) : "—"}</dd>

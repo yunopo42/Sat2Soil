@@ -367,13 +367,14 @@ function ChartCard({
 
 function Summary({ icon, label, value, sub }: { icon?: ReactNode; label: string; value: string; sub?: string }) {
   return (
-    <div className="flex items-center gap-3 rounded-lg px-2 py-2">
-      {icon ? <span aria-hidden="true" className="shrink-0 [&_svg]:size-7">{icon}</span> : null}
-      <div className="min-w-0">
-        <dt className="text-xs font-semibold text-ink-muted">{label}</dt>
-        <dd className="font-mono text-lg font-bold text-ink tabular">{value}</dd>
-        {sub ? <dd className="truncate font-mono text-2xs text-ink-muted">{sub}</dd> : null}
-      </div>
+    // One <div> per dt/dd group: the only wrapper a <dl> allows (axe definition-list / dlitem).
+    <div className="min-w-0 rounded-lg px-2 py-2">
+      <dt className="flex items-center gap-2 text-xs font-semibold text-ink-muted">
+        {icon ? <span aria-hidden="true" className="shrink-0 [&_svg]:size-5">{icon}</span> : null}
+        {label}
+      </dt>
+      <dd className="font-mono text-lg font-bold text-ink tabular">{value}</dd>
+      {sub ? <dd className="truncate font-mono text-2xs text-ink-muted">{sub}</dd> : null}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 # CLAUDE.md — Sat2Soil
 
-> **Durum: v0.8 · 2026-11-15** — Faz 0–8 tamam. Kararlar D-001…D-028, `docs/DECISIONS.md`.
+> **Durum: v0.9 · 2026-11-15** — Faz 0–9 tamam (MVP). Kararlar D-001…D-029, `docs/DECISIONS.md`.
 > Kararların tamamı `docs/DECISIONS.md` içinde; bu dosya onların kısa özetidir.
 
 **Sat2Soil** — NASA Space Apps Challenge 2026.
@@ -79,7 +79,7 @@ Demo tarlası: **Konya Ovası** (D-013). Arayüz dili: **İngilizce varsayılan 
 | UI primitive | Radix Primitives + kendi tokenlarımız (hazır tema yok) · ikon: Phosphor |
 | API | Python 3.13 · FastAPI · Pydantic v2 + pydantic-settings · uv · Render (sonraki fazlarda: httpx/tenacity, psycopg 3, PyJWT, slowapi) |
 | DB | Supabase PostgreSQL + PostGIS · Supabase Storage · migration: `supabase/migrations` (tek kaynak) |
-| Test | Vitest · pytest (+ httpx2 TestClient) · sonra Playwright + axe |
+| Test | Vitest · pytest (+ httpx2 TestClient) · uçtan uca: Python Playwright + axe-core (`e2e/`, D-029) |
 | Monorepo | pnpm 12 workspaces (Turborepo yok) · Node ≥ 24 |
 
 ### Next.js 16 kuralları (eğitim verisinden farklı!)
@@ -122,8 +122,8 @@ packages/contracts/   OpenAPI → TS tipleri + Zod · DataSource enum
 ```
 
 Rotalar (TR'de `/tr` önekiyle): `/` → `/demo` → `/fields/[id]` (harita) → `/climate` → `/planning/water` · `/planning/rotation`
-→ `/twin` → `/spray` → `/summary`. `fields/[id]/layout.tsx` = kabuk (üst bar + menü); `params` Suspense içinde okunur (cacheComponents). Faz 9 sayfası (`/summary`)
-şimdilik `ComingSoon` yer tutucusu.
+→ `/twin` → `/spray` → `/summary`. `fields/[id]/layout.tsx` = kabuk (üst bar + menü); `params` Suspense içinde okunur (cacheComponents). Tüm sayfalar
+hazır; `ComingSoon` artık kullanılmıyor.
 
 ## 6. Veri kaynağı tipleri (tek enum — D-001)
 
@@ -168,6 +168,7 @@ Kökten çalıştır (`pnpm install` ve `uv sync --directory services/api` sonra
 | `pnpm lint` · `pnpm typecheck` · `pnpm test` | ESLint · `next typegen` + tsc · Vitest |
 | `pnpm api:lint` · `pnpm api:format` · `pnpm api:test` | ruff check · ruff format · pytest |
 | `pnpm check` | Hepsini sırayla (commit öncesi) |
+| `pnpm e2e` | Uçtan uca + axe testleri (Python Playwright, kurulu Edge; web :3000 ve API :8000 açık olmalı) |
 | `SAT2SOIL_LIVE_TESTS=1 uv run --directory services/api pytest -m live` | Gerçek NASA POWER'a karşı duman testi |
 | `pnpm db:migrate` · `pnpm db:migrate --seed` | Supabase migration'ları · + örnek tarla |
 | `SAT2SOIL_DB_TESTS=1 uv run --directory services/api pytest -m db` | Gerçek Supabase'e karşı entegrasyon testi |
@@ -204,8 +205,9 @@ Windows'ta API'yi `--reload` ile çalıştır (psycopg async, Proactor döngüs�
 - **Faz 8 tamam:** sinematik landing — kullanıcının videosundan 103 karelik, kaydırmayla oynatılan dizi; 4 perde,
   son perde gerçek uygulama ekranı + tarla sınırı çizimi; reduced-motion/Save-Data → poster (D-028).
   Kareleri yeniden üretmek: `python apps/web/scripts/extract-landing-frames.py video.mp4 --end 6.875`.
-- **Faz 9 (kısmen):** `/fields/[id]/summary` özet sayfası (6 kart, yöntem/kaynak tablosu, A4 yatay yazdırma) ve demo akışı hapı (`components/shell/demo-tour.tsx`) tamam.
-- **Sıradaki:** QA — Playwright + axe (@playwright/test, @axe-core/playwright; kurulu Edge ile channel msedge), prod duman testi.
-  Devam etmek için: `docs/HANDOFF.md`.
+- **Faz 9 tamam:** `/fields/[id]/summary` özet + yöntem/kaynak tablosu + A4 yazdırma, demo akışı hapı
+  (`components/shell/demo-tour.tsx`), `e2e/` uçtan uca + axe testleri (21 test, D-029).
+- **Kalan (kullanıcı tarafı):** prod duman testi (`SAT2SOIL_E2E_BASE_URL=… SAT2SOIL_E2E_API_URL=… pnpm e2e`),
+  3 dk sunum provası + yedek video (Q14), DB parolasını değiştirmek. P1 fikirleri `apps/web/task.md` "P1 sonra".
 - **Açık riskler:** DB parolası sohbette paylaşıldı, değiştirilmeli (D-021). POWER yağış toplamı istasyon verisiyle
   karşılaştırılmalı (D-019). Hero/kart görselleri tasarım ekran görüntüsünden kırpıldı; yüksek çözünürlüklü export gelirse değişir.

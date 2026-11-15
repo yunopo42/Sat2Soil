@@ -41,8 +41,8 @@
 - [ ] W05.5 Opsiyonel P1 OpenCV gerçek kart yükle/analiz akışı; analiz yoksa yükleme `prototip konsepti` olarak sınırlandırılır.
 
 ## Faz 6 — QA, performans ve canlıya alma [P0]
-- [ ] W06.1 Playwright uçtan uca: landing→tarla→NASA→rotasyon→ikiz→AgriSpray; Cypress gerekmez. **Kabul:** kritik akış geçer.
-- [ ] W06.2 Responsive, axe/WCAG AA uygunluk taraması, reduced-motion, klavye, ekran okuyucu etiketleri. **Kabul:** kritik erişilebilirlik hatası yok.
+- [x] W06.1 Playwright uçtan uca: landing→tarla→NASA→rotasyon→ikiz→AgriSpray; Cypress gerekmez. **Kabul:** kritik akış geçer.
+- [x] W06.2 Responsive, axe/WCAG AA uygunluk taraması, reduced-motion, klavye, ekran okuyucu etiketleri. **Kabul:** kritik erişilebilirlik hatası yok.
 - [ ] W06.3 Core Web Vitals, lazy map/chart, image optimizasyonu, rate-limit ve yük testi. **Kabul:** ölçülen sonuçları kaydet.
 - [ ] W06.4 Vercel Preview ve Production; env'leri ayır, backend CORS, HTTPS, rollback; domain testi. **Kabul:** yeni tarayıcıda URL üzerinden demo baştan sona çalışır.
 - [ ] W06.5 Jüri fallback: API kesilirse açık etiketli cache veya örnek veriye geç; slayt/video/screenshot yedeği. **Kabul:** internet kesintisi simüle ederek doğrula.
