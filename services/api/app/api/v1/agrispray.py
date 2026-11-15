@@ -18,6 +18,8 @@ from app.engines.spray import (
     SAMPLE_TIME,
     analyse_example,
     device_history,
+    measurement_points,
+    previous_sample,
     spray_checks,
 )
 from app.models.agrispray import (
@@ -27,6 +29,7 @@ from app.models.agrispray import (
     DeviceOut,
     DeviceReadings,
     HistogramBin,
+    MeasurementPointOut,
     PlantObservation,
     RegionalDay,
     RegionalOut,
@@ -47,7 +50,7 @@ REGIONAL_DAYS = 30
 WINDY_MS = 4.0  # daily mean at 2 m; such days usually have gusts well above spraying limits
 
 ASSUMPTIONS = [
-    "concept_device",
+    "prototype_device",
     "simulated_readings",
     "spray_guidance_general",
     "regional_wind_not_local",
@@ -139,6 +142,7 @@ async def agrispray(
     session: Annotated[DemoSession | None, Depends(optional_session)],
 ) -> AgriSprayOut:
     record = await _readable(repo, field_id, session)
+    history = device_history(str(field_id))
     regional, sources = await _regional(service, record.centroid_lat, record.centroid_lon)
     checks = [
         CheckOut(
@@ -158,13 +162,26 @@ async def agrispray(
             device_id=DEVICE_ID,
             recorded_at=SAMPLE_TIME,
             readings=DeviceReadings(**SAMPLE),  # type: ignore[arg-type]
+            previous=DeviceReadings(**previous_sample(history)),  # type: ignore[arg-type]
+            previous_at=SAMPLE_TIME - timedelta(hours=24),
             history=[
                 DeviceHistoryPoint(
                     at=r.at, soil_moisture_pct=r.soil_moisture_pct, soil_temp_c=r.soil_temp_c
                 )
-                for r in device_history(str(field_id))
+                for r in history
             ],
         ),
+        points=[
+            MeasurementPointOut(
+                code=p.code,
+                lat=p.lat,
+                lon=p.lon,
+                soil_moisture_pct=p.soil_moisture_pct,
+                soil_temp_c=p.soil_temp_c,
+                soil_ec_ds_m=p.soil_ec_ds_m,
+            )
+            for p in measurement_points(record.boundary, str(field_id))
+        ],
         checks=checks,
         regional=regional,
         plant_log=PLANT_LOG,

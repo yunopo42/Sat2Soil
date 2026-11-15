@@ -14,6 +14,8 @@ export type DrawTool = "none" | "select" | "polygon" | "rectangle";
 export type MapField = { id: string; boundary: Polygon };
 /** Map label; pass the top-centre of a field (see labelAnchor) so the pill sits above it. */
 export type MapLabel = { id: string; lngLat: [number, number]; title: string; value?: string };
+/** Small numbered dots (AgriSpray measurement points). */
+export type MapPoint = { id: string; lngLat: [number, number]; label: string };
 
 export function labelAnchor(polygon: Polygon): [number, number] {
   const b = polygonBounds(polygon);
@@ -38,6 +40,7 @@ export function FieldMap({
   clearToken = 0,
   focus = null,
   fillColor = null,
+  points = [],
   onShapeChange,
   ariaLabel,
   className,
@@ -52,6 +55,7 @@ export function FieldMap({
   focus?: MapFocus | null;
   /** Tints saved fields uniformly (digital twin). MapLibre fades the paint change itself. */
   fillColor?: string | null;
+  points?: MapPoint[];
   onShapeChange?: (polygon: Polygon | null) => void;
   ariaLabel: string;
   className?: string;
@@ -110,6 +114,7 @@ export function FieldMap({
           source: "grid",
           paint: { "line-color": "#ffffff", "line-width": 1.6, "line-dasharray": [3, 2] },
         });
+        map.addSource("points", { type: "geojson", data: EMPTY });
         map.addSource("fields", { type: "geojson", data: EMPTY });
         map.addLayer({ id: "fields-fill", type: "fill", source: "fields", paint: { "fill-color": "#4b7a22", "fill-opacity": 0.28 } });
         map.addLayer({ id: "fields-line", type: "line", source: "fields", paint: { "line-color": LIME, "line-width": 2.5 } });
@@ -202,6 +207,35 @@ export function FieldMap({
       features: fields.map((f) => ({ type: "Feature", id: f.id, properties: {}, geometry: f.boundary })),
     });
   }, [fields, ready]);
+
+  // Measurement points as circles drawn by MapLibre (no glyph server needed: labels stay in the legend).
+  useEffect(() => {
+    const map = mapRef.current;
+    const source = map?.getSource("points") as GeoJSONSource | undefined;
+    if (!ready || !map || !source) return;
+    if (!map.getLayer("points-circle")) {
+      map.addLayer({
+        id: "points-circle",
+        type: "circle",
+        source: "points",
+        paint: {
+          "circle-radius": 7,
+          "circle-color": "#e07b2e",
+          "circle-stroke-color": "#ffffff",
+          "circle-stroke-width": 2.5,
+        },
+      });
+    }
+    source.setData({
+      type: "FeatureCollection",
+      features: points.map((p) => ({
+        type: "Feature",
+        id: p.id,
+        properties: { label: p.label },
+        geometry: { type: "Point", coordinates: p.lngLat },
+      })),
+    });
+  }, [points, ready]);
 
   // Uniform tint (one value for the whole field, never a fake within-field pattern)
   useEffect(() => {

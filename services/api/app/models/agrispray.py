@@ -29,12 +29,15 @@ class DeviceHistoryPoint(BaseModel):
 
 class DeviceOut(BaseModel):
     device_id: str
-    status: Literal["concept"] = "concept"
+    # A physical prototype exists but sends no data yet (D-030).
+    status: Literal["prototype"] = "prototype"
     connected: bool = False
     source_type: DataSource = DataSource.SIMULATED_DEVICE
     computation_kind: ComputationKind = "mock"
     recorded_at: datetime
     readings: DeviceReadings
+    previous: DeviceReadings
+    previous_at: datetime
     history: list[DeviceHistoryPoint]
     quality_note: str = "sample_not_measurement"
 
@@ -66,6 +69,16 @@ class RegionalOut(BaseModel):
     days: list[RegionalDay]
 
 
+class MeasurementPointOut(BaseModel):
+    code: str
+    lat: float
+    lon: float
+    soil_moisture_pct: float
+    soil_temp_c: float
+    soil_ec_ds_m: float
+    source_type: DataSource = DataSource.SIMULATED_DEVICE
+
+
 class PlantObservation(BaseModel):
     date: date
     stage: Literal["before", "after"]
@@ -79,6 +92,7 @@ class AgriSprayOut(BaseModel):
     source_type: DataSource = DataSource.SIMULATED_DEVICE
     computation_kind: ComputationKind = "mock"
     device: DeviceOut
+    points: list[MeasurementPointOut]
     checks: list[CheckOut]
     regional: RegionalOut | None
     plant_log: list[PlantObservation]

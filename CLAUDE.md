@@ -1,6 +1,6 @@
 # CLAUDE.md — Sat2Soil
 
-> **Durum: v0.9 · 2026-11-15** — Faz 0–9 tamam (MVP). Kararlar D-001…D-029, `docs/DECISIONS.md`.
+> **Durum: v1.0 · 2026-11-15** — Faz 0–9 tamam (MVP), AgriSpray prototipi öne çıkarıldı. Kararlar D-001…D-030, `docs/DECISIONS.md`.
 > Kararların tamamı `docs/DECISIONS.md` içinde; bu dosya onların kısa özetidir.
 
 **Sat2Soil** — NASA Space Apps Challenge 2026.
@@ -42,7 +42,8 @@ Demo tarlası: **Konya Ovası** (D-013). Arayüz dili: **İngilizce varsayılan 
    POWER `PRECTOTCORR` asla GPM/IMERG diye gösterilmez. Sahte NDVI katmanı üretilmez.
 3. **Sahte kesinlik yok.** Litre bazlı sulama reçetesi, verim tahmini, ilaç etkinliği %, hastalık teşhisi üretilmez.
    POWER değeri bir grid hücresini temsil eder, tarla içi ölçüm değildir — UI bunu söyler.
-4. **AgriSpray her yerde `Konsept cihaz · Simüle veri`.** `source_type=simulated_device`, `computation_kind=mock`.
+4. **AgriSpray her yerde `Prototip · simüle veri`** (fiziksel prototip var, veri göndermiyor — D-030).
+   `source_type=simulated_device`, `computation_kind=mock`. Doz önerisi, ilaç etkinliği %, teşhis yok.
 5. **Secret yok.** Gerçek anahtar/parola/URL commit edilmez, uydurulmaz. `.env.example` yalnız değişken adlarını içerir.
    `SUPABASE_SERVICE_ROLE_KEY` yalnız backend'de yaşar; tarayıcı Supabase'e doğrudan bağlanmaz.
 6. **NASA logosu/insignia kullanılmaz.** "NASA estetiği" = tipografi, düzen, renk disiplini. Veri kaynakları
@@ -209,6 +210,8 @@ Windows'ta API'yi `--reload` ile çalıştır (psycopg async, Proactor döngüs�
   (`components/shell/demo-tour.tsx`), `e2e/` uçtan uca + axe testleri (21 test, D-029).
 - **Canlı doğrulandı (2026-11-15):** https://sat2-soil.vercel.app + https://sat2soil-api.onrender.com, e2e 21/21.
   Render push'ları kendiliğinden deploy etmedi; push sonrası Render Events'i kontrol et.
+- **AgriSpray prototipi (D-030):** sayfa kullanıcının tasarımıyla yeniden kuruldu, landing'de ayrı bölüm, menüde
+  "Prototip" rozeti, su/ikiz sayfalarında cihaz ipucu. API'ye `points` ve `device.previous` eklendi.
 - **Kalan (kullanıcı tarafı):** 3 dk sunum provası + yedek video (Q14), DB parolasını değiştirmek. P1 fikirleri `apps/web/task.md` "P1 sonra".
 - **Açık riskler:** DB parolası sohbette paylaşıldı, değiştirilmeli (D-021). POWER yağış toplamı istasyon verisiyle
   karşılaştırılmalı (D-019). Hero/kart görselleri tasarım ekran görüntüsünden kırpıldı; yüksek çözünürlüklü export gelirse değişir.

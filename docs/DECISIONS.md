@@ -240,3 +240,20 @@ Yazı tipi Plus Jakarta Sans (italik dahil) + sayılar için Geist Mono. D-003't
   = 0), API erişilemezken görünür hata (2). Bulunan erişilebilirlik hataları düzeltildi (wordmark `role="img"`,
   NASA veri merkezi ve özet sayfasındaki `dl` yapısı).
 - Prod duman testi aynı paketle: `SAT2SOIL_E2E_BASE_URL=<vercel> SAT2SOIL_E2E_API_URL=<render> pnpm e2e`.
+
+### D-030 · AgriSpray prototipi öne çıkıyor; değerler hâlâ simüle — `KABUL` (kullanıcı kararı, 2026-11-15)
+- Fiziksel prototip **var** (ESP32-S3 + makro kamera + değiştirilebilir toprak probu, ekibin beyanı) ama **veri
+  göndermiyor**. Etiket "Konsept cihaz" → **"Prototip · simüle veri"**. `source_type=simulated_device`,
+  `computation_kind=mock` değişmez; cihaz kimliği `SAT2SOIL_PROTO_01`, durum `prototype`, `connected=false`.
+- Cihaz görseli kullanıcının render'ı (`public/images/agrispray-device.webp`, arka planı kaldırıldı); landing videosundaki
+  cihazla aynı tasarım.
+- AgriSpray sayfası kullanıcının tasarımına göre yeniden kuruldu: hero (modül, cihaz, prototip bilgisi, "Sistem nasıl
+  çalışır" 4 adım), ölçüm noktaları haritası (tarla içinde 7 simüle nokta), kart taraması (önce/sonra), cihaz verileri
+  (24 sa öncesine göre nötr değişim), NASA katkısı (POWER gerçek son 30 gün; GPM, SMAP "Planlı"), analiz özeti.
+- Tasarımdan **uyarlananlar**: NASA logosu → metin (D-024); "AI analiz" → "Örnek hesap"; yaprak fotoğrafları → cihazın
+  gerçek görevi olan ilaçlama kartı taraması (gerçek fotoğraf yok, uydurulmaz); "Mevcut dozaj uygundur" → püskürtme
+  kalitesi geri bildirimi + "doz önerisi değildir" notu; GPM/SMAP canlı gibi değil "Planlı".
+- Site genelinde: landing'de "Uydu bölgeyi görür. AgriSpray tarlanızı ölçer." bölümü (NASA POWER ↔ AgriSpray
+  karşılaştırması, örnek tarlanın AgriSpray sayfasına bağlantı), menüde "AgriSpray · Prototip", su ve ikiz
+  sayfalarında uydu verisinin sınırını prototipe bağlayan ipucu, özet kartında cihaz görseli.
+- Yeni API alanları: `device.previous`, `device.previous_at`, `points[]` (`GET /v1/fields/{id}/agrispray`).

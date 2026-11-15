@@ -1,19 +1,28 @@
 "use client";
 
 import {
-  ArrowRight,
+  Bluetooth,
   Camera,
+  ChartBar,
   CheckCircle,
+  CloudRain,
   Cpu,
-  DeviceMobile,
   Drop,
+  FileText,
+  GlobeHemisphereEast,
+  Leaf,
+  Lightbulb,
   Lightning,
+  MapPin,
   Play,
+  Plant,
   Question,
-  Thermometer,
+  Scan,
+  Stack,
+  Target,
   ThermometerSimple,
+  Thermometer,
   WarningCircle,
-  Wind,
   XCircle,
 } from "@phosphor-icons/react/ssr";
 import type { Icon } from "@phosphor-icons/react";
@@ -21,39 +30,47 @@ import {
   SPRAY_CARD_VARIANTS,
   type AgriSpray,
   type CheckStatus,
+  type Field,
   type SprayCard,
   type SprayCardVariant,
 } from "@sat2soil/contracts";
 import { useQuery } from "@tanstack/react-query";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
 import { useFormatter, useTranslations } from "next-intl";
 import { useMemo, useState, type ReactNode } from "react";
 import { LineChart } from "@/components/charts/line-chart";
 import { ProvenanceFooter } from "@/components/data/provenance-footer";
 import { SourceBadge } from "@/components/data/source-badge";
+import { FieldMap, type MapPoint } from "@/components/map/field-map";
 import { Banner } from "@/components/ui/banner";
 import { Button } from "@/components/ui/button";
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
-import { PageHeader } from "@/components/ui/page-header";
 import { SegmentedControl } from "@/components/ui/segmented-control";
 import { Skeleton } from "@/components/ui/state-panel";
 import { Tabs } from "@/components/ui/tabs";
 import { ApiError, fetchAgriSpray, fetchSprayCard } from "@/lib/api";
 import { transition } from "@/lib/motion/tokens";
 import { cn } from "@/lib/cn";
+import deviceImage from "../../../../../../../public/images/agrispray-device.webp";
+import { fieldQuery } from "../field-shell";
 
 const SCAN_MS = 1100; // ≤ 1.2 s (MOTION_STORYBOARD M17)
 const day = (iso: string) => new Date(`${iso.slice(0, 10)}T12:00:00Z`);
 
-/** AgriSpray concept (Faz 7, UI_UX_DESIGN S-07, D-027). Everything from the device is simulated. */
+/**
+ * AgriSpray (Faz 7 → D-030): the team's physical prototype in front, every device value still
+ * simulated (`simulated_device`, `mock`). Layout follows the user's design; the parts that would
+ * break the honesty rules (NASA logo, AI analysis, dose advice, efficacy) are adapted, see D-030.
+ */
 export function AgriSprayView({ fieldId }: { fieldId: string }) {
   const t = useTranslations("spray");
   const tStates = useTranslations("states");
   const tUi = useTranslations("ui");
+  const field = useQuery(fieldQuery(fieldId));
   const data = useQuery({ queryKey: ["agrispray", fieldId], queryFn: () => fetchAgriSpray(fieldId) });
 
-  // The card analysis feeds both the "Spray card" tab and the report below, so it lives here.
+  // The card analysis feeds the scan, the summary and the details, so it lives here.
   const [variant, setVariant] = useState<SprayCardVariant>("uneven");
   const [run, setRun] = useState<{ variant: SprayCardVariant; token: number } | null>(null);
   const card = useQuery({
@@ -71,16 +88,17 @@ export function AgriSprayView({ fieldId }: { fieldId: string }) {
   const analysed = run && run.variant === variant ? card.data : undefined;
 
   return (
-    <div className="flex flex-col gap-6">
-      <PageHeader banner title={t("title")} emphasis={t("emphasis")} description={t("description")} />
+    <div className="flex flex-col gap-6 pb-8">
+      <Hero />
       <Banner variant="simulated" title={t("bannerTitle")}>
         {t("bannerBody")}
       </Banner>
 
       {data.isPending ? (
-        <div className="grid gap-6 xl:grid-cols-[2fr_3fr]">
-          <Skeleton className="h-96 rounded-lg" />
-          <Skeleton className="h-96 rounded-lg" />
+        <div className="grid gap-6 xl:grid-cols-3">
+          {Array.from({ length: 3 }, (_, i) => (
+            <Skeleton key={i} className="h-80 rounded-lg" />
+          ))}
         </div>
       ) : data.isError || !data.data ? (
         <Banner
@@ -94,138 +112,149 @@ export function AgriSprayView({ fieldId }: { fieldId: string }) {
         />
       ) : (
         <>
-          <div className="grid gap-6 xl:grid-cols-[2fr_3fr]">
-            <ConceptCard />
-            <SensorGrid data={data.data} />
+          <div className="grid gap-6 xl:grid-cols-3">
+            <PointsCard data={data.data} field={field.data} />
+            <ScanCard
+              variant={variant}
+              onVariant={setVariant}
+              result={analysed}
+              running={card.isFetching}
+              error={card.isError}
+              onRun={() => setRun({ variant, token: Date.now() })}
+            />
+            <ReadingsCard data={data.data} />
           </div>
-
-          <Card>
-            <CardBody>
-              <Tabs
-                label={t("tabs.label")}
-                defaultValue="card"
-                items={[
-                  {
-                    value: "card",
-                    label: t("tabs.card"),
-                    content: (
-                      <SprayCardPanel
-                        variant={variant}
-                        onVariant={setVariant}
-                        result={analysed}
-                        running={card.isFetching}
-                        error={card.isError}
-                        onRun={() => setRun({ variant, token: Date.now() })}
-                      />
-                    ),
-                  },
-                  { value: "soil", label: t("tabs.soil"), content: <SoilPanel data={data.data} /> },
-                  { value: "plant", label: t("tabs.plant"), content: <PlantPanel data={data.data} /> },
-                ]}
-              />
-            </CardBody>
-          </Card>
-
-          <Report data={data.data} card={analysed} />
+          <div className="grid gap-6 xl:grid-cols-[1fr_1.6fr]">
+            <NasaCard data={data.data} />
+            <SummaryBlock data={data.data} card={analysed} />
+          </div>
+          <Details data={data.data} card={analysed} />
         </>
       )}
     </div>
   );
 }
 
-function ConceptCard() {
-  const t = useTranslations("spray.concept");
-  const steps: { icon: Icon; label: string }[] = [
-    { icon: Cpu, label: t("device") },
-    { icon: DeviceMobile, label: t("phone") },
-    { icon: Lightning, label: t("api") },
+/* ------------------------------------------------------------------ hero */
+
+function Hero() {
+  const t = useTranslations("spray");
+  const features: { icon: Icon; label: string }[] = [
+    { icon: Target, label: t("hero.f1") },
+    { icon: Stack, label: t("hero.f2") },
+    { icon: Leaf, label: t("hero.f3") },
   ];
+  const steps: { icon: Icon; text: string; planned?: boolean }[] = [
+    { icon: MapPin, text: t("how.s1") },
+    { icon: Bluetooth, text: t("how.s2"), planned: true },
+    { icon: GlobeHemisphereEast, text: t("how.s3") },
+    { icon: ChartBar, text: t("how.s4") },
+  ];
+
   return (
-    <Card>
-      <CardHeader title={t("title")} aside={<SourceBadge source="simulated_device" />} />
-      <CardBody className="flex flex-col gap-5">
-        <figure className="flex flex-col items-center gap-2">
-          <div className="hatch-amber w-full rounded-lg border border-amber-600/40 p-3">
-            <Image
-              src="/images/agrispray-concept.webp"
-              alt={t("caption")}
-              width={308}
-              height={328}
-              className="mx-auto h-auto w-full max-w-[280px] rounded-md"
-            />
-          </div>
-          <figcaption className="text-center text-2xs text-ink-muted">{t("caption")}</figcaption>
-        </figure>
+    <section
+      aria-labelledby="agrispray-title"
+      className="relative overflow-hidden rounded-xl border border-line bg-linear-to-br from-green-50 via-surface to-surface p-6 shadow-card sm:p-8"
+    >
+      <div className="grid items-center gap-8 lg:grid-cols-[1.3fr_auto_1fr] 2xl:grid-cols-[1.25fr_auto_1fr_1.15fr]">
         <div>
-          <p className="text-xs font-semibold text-ink-muted">{t("flowTitle")}</p>
-          <ol className="mt-2 flex flex-wrap items-center gap-2">
-            {steps.map(({ icon: StepIcon, label }, i) => (
-              <li key={label} className="flex items-center gap-2">
-                <span className="flex items-center gap-1.5 rounded-md border border-dashed border-line-strong bg-surface-2 px-2.5 py-1.5 text-xs font-semibold">
-                  <StepIcon aria-hidden="true" className="size-4 text-ink-muted" />
-                  {label}
+          <p className="inline-flex items-center gap-2 rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-green-800">
+            <Leaf aria-hidden="true" weight="fill" className="size-4" />
+            {t("hero.module")}
+          </p>
+          <h1 id="agrispray-title" className="mt-4 text-2xl leading-tight font-extrabold tracking-tight text-ink sm:text-[2.6rem]">
+            {t("hero.title")} <em className="text-green-700">{t("hero.emphasis")}</em>
+          </h1>
+          <p className="mt-4 max-w-xl text-base leading-relaxed text-ink-muted">{t("hero.lead")}</p>
+          <ul className="mt-6 grid max-w-xl grid-cols-3 gap-3 border-t border-line pt-5">
+            {features.map(({ icon: FeatureIcon, label }) => (
+              <li key={label} className="flex flex-col gap-2 text-sm font-semibold text-ink">
+                <FeatureIcon aria-hidden="true" weight="duotone" className="size-7 text-green-600" />
+                {label}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="flex justify-center">
+          <Image
+            src={deviceImage}
+            alt={t("device.alt")}
+            priority
+            sizes="160px"
+            className="h-72 w-auto drop-shadow-[0_24px_24px_rgba(15,27,45,0.22)] sm:h-80"
+          />
+        </div>
+
+        <div>
+          <p className="inline-flex rounded-full border border-orange-500/40 bg-orange-200/40 px-3 py-1 text-xs font-bold text-amber-700">
+            {t("device.chip")}
+          </p>
+          <h2 className="mt-3 text-xl font-extrabold text-ink">{t("device.title")}</h2>
+          <p className="mt-2 font-mono text-xs font-semibold text-ink">{t("device.spec")}</p>
+          <p className="mt-3 text-sm leading-relaxed text-ink-muted">{t("device.body")}</p>
+          <p className="mt-4 flex items-center gap-2 border-t border-line pt-4 text-xs font-semibold text-amber-700">
+            <span aria-hidden="true" className="size-2 rounded-full bg-amber-600" />
+            {t("device.status")}
+          </p>
+        </div>
+
+        <div className="rounded-xl border border-line bg-surface p-5 lg:col-span-3 2xl:col-span-1">
+          <h2 className="text-base font-extrabold text-ink">{t("how.title")}</h2>
+          <ol className="mt-4 flex flex-col gap-3">
+            {steps.map(({ icon: StepIcon, text, planned }, i) => (
+              <li key={text} className="grid grid-cols-[1.75rem_2rem_1fr] items-start gap-2 text-sm">
+                <span className="grid size-7 place-items-center rounded-full bg-green-600 text-xs font-bold text-white">{i + 1}</span>
+                <StepIcon aria-hidden="true" weight="duotone" className="mt-0.5 size-6 text-green-700" />
+                <span className="text-ink">
+                  {text}
+                  {planned ? (
+                    <span className="ml-2 rounded-full bg-surface-2 px-2 py-0.5 text-2xs font-bold text-ink-muted">{t("how.planned")}</span>
+                  ) : null}
                 </span>
-                {i < steps.length - 1 ? (
-                  <span className="flex items-center gap-1 text-2xs font-semibold text-amber-700">
-                    <ArrowRight aria-hidden="true" className="size-3.5" />
-                    {t("planned")}
-                  </span>
-                ) : null}
               </li>
             ))}
           </ol>
         </div>
-      </CardBody>
-    </Card>
+      </div>
+    </section>
   );
 }
 
-function SensorGrid({ data }: { data: AgriSpray }) {
-  const t = useTranslations("spray.sensors");
+/* ------------------------------------------------------------------ row 1 */
+
+function PointsCard({ data, field }: { data: AgriSpray; field: Field | undefined }) {
+  const t = useTranslations("spray.points");
   const format = useFormatter();
-  const r = data.device.readings;
-  const stamp = `${data.device.device_id} · ${format.dateTime(new Date(data.device.recorded_at), {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "UTC",
-  })} UTC`;
-  const sensors: { key: string; icon: Icon; tone: string; value: number | null; unit: string; digits: number }[] = [
-    { key: "soil_moisture", icon: Drop, tone: "text-sky-600", value: r.soil_moisture_pct, unit: "%", digits: 1 },
-    { key: "soil_temp", icon: ThermometerSimple, tone: "text-orange-500", value: r.soil_temp_c, unit: "°C", digits: 1 },
-    { key: "soil_ec", icon: Lightning, tone: "text-green-600", value: r.soil_ec_ds_m, unit: "dS/m", digits: 2 },
-    { key: "air_temp", icon: Thermometer, tone: "text-orange-500", value: r.air_temp_c, unit: "°C", digits: 1 },
-    { key: "air_rh", icon: Drop, tone: "text-sky-600", value: r.air_rh_pct, unit: "%", digits: 0 },
-    { key: "wind", icon: Wind, tone: "text-ink-muted", value: r.wind_ms, unit: "m/s", digits: 1 },
-  ];
+  const points: MapPoint[] = useMemo(
+    () => data.points.map((p) => ({ id: p.code, lngLat: [p.lon, p.lat], label: p.code })),
+    [data.points],
+  );
+  const focus = useMemo(() => (field ? { polygon: field.boundary, token: 1 } : null), [field]);
+  const fields = useMemo(() => (field ? [{ id: field.id, boundary: field.boundary }] : []), [field]);
   return (
-    <Card>
-      <CardHeader title={t("title")} aside={<SourceBadge source="simulated_device" detail="mock" />} />
-      <CardBody>
-        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {sensors.map(({ key, icon: SensorIcon, tone, value, unit, digits }) => (
-            <li
-              key={key}
-              className={cn(
-                "flex flex-col gap-2 rounded-lg border p-4",
-                value === null ? "border-line bg-surface-2" : "hatch-amber border-amber-600/30",
-              )}
-            >
-              <span className="flex items-center justify-between gap-2">
-                <span className="flex items-center gap-2 text-sm font-semibold">
-                  <SensorIcon aria-hidden="true" weight="duotone" className={cn("size-5", tone)} />
-                  {t(key as never)}
-                </span>
-                {value === null ? <SourceBadge source="unavailable" /> : null}
-              </span>
-              <span className="font-mono text-xl font-bold">
-                {value === null
-                  ? "—"
-                  : `${format.number(value, { minimumFractionDigits: digits, maximumFractionDigits: digits })} ${unit}`}
-              </span>
-              <span className="font-mono text-2xs text-ink-muted">{value === null ? t("noSensor") : stamp}</span>
+    <Card className="flex flex-col">
+      <CardHeader
+        icon={<MapPin weight="duotone" className="text-green-600" />}
+        title={t("title")}
+        aside={<SourceBadge source="simulated_device" />}
+      />
+      <CardBody className="flex flex-1 flex-col gap-3 pt-0">
+        <div className="h-60 overflow-hidden rounded-lg">
+          {field ? (
+            <FieldMap ariaLabel={t("title")} className="h-full w-full" fields={fields} focus={focus} points={points} />
+          ) : (
+            <Skeleton className="h-full w-full" />
+          )}
+        </div>
+        <p className="flex items-center gap-2 text-xs text-ink-muted">
+          <span aria-hidden="true" className="size-3 rounded-full border-2 border-white bg-orange-500 shadow" />
+          {t("legend", { count: data.points.length, area: field ? format.number(field.area_ha, { maximumFractionDigits: 1 }) : "—" })}
+        </p>
+        <ul className="grid grid-cols-2 gap-x-4 gap-y-1 font-mono text-2xs text-ink-muted sm:grid-cols-4 xl:grid-cols-2 2xl:grid-cols-4">
+          {data.points.map((p) => (
+            <li key={p.code}>
+              <span className="font-bold text-ink">{p.code}</span> · {t("moisture", { value: format.number(p.soil_moisture_pct, { maximumFractionDigits: 1 }) })}
             </li>
           ))}
         </ul>
@@ -234,7 +263,7 @@ function SensorGrid({ data }: { data: AgriSpray }) {
   );
 }
 
-function SprayCardPanel({
+function ScanCard({
   variant,
   onVariant,
   result,
@@ -249,110 +278,377 @@ function SprayCardPanel({
   error: boolean;
   onRun: () => void;
 }) {
-  const t = useTranslations("spray.card");
+  const t = useTranslations("spray");
   const tStates = useTranslations("states");
-  const format = useFormatter();
-  const n = (v: number, d = 1) => format.number(v, { minimumFractionDigits: d, maximumFractionDigits: d });
-  // The original card is shown before analysis too, so fetch it quietly (same cached endpoint).
+  const [showMask, setShowMask] = useState(false);
+  // The synthetic card is shown before analysis too (same cached endpoint).
   const preview = useQuery({ queryKey: ["spray-card-preview", variant], queryFn: () => fetchSprayCard(variant), staleTime: Infinity });
   const card = result ?? preview.data;
+  const cardMm = card?.card_mm ?? [76, 26];
 
   return (
-    <div className="flex flex-col gap-5 pt-5">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div className="max-w-xl">
-          <h3 className="text-base font-bold">{t("title")}</h3>
-          <p className="mt-1 text-sm text-ink-muted">{t("lead")}</p>
-        </div>
-        <div className="flex flex-wrap items-center gap-3">
-          <SegmentedControl
-            label={t("variantLabel")}
-            value={variant}
-            onValueChange={onVariant}
-            options={SPRAY_CARD_VARIANTS.map((v) => ({ value: v, label: t(`variants.${v}`) }))}
-          />
-          <Button onClick={onRun} disabled={running}>
-            <Play aria-hidden="true" weight="fill" />
-            {running ? t("running") : result ? t("rerun") : t("run")}
-          </Button>
-        </div>
-      </div>
-
-      <div className="grid gap-4 lg:grid-cols-2">
+    <Card className="flex flex-col">
+      <CardHeader
+        icon={<Scan weight="duotone" className="text-green-600" />}
+        title={t("scan.title")}
+        aside={<SourceBadge source="simulated_device" />}
+      />
+      <CardBody className="flex flex-1 flex-col gap-3 pt-0">
+        <SegmentedControl
+          label={t("card.variantLabel")}
+          value={variant}
+          onValueChange={(v) => {
+            setShowMask(false);
+            onVariant(v);
+          }}
+          options={SPRAY_CARD_VARIANTS.map((v) => ({ value: v, label: t(`card.variants.${v}`) }))}
+        />
         <figure>
-          <figcaption className="mb-2 flex items-center justify-between text-xs font-semibold text-ink-muted">
-            {t("original")}
-            <SourceBadge source="simulated_device" detail={t("example")} />
+          <figcaption className="mb-1.5 text-xs font-semibold text-ink-muted">{t("scan.before")}</figcaption>
+          <div className="overflow-hidden rounded-md border border-line">
+            <CardImage width={cardMm[0]} height={cardMm[1]} stains={[]} />
+          </div>
+        </figure>
+        <figure>
+          <figcaption className="mb-1.5 flex items-center justify-between gap-2 text-xs font-semibold text-ink-muted">
+            {t("scan.after")}
+            {result ? (
+              <button type="button" onClick={() => setShowMask((v) => !v)} className="font-bold text-green-700 hover:underline">
+                {showMask ? t("scan.showCard") : t("scan.showMask")}
+              </button>
+            ) : null}
           </figcaption>
-          <div className="relative overflow-hidden rounded-md border border-line">
-            {card ? <CardImage card={card} /> : <Skeleton className="aspect-[76/26] w-full" />}
+          <div className="relative overflow-hidden rounded-md border border-line bg-navy-900">
+            {card ? (
+              result && showMask ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={result.mask_png} alt={t("card.mask")} className="block aspect-[76/26] w-full [image-rendering:pixelated]" />
+              ) : (
+                <CardImage width={cardMm[0]} height={cardMm[1]} stains={card.stains} />
+              )
+            ) : (
+              <Skeleton className="aspect-[76/26] w-full" />
+            )}
             <ScanLine active={running} />
           </div>
         </figure>
-        <figure>
-          <figcaption className="mb-2 text-xs font-semibold text-ink-muted">{t("mask")}</figcaption>
-          <div className="relative flex aspect-[76/26] items-center justify-center overflow-hidden rounded-md border border-line bg-navy-900">
-            <AnimatePresence mode="wait">
-              {result ? (
-                <motion.img
-                  key={result.variant}
-                  src={result.mask_png}
-                  alt={t("mask")}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={transition.normal}
-                  className="h-full w-full [image-rendering:pixelated]"
-                />
-              ) : (
-                <p className="px-6 text-center text-xs text-white/70">{error ? tStates("errorTitle") : t("notRun")}</p>
-              )}
-            </AnimatePresence>
-          </div>
-        </figure>
-      </div>
+        {error ? <p className="text-xs text-red-700">{tStates("errorTitle")}</p> : null}
+        <Button onClick={onRun} disabled={running} className="mt-auto">
+          <Play aria-hidden="true" weight="fill" />
+          {running ? t("card.running") : result ? t("card.rerun") : t("card.run")}
+        </Button>
+      </CardBody>
+    </Card>
+  );
+}
 
-      {result ? (
-        <motion.div
-          key={`${result.variant}-results`}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={transition.normal}
-          className="grid gap-4 lg:grid-cols-[1fr_1fr_1.2fr]"
-        >
-          <dl className="flex flex-col gap-3 rounded-lg border border-line p-4">
-            <Metric label={t("coverage")} value={`${n(result.coverage_pct)} %`} />
-            <Metric label={t("density")} value={n(result.regions_per_cm2)} />
-            <Metric
-              label={t("uniformity")}
-              value={`${t(`uniformityValue.${result.uniformity}`)}${result.denser_side ? ` · ${t(`denser.${result.denser_side}`)}` : ""}`}
-              note={`${t("cv", { cv: n(result.uniformity_cv_pct) })} · ${t("halves", { left: n(result.left_coverage_pct), right: n(result.right_coverage_pct) })}`}
-            />
-          </dl>
-          <div className="flex flex-col gap-3 rounded-lg border border-line p-4">
-            <p className="text-xs font-semibold text-ink-muted">{t("zonesTitle")}</p>
-            <Zones zones={result.zone_coverage} />
-            <p className="text-2xs text-ink-muted">{t("merging", { generated: result.generated_stains, regions: result.regions })}</p>
+function ReadingsCard({ data }: { data: AgriSpray }) {
+  const t = useTranslations("spray");
+  const format = useFormatter();
+  const now = data.device.readings;
+  const before = data.device.previous;
+  const tiles: { key: string; icon: Icon; tone: string; value: number | null; previous: number | null; unit: string; digits: number }[] = [
+    { key: "soil_moisture", icon: Drop, tone: "text-sky-600", value: now.soil_moisture_pct, previous: before.soil_moisture_pct, unit: "%", digits: 1 },
+    { key: "soil_temp", icon: ThermometerSimple, tone: "text-orange-500", value: now.soil_temp_c, previous: before.soil_temp_c, unit: "°C", digits: 1 },
+    { key: "soil_ec", icon: Lightning, tone: "text-green-600", value: now.soil_ec_ds_m, previous: before.soil_ec_ds_m, unit: "dS/m", digits: 2 },
+    { key: "air_rh", icon: Drop, tone: "text-sky-600", value: now.air_rh_pct, previous: before.air_rh_pct, unit: "%", digits: 0 },
+  ];
+  const stamp = `${data.device.device_id} · ${format.dateTime(new Date(data.device.recorded_at), {
+    day: "numeric",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "UTC",
+  })} UTC`;
+  return (
+    <Card className="flex flex-col">
+      <CardHeader
+        icon={<Cpu weight="duotone" className="text-amber-700" />}
+        title={t("readings.title")}
+        aside={<SourceBadge source="simulated_device" />}
+      />
+      <CardBody className="flex flex-1 flex-col gap-3 pt-0">
+        <ul className="grid grid-cols-2 gap-3">
+          {tiles.map(({ key, icon: TileIcon, tone, value, previous, unit, digits }) => {
+            const delta = value !== null && previous !== null ? value - previous : null;
+            const shown = delta === null ? null : Number(delta.toFixed(digits));
+            return (
+              <li key={key} className="hatch-amber flex flex-col gap-1.5 rounded-lg border border-amber-600/25 p-3">
+                <span className="flex items-center gap-1.5 text-xs font-semibold text-ink">
+                  <TileIcon aria-hidden="true" weight="duotone" className={cn("size-5", tone)} />
+                  {t(`sensors.${key}` as never)}
+                </span>
+                <span className="font-mono text-lg font-bold whitespace-nowrap">
+                  {value === null ? "—" : `${format.number(value, { minimumFractionDigits: digits, maximumFractionDigits: digits })} ${unit}`}
+                </span>
+                {/* Change chips are neutral: a rise is not "good" or "bad" by itself (D-020). */}
+                <span className="w-fit rounded-full bg-surface px-2 py-0.5 font-mono text-2xs text-ink-muted">
+                  {shown === null || shown === 0
+                    ? t("readings.noChange")
+                    : `${shown > 0 ? "+" : "−"}${format.number(Math.abs(shown), { minimumFractionDigits: digits, maximumFractionDigits: digits })} ${unit}`}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+        <p className="mt-auto font-mono text-2xs text-ink-muted">
+          {stamp} · {t("readings.change")}
+        </p>
+      </CardBody>
+    </Card>
+  );
+}
+
+/* ------------------------------------------------------------------ row 2 */
+
+function NasaCard({ data }: { data: AgriSpray }) {
+  const t = useTranslations("spray.nasa");
+  const tRegional = useTranslations("spray.regional");
+  const tStatus = useTranslations("landing.status");
+  const format = useFormatter();
+  const regional = data.regional;
+  const source = data.data_sources[0];
+  const stats = useMemo(() => {
+    if (!regional) return null;
+    const pick = (key: "precip_mm" | "rh_pct" | "wind_ms") =>
+      regional.days.map((d) => d[key]).filter((v): v is number => v !== null);
+    const rain = pick("precip_mm");
+    const rh = pick("rh_pct");
+    const wind = pick("wind_ms");
+    const mean = (v: number[]) => (v.length ? v.reduce((a, b) => a + b, 0) / v.length : null);
+    return {
+      rain: rain.length ? rain.reduce((a, b) => a + b, 0) : null,
+      rh: mean(rh),
+      wind: mean(wind),
+      points: regional.days.map((d) => ({ t: day(d.date), v: d.wind_ms })),
+    };
+  }, [regional]);
+  const n = (v: number | null | undefined, d = 0) => (v === null || v === undefined ? "—" : format.number(v, { minimumFractionDigits: d, maximumFractionDigits: d }));
+
+  const planned: { key: "gpm" | "smap"; name: string; icon: Icon }[] = [
+    { key: "gpm", name: "GPM IMERG", icon: CloudRain },
+    { key: "smap", name: "SMAP", icon: Stack },
+  ];
+  return (
+    <Card className="flex flex-col">
+      <CardHeader icon={<GlobeHemisphereEast weight="duotone" className="text-navy-600" />} title={t("title")} description={t("lead")} />
+      <CardBody className="flex flex-col gap-3 pt-0">
+        <div className="rounded-lg border border-navy-200 bg-navy-50/50 p-4">
+          <div className="flex items-start justify-between gap-3">
+            <p className="text-sm font-extrabold text-navy-900">
+              NASA POWER <span className="font-semibold text-ink-muted">· {t("power")}</span>
+            </p>
+            {regional ? <SourceBadge source={regional.source_type} detail="POWER" /> : <SourceBadge source="unavailable" />}
           </div>
-          <div className="flex flex-col gap-3 rounded-lg border border-line p-4">
-            <p className="text-xs font-semibold text-ink-muted">{t("histTitle")}</p>
-            <Histogram bins={result.histogram} />
-            <p className="text-2xs text-ink-muted">{t("histNote")}</p>
-          </div>
-          <p className="rounded-md bg-surface-2 p-3 text-xs text-ink lg:col-span-3">{t("guidance")}</p>
-        </motion.div>
+          {stats ? (
+            <>
+              <p className="mt-2 text-sm text-ink">{t("powerBody", { rain: n(stats.rain), rh: n(stats.rh), wind: n(stats.wind, 1) })}</p>
+              <div className="mt-2">
+                <LineChart label={tRegional("series")} unit="m/s" height={120} series={[{ id: "ws", label: "WS2M", tone: "observed", points: stats.points }]} />
+              </div>
+              <p className="text-2xs text-ink-muted">{tRegional("note")}</p>
+            </>
+          ) : (
+            <p className="mt-2 text-sm text-ink-muted">{tRegional("unavailable")}</p>
+          )}
+        </div>
+        <ul className="grid gap-3 sm:grid-cols-2">
+          {planned.map(({ key, name, icon: SourceIcon }) => (
+            <li key={key} className="rounded-lg border border-line p-3">
+              <p className="flex items-center justify-between gap-2 text-sm font-extrabold">
+                <span className="flex items-center gap-2">
+                  <SourceIcon aria-hidden="true" weight="duotone" className="size-5 text-sky-600" />
+                  {name}
+                </span>
+                <span className="rounded-full bg-surface-2 px-2 py-0.5 text-2xs font-bold text-ink-muted">{tStatus("planned")}</span>
+              </p>
+              <p className="mt-1 text-xs text-ink-muted">
+                <span className="font-semibold text-ink">{t(key)}</span> · {t(`${key}Body`)}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </CardBody>
+      {source && regional ? (
+        <ProvenanceFooter items={[`${source.name} · ${source.product}`, "WS2M · RH2M · PRECTOTCORR", source.grid_cell, `${regional.start} – ${regional.end}`]} />
       ) : null}
+    </Card>
+  );
+}
+
+const STATUS: Record<CheckStatus, { icon: Icon; className: string }> = {
+  within: { icon: CheckCircle, className: "bg-green-100 text-green-800" },
+  caution: { icon: WarningCircle, className: "bg-amber-50 text-amber-700" },
+  outside: { icon: XCircle, className: "bg-red-50 text-red-700" },
+  unknown: { icon: Question, className: "bg-surface-2 text-ink-muted" },
+};
+
+function SummaryBlock({ data, card }: { data: AgriSpray; card: SprayCard | undefined }) {
+  const t = useTranslations("spray");
+  const format = useFormatter();
+  const n = (v: number | null | undefined, d = 1) => (v === null || v === undefined ? "—" : format.number(v, { minimumFractionDigits: d, maximumFractionDigits: d }));
+  const deltaT = data.checks.find((c) => c.code === "delta_t");
+  const [before, after] = data.plant_log;
+  const advice = !card
+    ? null
+    : card.coverage_pct < 10
+      ? t("summary.adviceLow")
+      : card.denser_side
+        ? t("summary.adviceSide", { side: t(`summary.${card.denser_side}`) })
+        : t("summary.adviceEven");
+
+  const columns: { icon: Icon; tone: string; title: string; body: ReactNode }[] = [
+    {
+      icon: Target,
+      tone: "text-green-600",
+      title: t("summary.coverage"),
+      body: card ? (
+        t("summary.coverageValue", { pct: n(card.coverage_pct), density: n(card.regions_per_cm2) })
+      ) : (
+        <span className="text-ink-muted">{t("summary.coverageEmpty")}</span>
+      ),
+    },
+    {
+      icon: Thermometer,
+      tone: "text-orange-500",
+      title: t("summary.environment"),
+      body: (
+        <>
+          {t("summary.environmentValue", {
+            dt: n(deltaT?.value),
+            temp: n(data.device.readings.air_temp_c),
+            rh: n(data.device.readings.air_rh_pct, 0),
+          })}
+          {deltaT ? (
+            <span className={cn("mt-2 flex w-fit items-center gap-1 rounded-full px-2 py-0.5 text-2xs font-bold", STATUS[deltaT.status].className)}>
+              {t(`checks.status.${deltaT.status}`)}
+            </span>
+          ) : null}
+        </>
+      ),
+    },
+    {
+      icon: Plant,
+      tone: "text-green-700",
+      title: t("summary.plant"),
+      body:
+        before && after
+          ? t("summary.plantValue", { before: before.leaves_with_spots, after: after.leaves_with_spots, checked: after.leaves_checked })
+          : "—",
+    },
+  ];
+
+  return (
+    <Card className="flex flex-col">
+      <CardHeader icon={<FileText weight="duotone" className="text-green-600" />} title={t("summary.title")} aside={<SourceBadge source="simulated_device" />} />
+      <CardBody className="grid flex-1 gap-4 pt-0 md:grid-cols-[1fr_1fr_1fr_1.25fr]">
+        {columns.map(({ icon: ColumnIcon, tone, title, body }) => (
+          <div key={title} className="flex flex-col gap-2 border-line md:border-r md:pr-4">
+            <p className="flex items-center gap-2 text-sm font-extrabold">
+              <ColumnIcon aria-hidden="true" weight="duotone" className={cn("size-6", tone)} />
+              {title}
+            </p>
+            <div className="text-sm text-ink">{body}</div>
+          </div>
+        ))}
+        <div className="flex flex-col gap-2 rounded-lg bg-orange-200/30 p-4">
+          <p className="flex items-center gap-2 text-sm font-extrabold">
+            <Lightbulb aria-hidden="true" weight="duotone" className="size-6 text-amber-700" />
+            {t("summary.advice")}
+          </p>
+          <p className="text-sm text-ink">{advice ?? <span className="text-ink-muted">{t("summary.coverageEmpty")}</span>}</p>
+          <p className="mt-auto text-2xs text-ink-muted">{t("summary.adviceNote")}</p>
+        </div>
+      </CardBody>
+    </Card>
+  );
+}
+
+/* ------------------------------------------------------------------ details */
+
+function Details({ data, card }: { data: AgriSpray; card: SprayCard | undefined }) {
+  const t = useTranslations("spray");
+  const tA = useTranslations("planning.assumptions");
+  const tU = useTranslations("planning.uncertainty");
+  return (
+    <section aria-labelledby="spray-details" className="flex flex-col gap-4">
+      <h2 id="spray-details" className="text-lg font-bold">
+        {t("details.title")}
+      </h2>
+      <Card>
+        <CardBody>
+          <Tabs
+            label={t("tabs.label")}
+            defaultValue="card"
+            items={[
+              { value: "card", label: t("tabs.card"), content: <CardDetails card={card} /> },
+              { value: "soil", label: t("tabs.soil"), content: <SoilPanel data={data} /> },
+              { value: "plant", label: t("tabs.plant"), content: <PlantPanel data={data} /> },
+            ]}
+          />
+        </CardBody>
+      </Card>
+      <Card>
+        <CardHeader title={tA("title")} aside={<SourceBadge source="simulated_device" detail="mock" />} />
+        <CardBody>
+          <ul className="grid list-disc gap-x-8 gap-y-1.5 pl-4 text-sm text-ink-muted md:grid-cols-2">
+            {[...data.assumptions, ...(card?.assumptions ?? [])]
+              .filter((code, i, all) => all.indexOf(code) === i)
+              .map((code) => (
+                <li key={code}>{tA.has(code as never) ? tA(code as never) : code}</li>
+              ))}
+          </ul>
+          <p className="mt-4 rounded-md bg-surface-2 p-3 text-sm text-ink">
+            {tU.has(data.uncertainty_note as never) ? tU(data.uncertainty_note as never) : data.uncertainty_note}
+          </p>
+        </CardBody>
+        {card ? <ProvenanceFooter items={[card.method]} /> : null}
+      </Card>
+    </section>
+  );
+}
+
+function CardDetails({ card }: { card: SprayCard | undefined }) {
+  const t = useTranslations("spray.card");
+  const tSummary = useTranslations("spray.summary");
+  const format = useFormatter();
+  const n = (v: number, d = 1) => format.number(v, { minimumFractionDigits: d, maximumFractionDigits: d });
+  if (!card) return <p className="pt-5 text-sm text-ink-muted">{tSummary("coverageEmpty")}</p>;
+  return (
+    <div className="grid gap-4 pt-5 lg:grid-cols-[1fr_1fr_1.2fr]">
+      <dl className="flex flex-col gap-3 rounded-lg border border-line p-4">
+        <Metric label={t("coverage")} value={`${n(card.coverage_pct)} %`} />
+        <Metric label={t("density")} value={n(card.regions_per_cm2)} />
+        <Metric
+          label={t("uniformity")}
+          value={`${t(`uniformityValue.${card.uniformity}`)}${card.denser_side ? ` · ${t(`denser.${card.denser_side}`)}` : ""}`}
+          note={`${t("cv", { cv: n(card.uniformity_cv_pct) })} · ${t("halves", { left: n(card.left_coverage_pct), right: n(card.right_coverage_pct) })}`}
+        />
+      </dl>
+      <div className="flex flex-col gap-3 rounded-lg border border-line p-4">
+        <p className="text-xs font-semibold text-ink-muted">{t("zonesTitle")}</p>
+        <Zones zones={card.zone_coverage} />
+        <p className="text-2xs text-ink-muted">{t("merging", { generated: card.generated_stains, regions: card.regions })}</p>
+      </div>
+      <div className="flex flex-col gap-3 rounded-lg border border-line p-4">
+        <p className="text-xs font-semibold text-ink-muted">{t("histTitle")}</p>
+        <Histogram bins={card.histogram} />
+        <p className="text-2xs text-ink-muted">{t("histNote")}</p>
+      </div>
+      <p className="rounded-md bg-surface-2 p-3 text-xs text-ink lg:col-span-3">{t("guidance")}</p>
     </div>
   );
 }
 
-/** The synthetic card drawn from its stain list (mm units, so it is to scale). */
-function CardImage({ card }: { card: SprayCard }) {
-  const [w, h] = card.card_mm;
+/* ------------------------------------------------------------------ pieces */
+
+/** A water-sensitive paper card drawn to scale from its stain list (mm units). */
+function CardImage({ width, height, stains }: { width: number; height: number; stains: SprayCard["stains"] }) {
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} className="block aspect-[76/26] w-full" role="img" aria-label="Synthetic water-sensitive paper">
-      <rect width={w} height={h} fill="#f2d43c" />
+    <svg viewBox={`0 0 ${width} ${height}`} className="block aspect-[76/26] w-full" role="img" aria-label="Water-sensitive paper">
+      <rect width={width} height={height} fill="#f2d43c" />
       <g fill="#1d4fae" fillOpacity={0.88}>
-        {card.stains.map((s, i) => (
+        {stains.map((s, i) => (
           <circle key={i} cx={s.x} cy={s.y} r={s.d / 2000} />
         ))}
       </g>
@@ -430,14 +726,8 @@ function Metric({ label, value, note }: { label: string; value: string; note?: s
 function SoilPanel({ data }: { data: AgriSpray }) {
   const t = useTranslations("spray.soil");
   const format = useFormatter();
-  const moisture = useMemo(
-    () => data.device.history.map((p) => ({ t: new Date(p.at), v: p.soil_moisture_pct })),
-    [data.device.history],
-  );
-  const temperature = useMemo(
-    () => data.device.history.map((p) => ({ t: new Date(p.at), v: p.soil_temp_c })),
-    [data.device.history],
-  );
+  const moisture = useMemo(() => data.device.history.map((p) => ({ t: new Date(p.at), v: p.soil_moisture_pct })), [data.device.history]);
+  const temperature = useMemo(() => data.device.history.map((p) => ({ t: new Date(p.at), v: p.soil_temp_c })), [data.device.history]);
   return (
     <div className="flex flex-col gap-5 pt-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -479,8 +769,7 @@ function PlantPanel({ data }: { data: AgriSpray }) {
             </div>
             <figcaption className="flex flex-col gap-0.5 text-sm">
               <span className="font-bold">
-                {t(o.stage, { date: format.dateTime(day(o.date), { day: "numeric", month: "short" }) })} ·{" "}
-                {t("plantTag", { tag: o.plant_tag })}
+                {t(o.stage, { date: format.dateTime(day(o.date), { day: "numeric", month: "short" }) })} · {t("plantTag", { tag: o.plant_tag })}
               </span>
               <span className="font-mono text-xs">{t("leaves", { spots: o.leaves_with_spots, checked: o.leaves_checked })}</span>
             </figcaption>
@@ -488,152 +777,6 @@ function PlantPanel({ data }: { data: AgriSpray }) {
         ))}
       </div>
       <p className="rounded-md bg-surface-2 p-3 text-sm">{t("disclaimer")}</p>
-    </div>
-  );
-}
-
-const STATUS: Record<CheckStatus, { icon: Icon; className: string }> = {
-  within: { icon: CheckCircle, className: "bg-green-100 text-green-800" },
-  caution: { icon: WarningCircle, className: "bg-amber-50 text-amber-700" },
-  outside: { icon: XCircle, className: "bg-red-50 text-red-700" },
-  unknown: { icon: Question, className: "bg-surface-2 text-ink-muted" },
-};
-
-function Report({ data, card }: { data: AgriSpray; card: SprayCard | undefined }) {
-  const t = useTranslations("spray");
-  const tA = useTranslations("planning.assumptions");
-  const tU = useTranslations("planning.uncertainty");
-  const format = useFormatter();
-  const n = (v: number | null, d = 1) => (v === null ? "—" : format.number(v, { minimumFractionDigits: d, maximumFractionDigits: d }));
-  const [before, after] = data.plant_log;
-  const regional = data.regional;
-  const source = data.data_sources[0];
-  const wind = useMemo(
-    () => (regional ? regional.days.map((d) => ({ t: day(d.date), v: d.wind_ms })) : []),
-    [regional],
-  );
-
-  return (
-    <section aria-labelledby="spray-report" className="flex flex-col gap-4">
-      <h2 id="spray-report" className="text-lg font-bold">
-        {t("report.title")}
-      </h2>
-      <div className="grid gap-6 xl:grid-cols-3">
-        <Card>
-          <CardHeader title={t("report.quality")} aside={<SourceBadge source="simulated_device" />} />
-          <CardBody>
-            {card ? (
-              <dl className="flex flex-col gap-3">
-                <Metric label={t("card.coverage")} value={`${n(card.coverage_pct)} %`} />
-                <Metric label={t("card.density")} value={n(card.regions_per_cm2)} />
-                <Metric
-                  label={t("card.uniformity")}
-                  value={t(`card.uniformityValue.${card.uniformity}`)}
-                  note={card.denser_side ? t(`card.denser.${card.denser_side}`) : undefined}
-                />
-              </dl>
-            ) : (
-              <p className="text-sm text-ink-muted">{t("report.qualityEmpty")}</p>
-            )}
-          </CardBody>
-        </Card>
-
-        <Card>
-          <CardHeader title={t("report.environment")} aside={<SourceBadge source="simulated_device" />} />
-          <CardBody className="flex flex-col gap-4">
-            <ul className="flex flex-col gap-2">
-              {data.checks.map((c) => {
-                const { icon: StatusIcon, className } = STATUS[c.status];
-                return (
-                  <li key={c.code} className="flex items-center justify-between gap-3 text-sm">
-                    <span className="flex flex-col">
-                      <span className="font-semibold">{t(`checks.${c.code}` as never)}</span>
-                      <span className="font-mono text-2xs text-ink-muted">
-                        {c.value === null ? "—" : `${n(c.value)} ${c.unit}`}
-                      </span>
-                    </span>
-                    <span className={cn("flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-2xs font-bold", className)}>
-                      <StatusIcon aria-hidden="true" weight="fill" className="size-3.5" />
-                      {t(`checks.status.${c.status}`)}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-            <p className="text-2xs text-ink-muted">{t("checks.note")}</p>
-
-            <div className="border-t border-line pt-4">
-              <div className="flex items-center justify-between gap-2">
-                <p className="text-xs font-semibold">{t("regional.title")}</p>
-                {regional ? <SourceBadge source={regional.source_type} detail="POWER" /> : null}
-              </div>
-              {regional ? (
-                <>
-                  <dl className="mt-2 grid grid-cols-3 gap-2 text-center">
-                    <Stat label={t("regional.mean")} value={`${n(regional.mean_wind_ms)} m/s`} />
-                    <Stat label={t("regional.max")} value={`${n(regional.max_wind_ms)} m/s`} />
-                    <Stat label={t("regional.windy", { threshold: regional.windy_threshold_ms })} value={String(regional.windy_days)} />
-                  </dl>
-                  <div className="mt-2">
-                    <LineChart label={t("regional.series")} unit="m/s" height={150} series={[{ id: "ws", label: "WS2M", tone: "observed", points: wind }]} />
-                  </div>
-                  <p className="text-2xs text-ink-muted">{t("regional.note")}</p>
-                </>
-              ) : (
-                <p className="mt-2 text-sm text-ink-muted">{t("regional.unavailable")}</p>
-              )}
-            </div>
-          </CardBody>
-          {source ? (
-            <ProvenanceFooter
-              items={[`${source.name} · ${source.product}`, "WS2M · T2M_MAX · RH2M", source.grid_cell, `${regional?.start} – ${regional?.end}`]}
-            />
-          ) : null}
-        </Card>
-
-        <Card>
-          <CardHeader title={t("report.plantObs")} aside={<SourceBadge source="simulated_device" />} />
-          <CardBody className="flex flex-col gap-3">
-            {before && after ? (
-              <p className="text-sm">
-                {t("report.plantSummary", {
-                  before: before.leaves_with_spots,
-                  after: after.leaves_with_spots,
-                  checked: after.leaves_checked,
-                  tag: after.plant_tag,
-                })}
-              </p>
-            ) : null}
-            <p className="rounded-md bg-surface-2 p-3 text-xs">{t("plant.disclaimer")}</p>
-          </CardBody>
-        </Card>
-      </div>
-
-      <Card>
-        <CardHeader title={tA("title")} aside={<SourceBadge source="simulated_device" detail="mock" />} />
-        <CardBody>
-          <ul className="grid list-disc gap-x-8 gap-y-1.5 pl-4 text-sm text-ink-muted md:grid-cols-2">
-            {[...data.assumptions, ...(card?.assumptions ?? [])]
-              .filter((code, i, all) => all.indexOf(code) === i)
-              .map((code) => (
-                <li key={code}>{tA.has(code as never) ? tA(code as never) : code}</li>
-              ))}
-          </ul>
-          <p className="mt-4 rounded-md bg-surface-2 p-3 text-sm text-ink">
-            {tU.has(data.uncertainty_note as never) ? tU(data.uncertainty_note as never) : data.uncertainty_note}
-          </p>
-        </CardBody>
-        {card ? <ProvenanceFooter items={[card.method]} /> : null}
-      </Card>
-    </section>
-  );
-}
-
-function Stat({ label, value }: { label: string; value: ReactNode }) {
-  return (
-    <div className="rounded-md bg-surface-2 px-2 py-2">
-      <dt className="text-2xs text-ink-muted">{label}</dt>
-      <dd className="font-mono text-sm font-bold">{value}</dd>
     </div>
   );
 }

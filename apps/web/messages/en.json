@@ -34,7 +34,7 @@
       "water": "Water management",
       "rotation": "Crop rotation",
       "twin": "Digital twin",
-      "spray": "Spray analysis"
+      "spray": "AgriSpray device"
     },
     "intelTitle": "Intelligence from space for your field",
     "intelLead": "An integrated farming tool that reaches from satellite data to the field.",
@@ -81,7 +81,7 @@
     "status": {
       "live": "Live",
       "planned": "Planned",
-      "simulated": "Simulated concept"
+      "simulated": "Prototype · simulated data"
     },
     "gridNote": "Satellite and model data describe a grid cell, not a point measurement inside your field.",
     "footerChallenge": "NASA Space Apps Challenge 2026",
@@ -95,8 +95,8 @@
       "orbitBody": "Satellites and models describe rain, temperature, wind and sunlight for every place on Earth. Sat2Soil reads NASA POWER for the grid cell around your field.",
       "soilLabel": "Field",
       "soilTitle": "Down to your soil",
-      "soilBody": "Satellite imagery shows the field from above. A planned AgriSpray device would add measurements from inside it.",
-      "conceptDevice": "Concept device · not built yet",
+      "soilBody": "Satellite imagery shows the field from above. The AgriSpray prototype measures from inside it.",
+      "conceptDevice": "Prototype · data link in development",
       "decideLabel": "Decide",
       "decideTitle": "From data to decisions you can explain",
       "previewAlt": "Sat2Soil digital twin page for the sample field in the Konya Plain",
@@ -104,6 +104,28 @@
       "fieldOutline": "Sample field, Konya Plain (5 ha)",
       "scrollHint": "Scroll to fly down",
       "videoLabel": "Concept animation (AI-generated)"
+    },
+    "device": {
+      "eyebrow": "AgriSpray prototype",
+      "title": "The satellite sees the region.",
+      "emphasis": "AgriSpray measures your field.",
+      "lead": "NASA data describes a grid cell about 55 km wide. The AgriSpray handheld probe adds what happens inside your own field, at the moment you spray.",
+      "b1": "Soil moisture, temperature and EC measured at several points of your field",
+      "b2": "Spray cards photographed and measured: coverage, stains per cm², uniformity",
+      "b3": "One report that combines your field readings with real NASA POWER data",
+      "compareTitle": "Why both?",
+      "rowScale": "Scale",
+      "rowTime": "Timing",
+      "rowWhat": "What it tells you",
+      "nasaScale": "≈55 km grid cell",
+      "nasaTime": "Daily, 2–4 days delay",
+      "nasaWhat": "Regional rain, temperature, wind, sunlight",
+      "deviceScale": "Inside your field",
+      "deviceTime": "At the moment of spraying",
+      "deviceWhat": "Soil state and spray coverage on your crop",
+      "status": "Physical prototype built · data link in development · values in the demo are simulated",
+      "cta": "Explore AgriSpray",
+      "alt": "Sat2Soil AgriSpray handheld prototype"
     }
   },
   "demo": {
@@ -284,10 +306,11 @@
     "water": "Water management",
     "rotation": "Crop rotation",
     "twin": "Digital twin",
-    "spray": "Spray analysis",
+    "spray": "AgriSpray",
     "summary": "Summary",
     "promoTitle": "Smarter farm decisions with satellite data",
-    "promoCta": "Draw a new field"
+    "promoCta": "Draw a new field",
+    "prototype": "Prototype"
   },
   "shell": {
     "changeField": "Change field",
@@ -415,7 +438,8 @@
       "no_diagnosis": "Plant notes are visual counts, not a disease diagnosis.",
       "synthetic_card": "The card is synthetic: stains are generated, then measured like a scanned card.",
       "stain_not_droplet": "Stain diameters are not converted to droplet sizes (spread factor not calibrated).",
-      "merging_counts": "Touching stains count as one region, the same error real cards have."
+      "merging_counts": "Touching stains count as one region, the same error real cards have.",
+      "prototype_device": "A physical AgriSpray prototype exists but does not send data yet; every device value is simulated."
     },
     "uncertainty": {
       "grid_cell_not_field": "Values describe a ≈55 km grid cell. A field can be wetter or drier than its cell.",
@@ -585,8 +609,8 @@
     "title": "AgriSpray",
     "emphasis": "spray analysis",
     "description": "What the planned AgriSpray field device will measure: soil and air readings, spray-card coverage and plant observations, next to NASA wind context. Today every device value is simulated.",
-    "bannerTitle": "Concept device · Simulated data. No physical device is connected.",
-    "bannerBody": "The device is a concept by the Sat2Soil mechatronics team. Readings, cards and plant notes below are examples that show the planned flow.",
+    "bannerTitle": "Prototype · simulated data. The physical prototype exists but does not send data yet.",
+    "bannerBody": "Every reading, map point and card on this page is an example of what the prototype will report. NASA POWER values are real.",
     "concept": {
       "title": "Concept device",
       "caption": "Concept visual from the design mockup, not a photo of a working device.",
@@ -693,6 +717,78 @@
       "note": "Daily mean at 2 m for a ≈55 km grid cell. It is context, not the wind at the moment of spraying.",
       "series": "Daily mean wind",
       "unavailable": "NASA POWER could not be reached; regional wind is not shown."
+    },
+    "hero": {
+      "module": "AgriSpray module",
+      "title": "Spray",
+      "emphasis": "analysis",
+      "lead": "Soil readings and spray-card scans from the field, combined with real NASA Earth data, so every spraying decision is backed by evidence from your own field.",
+      "f1": "Measures spray coverage",
+      "f2": "Field data + NASA data",
+      "f3": "More informed spraying"
+    },
+    "device": {
+      "chip": "Prototype",
+      "title": "Sat2Soil device",
+      "spec": "ESP32-S3 · macro camera · exchangeable soil probe",
+      "body": "A handheld probe that measures soil moisture, temperature and EC at several points of the field and photographs spray cards with its macro camera.",
+      "status": "Physical prototype built · data link in development",
+      "alt": "Sat2Soil handheld prototype with a screen, three buttons and a three-pin soil probe"
+    },
+    "how": {
+      "title": "How the system works",
+      "s1": "The farmer measures at several points of the field.",
+      "s2": "The device sends soil readings and card images to the app over Bluetooth or Wi-Fi.",
+      "s3": "Field readings are combined with NASA POWER data for the same place.",
+      "s4": "Sat2Soil produces an explainable spraying report.",
+      "planned": "Planned"
+    },
+    "points": {
+      "title": "Measurement points",
+      "legend": "{count} measurement points · sample field ({area} ha)",
+      "moisture": "{value}% moisture"
+    },
+    "scan": {
+      "title": "Card scan",
+      "before": "Before spraying · clean card",
+      "after": "After spraying · spray trace detection",
+      "showMask": "Show detection",
+      "showCard": "Show card"
+    },
+    "readings": {
+      "title": "Device readings",
+      "change": "vs. 24 h earlier",
+      "noChange": "no change"
+    },
+    "nasa": {
+      "title": "NASA contribution",
+      "lead": "Open NASA data adds the regional climate context that one field reading cannot give.",
+      "power": "Regional climate",
+      "powerBody": "Last 30 days: {rain} mm rain, mean RH {rh}%, mean wind {wind} m/s.",
+      "gpm": "Precipitation",
+      "gpmBody": "Half-hourly satellite rainfall.",
+      "smap": "Soil moisture",
+      "smapBody": "Satellite soil moisture to compare with the probe."
+    },
+    "summary": {
+      "title": "Analysis summary",
+      "coverage": "Spray trace",
+      "coverageValue": "{pct}% card coverage, {density} stains/cm²",
+      "coverageEmpty": "Run the card analysis.",
+      "environment": "Conditions",
+      "environmentValue": "Delta T {dt} °C · air {temp} °C, RH {rh}%",
+      "plant": "Plant observation",
+      "plantValue": "Leaves with visible spots: {before} → {after} of {checked}",
+      "advice": "Next step",
+      "adviceEven": "Coverage is even. Keep the settings and place a card at every application to compare.",
+      "adviceSide": "Coverage is denser on the {side} half: check nozzle spacing, pressure and boom height.",
+      "adviceLow": "Coverage is low: check nozzle type, pressure and travel speed against the product label.",
+      "adviceNote": "Spray-quality feedback, not a dose recommendation. Always follow the product label.",
+      "left": "left",
+      "right": "right"
+    },
+    "details": {
+      "title": "Details"
     }
   },
   "summary": {
@@ -731,7 +827,7 @@
       "none": "Not enough past seasons for a scenario."
     },
     "spray": {
-      "title": "AgriSpray concept",
+      "title": "AgriSpray prototype",
       "line": "Example card: {coverage}% coverage, {density} stains/cm², {uniformity}."
     },
     "open": "Open",
@@ -786,5 +882,10 @@
     "previous": "Previous step",
     "next": "Next step",
     "end": "End demo flow"
+  },
+  "deviceHint": {
+    "soil": "Soil water is not modelled here. The AgriSpray prototype will measure soil moisture in the field.",
+    "wind": "Wind at spray time is unknown from satellites. AgriSpray will record conditions at the moment of spraying.",
+    "cta": "See AgriSpray"
   }
 }

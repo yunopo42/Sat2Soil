@@ -25,9 +25,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { Skeleton } from "@/components/ui/state-panel";
+import Image from "next/image";
 import { Link, useRouter } from "@/i18n/navigation";
 import { fetchRotation, fetchSprayCard, fetchTwin, fetchWaterBalance } from "@/lib/api";
 import { periodSummary, seriesOf, toPoints } from "@/lib/climate";
+import deviceImage from "../../../../../../../public/images/agrispray-device.webp";
 import { fieldQuery, powerQuery } from "../field-shell";
 
 const day = (iso: string) => new Date(`${iso.slice(0, 10)}T12:00:00Z`);
@@ -384,7 +386,9 @@ function SprayCard({ href }: { href: string }) {
       {!card.data ? (
         <Loading />
       ) : (
-        <>
+        <div className="flex items-center gap-4">
+          <Image src={deviceImage} alt="" sizes="32px" className="h-24 w-auto shrink-0" />
+          <div className="flex flex-col gap-2">
           <p className="text-sm font-semibold leading-snug">
             {t("line", {
               coverage: format.number(card.data.coverage_pct, { maximumFractionDigits: 1 }),
@@ -395,7 +399,8 @@ function SprayCard({ href }: { href: string }) {
           <p className="hatch-amber w-fit rounded-full border border-amber-600/50 px-3 py-1 text-2xs font-bold text-amber-700">
             {tCard("example")}
           </p>
-        </>
+          </div>
+        </div>
       )}
     </SummaryCard>
   );

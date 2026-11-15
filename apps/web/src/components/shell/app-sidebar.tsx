@@ -98,6 +98,11 @@ export function AppSidebar({
                     className={cn("relative size-5 shrink-0", isActive ? "text-green-600" : "text-ink/70")}
                   />
                   <span className="relative truncate">{t(item.key)}</span>
+                  {item.key === "spray" ? (
+                    <span className="relative ml-auto rounded-full border border-orange-500/40 bg-orange-200/40 px-2 py-0.5 text-2xs font-bold text-amber-700">
+                      {t("prototype")}
+                    </span>
+                  ) : null}
                 </Link>
               </li>
             );

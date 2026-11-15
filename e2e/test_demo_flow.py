@@ -66,7 +66,9 @@ def test_twin_separates_observed_and_scenario(page: Page, sample_field_id: str):
 
 def test_agrispray_is_always_labelled_simulated(page: Page, sample_field_id: str):
     page.goto(f"{BASE_URL}/fields/{sample_field_id}/spray")
-    expect(page.get_by_text("Concept device · Simulated data. No physical device is connected.")).to_be_visible()
+    expect(page.get_by_text("Prototype · simulated data. The physical prototype exists but does not send data yet.")).to_be_visible()
+    expect(page.get_by_role("img", name=re.compile("Sat2Soil handheld prototype"))).to_be_visible()
+    expect(page.get_by_text("Planned").first).to_be_visible()  # GPM / SMAP are not shown as connected
     page.get_by_role("button", name="Run example analysis").click()
     expect(page.get_by_text(re.compile(r"stains generated → \d+ regions detected"))).to_be_visible()
     body = page.locator("main").inner_text()
@@ -93,4 +95,13 @@ def test_summary_lists_every_source_and_starts_the_demo_flow(page: Page, sample_
 
 def test_turkish_locale_works(page: Page, sample_field_id: str):
     page.goto(f"{BASE_URL}/tr/fields/{sample_field_id}/spray")
-    expect(page.get_by_text("Konsept cihaz · Simüle veri. Bağlı fiziksel cihaz yok.")).to_be_visible()
+    expect(page.get_by_text("Prototip · simüle veri. Fiziksel prototip hazır ama henüz veri göndermiyor.")).to_be_visible()
+
+
+def test_landing_promotes_the_prototype(page: Page, sample_field_id: str):
+    page.goto(f"{BASE_URL}/#agrispray")
+    section = page.locator("#agrispray")
+    expect(section.get_by_role("heading", level=2)).to_contain_text("AgriSpray measures your field")
+    expect(section.get_by_text("values in the demo are simulated")).to_be_visible()
+    section.get_by_role("link", name="Explore AgriSpray").click()
+    page.wait_for_url(f"**/fields/{sample_field_id}/spray")

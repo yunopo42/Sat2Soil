@@ -284,7 +284,7 @@ export const AgriSpraySchema = z.object({
   computation_kind: z.literal("mock"),
   device: z.object({
     device_id: z.string(),
-    status: z.literal("concept"),
+    status: z.literal("prototype"),
     connected: z.literal(false),
     source_type: DataSourceSchema,
     computation_kind: z.literal("mock"),
@@ -297,9 +297,29 @@ export const AgriSpraySchema = z.object({
       air_rh_pct: z.number().nullable(),
       wind_ms: z.number().nullable(),
     }),
+    previous: z.object({
+      soil_moisture_pct: z.number().nullable(),
+      soil_temp_c: z.number().nullable(),
+      soil_ec_ds_m: z.number().nullable(),
+      air_temp_c: z.number().nullable(),
+      air_rh_pct: z.number().nullable(),
+      wind_ms: z.number().nullable(),
+    }),
+    previous_at: z.string(),
     history: z.array(z.object({ at: z.string(), soil_moisture_pct: z.number(), soil_temp_c: z.number() })),
     quality_note: z.string(),
   }),
+  points: z.array(
+    z.object({
+      code: z.string(),
+      lat: z.number(),
+      lon: z.number(),
+      soil_moisture_pct: z.number(),
+      soil_temp_c: z.number(),
+      soil_ec_ds_m: z.number(),
+      source_type: DataSourceSchema,
+    }),
+  ),
   checks: z.array(
     z.object({
       code: z.string(),

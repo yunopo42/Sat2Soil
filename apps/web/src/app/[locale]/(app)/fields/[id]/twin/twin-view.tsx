@@ -17,6 +17,7 @@ import { useMemo, useState, type ReactNode } from "react";
 import type { BandPoint, Point } from "@/components/charts/chart-utils";
 import { LineChart } from "@/components/charts/line-chart";
 import { ProvenanceFooter } from "@/components/data/provenance-footer";
+import { DeviceHint } from "@/components/data/device-hint";
 import { SourceBadge } from "@/components/data/source-badge";
 import { FieldMap } from "@/components/map/field-map";
 import { Banner } from "@/components/ui/banner";
@@ -136,6 +137,7 @@ export function TwinView({ fieldId }: { fieldId: string }) {
       ) : (
         <TwinBody data={data} field={field.data} rain={rain} fetching={twin.isFetching} />
       )}
+      <DeviceHint kind="soil" href={`/fields/${fieldId}/spray`} />
     </div>
   );
 }

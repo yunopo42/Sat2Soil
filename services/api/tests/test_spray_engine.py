@@ -15,6 +15,8 @@ from app.engines.spray import (
     connected_regions,
     delta_t,
     device_history,
+    measurement_points,
+    previous_sample,
     rasterise,
     spray_checks,
     wet_bulb_stull,
@@ -75,3 +77,37 @@ def test_device_history_is_deterministic_and_ends_at_the_documented_sample():
     assert a[-1].soil_moisture_pct == SAMPLE["soil_moisture_pct"]
     assert a[-1].soil_temp_c == SAMPLE["soil_temp_c"]
     assert len(a) == 7 * 24 // 3 + 1
+
+
+FIELD = {
+    "type": "Polygon",
+    "coordinates": [
+        [
+            [32.853842, 37.622118],
+            [32.856503, 37.620554],
+            [32.855558, 37.61933],
+            [32.852554, 37.62103],
+            [32.853842, 37.622118],
+        ]
+    ],
+}
+
+
+def test_measurement_points_lie_inside_the_field_and_are_stable():
+    from app.engines.spray import _inside
+
+    points = measurement_points(FIELD, "field-1")
+    assert len(points) == 7
+    assert points == measurement_points(FIELD, "field-1")
+    ring = FIELD["coordinates"][0]
+    assert all(_inside(p.lon, p.lat, ring) for p in points)
+    assert len({(p.lat, p.lon) for p in points}) == 7
+    assert [p.code for p in points] == [f"P{i}" for i in range(1, 8)]
+
+
+def test_previous_sample_is_the_reading_one_day_earlier():
+    history = device_history("field-1")
+    previous = previous_sample(history)
+    day_before = next(r for r in history if (SAMPLE_TIME - r.at).total_seconds() == 86400)
+    assert previous["soil_moisture_pct"] == day_before.soil_moisture_pct
+    assert previous["wind_ms"] is None

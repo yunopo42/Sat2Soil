@@ -17,7 +17,8 @@
 | 6 | ✅ | `/twin` digital twin: observed season + 20 past seasons replayed, dry/normal/wet, A vs B crops (D-026) |
 | 7 | ✅ | `/spray` AgriSpray concept: simulated sensors, synthetic spray-card measurement, Delta T + NASA wind (D-027) |
 | 8 | ✅ | Cinematic landing: scroll-scrubbed frames from the user's video, 4 acts, real app preview at the end (D-028) |
-| 9 | ✅ | `/summary` + demo flow + A4 print; `e2e/` Playwright + axe suite, 21 tests green (D-029) | `/summary` + QA (Playwright + axe, 390 px mobile check, prod smoke test) |
+| 9 | ✅ | `/summary` + demo flow + A4 print; `e2e/` Playwright + axe suite (D-029) |
+| + | ✅ | AgriSpray prototype in front: redesigned page, landing section, nav badge, hints (D-030); e2e 22/22 | `/summary` + QA (Playwright + axe, 390 px mobile check, prod smoke test) |
 
 Every page is built; `ComingSoon` is no longer used. Specs: `docs/PRODUCT_SCOPE.md`, `docs/UI_UX_DESIGN.md`,
 `docs/ANALYSIS_AI.md` (§3 digital twin, §4 AgriSpray), `apps/web/task.md`, `services/api/task.md`.

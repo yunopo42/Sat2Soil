@@ -10,6 +10,7 @@ import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Wordmark } from "@/components/brand/wordmark";
 import { CinematicHero } from "@/components/landing/cinematic-hero";
+import { DeviceSection } from "@/components/landing/device-section";
 import { RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { SiteHeader } from "@/components/site-header";
 import { Eyebrow } from "@/components/ui/page-header";
@@ -74,6 +75,10 @@ export default async function LandingPage() {
               </li>
             ))}
           </ul>
+        </div>
+
+        <div className="mt-16">
+          <DeviceSection />
         </div>
 
         {/* Intelligence from space */}

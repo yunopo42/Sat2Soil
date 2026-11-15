@@ -7,6 +7,7 @@ import { useFormatter, useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 import type { Point } from "@/components/charts/chart-utils";
 import { LineChart } from "@/components/charts/line-chart";
+import { DeviceHint } from "@/components/data/device-hint";
 import { MetricCard } from "@/components/data/metric-card";
 import { ProvenanceFooter } from "@/components/data/provenance-footer";
 import { SourceBadge } from "@/components/data/source-badge";
@@ -92,6 +93,7 @@ export function WaterPlanner({ fieldId }: { fieldId: string }) {
       ) : (
         <WaterResult data={balance.data} cropLabel={tCrops(crop as (typeof WATER_CROPS)[number])} />
       )}
+      <DeviceHint kind="soil" href={`/fields/${fieldId}/spray`} />
     </div>
   );
 }

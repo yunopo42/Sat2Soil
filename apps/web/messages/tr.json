@@ -34,7 +34,7 @@
       "water": "Su Yönetimi",
       "rotation": "Ürün Rotasyonu",
       "twin": "Dijital İkiz",
-      "spray": "Zirai İlaçlama"
+      "spray": "AgriSpray cihazı"
     },
     "intelTitle": "Tarlanız İçin Uzaydan Gelen Akıl",
     "intelLead": "Uydu verilerinden sahadaki uygulamaya uzanan entegre bir tarım aracı.",
@@ -81,7 +81,7 @@
     "status": {
       "live": "Canlı",
       "planned": "Planlı",
-      "simulated": "Simüle konsept"
+      "simulated": "Prototip · simüle veri"
     },
     "gridNote": "Uydu ve model verileri bir ızgara hücresini temsil eder; tarlanızın içindeki noktasal bir ölçüm değildir.",
     "footerChallenge": "NASA Space Apps Challenge 2026",
@@ -95,8 +95,8 @@
       "orbitBody": "Uydular ve modeller Dünya'nın her yeri için yağışı, sıcaklığı, rüzgârı ve güneşi tanımlar. Sat2Soil, tarlanın çevresindeki ızgara hücresi için NASA POWER verisini okur.",
       "soilLabel": "Tarla",
       "soilTitle": "Toprağına kadar",
-      "soilBody": "Uydu görüntüsü tarlayı yukarıdan gösterir. Planlanan AgriSpray cihazı içeriden ölçüm ekleyecek.",
-      "conceptDevice": "Konsept cihaz · henüz üretilmedi",
+      "soilBody": "Uydu görüntüsü tarlayı yukarıdan gösterir. AgriSpray prototipi tarlanın içinden ölçer.",
+      "conceptDevice": "Prototip · veri bağlantısı geliştiriliyor",
       "decideLabel": "Karar",
       "decideTitle": "Veriden açıklanabilir kararlara",
       "previewAlt": "Konya Ovası örnek tarlası için Sat2Soil dijital ikiz sayfası",
@@ -104,6 +104,28 @@
       "fieldOutline": "Örnek tarla, Konya Ovası (5 ha)",
       "scrollHint": "Aşağı inmek için kaydır",
       "videoLabel": "Konsept animasyon (yapay zekâ ile üretildi)"
+    },
+    "device": {
+      "eyebrow": "AgriSpray prototipi",
+      "title": "Uydu bölgeyi görür.",
+      "emphasis": "AgriSpray tarlanızı ölçer.",
+      "lead": "NASA verisi yaklaşık 55 km genişliğinde bir ızgara hücresini tanımlar. AgriSpray el tipi probu, kendi tarlanızın içinde, ilaçlama anında olanı ekler.",
+      "b1": "Tarlanızın farklı noktalarında toprak nemi, sıcaklığı ve EC ölçümü",
+      "b2": "İlaçlama kartının fotoğraflanıp ölçülmesi: kaplama, cm² başına leke, homojenlik",
+      "b3": "Saha ölçümlerinizi gerçek NASA POWER verisiyle birleştiren tek bir rapor",
+      "compareTitle": "Neden ikisi birden?",
+      "rowScale": "Ölçek",
+      "rowTime": "Zaman",
+      "rowWhat": "Ne söyler",
+      "nasaScale": "≈55 km ızgara hücresi",
+      "nasaTime": "Günlük, 2–4 gün gecikmeli",
+      "nasaWhat": "Bölgesel yağış, sıcaklık, rüzgâr, güneş",
+      "deviceScale": "Tarlanızın içi",
+      "deviceTime": "İlaçlama anında",
+      "deviceWhat": "Toprağın durumu ve ürününüzdeki püskürtme kaplaması",
+      "status": "Fiziksel prototip hazır · veri bağlantısı geliştiriliyor · demodaki değerler simüle",
+      "cta": "AgriSpray'i incele",
+      "alt": "Sat2Soil AgriSpray el tipi prototipi"
     }
   },
   "demo": {
@@ -284,10 +306,11 @@
     "water": "Su Yönetimi",
     "rotation": "Ürün Rotasyonu",
     "twin": "Dijital İkiz",
-    "spray": "Zirai İlaçlama",
+    "spray": "AgriSpray",
     "summary": "Özet",
     "promoTitle": "Uydu verisiyle daha akıllı tarım kararları",
-    "promoCta": "Yeni tarla çiz"
+    "promoCta": "Yeni tarla çiz",
+    "prototype": "Prototip"
   },
   "shell": {
     "changeField": "Tarlayı değiştir",
@@ -415,7 +438,8 @@
       "no_diagnosis": "Bitki notları görsel sayımdır, hastalık teşhisi değildir.",
       "synthetic_card": "Kart sentetiktir: lekeler üretilir, sonra taranmış bir kart gibi ölçülür.",
       "stain_not_droplet": "Leke çapları damlacık boyutuna çevrilmez (yayılma katsayısı kalibre edilmedi).",
-      "merging_counts": "Birbirine değen lekeler tek bölge sayılır; gerçek kartlarda da aynı hata vardır."
+      "merging_counts": "Birbirine değen lekeler tek bölge sayılır; gerçek kartlarda da aynı hata vardır.",
+      "prototype_device": "Fiziksel bir AgriSpray prototipi var ama henüz veri göndermiyor; cihaz değerlerinin hepsi simüledir."
     },
     "uncertainty": {
       "grid_cell_not_field": "Değerler ≈55 km'lik bir ızgara hücresini temsil eder. Tarla, hücresinden daha nemli ya da kuru olabilir.",
@@ -585,8 +609,8 @@
     "title": "Zirai İlaçlama",
     "emphasis": "Analizi",
     "description": "Planlanan AgriSpray saha cihazının ölçeceği şeyler: toprak ve hava değerleri, ilaçlama kartı kaplaması ve bitki gözlemleri; yanında NASA rüzgâr bağlamı. Bugün cihaz değerlerinin hepsi simüledir.",
-    "bannerTitle": "Konsept cihaz · Simüle veri. Bağlı fiziksel cihaz yok.",
-    "bannerBody": "Cihaz, Sat2Soil mekatronik ekibinin konseptidir. Aşağıdaki değerler, kartlar ve bitki notları planlanan akışı gösteren örneklerdir.",
+    "bannerTitle": "Prototip · simüle veri. Fiziksel prototip hazır ama henüz veri göndermiyor.",
+    "bannerBody": "Bu sayfadaki her ölçüm, harita noktası ve kart, prototipin raporlayacağı şeylerin örneğidir. NASA POWER değerleri gerçektir.",
     "concept": {
       "title": "Konsept cihaz",
       "caption": "Tasarım maketinden konsept görsel; çalışan bir cihazın fotoğrafı değildir.",
@@ -693,6 +717,78 @@
       "note": "≈55 km'lik ızgara hücresi için 2 m'de günlük ortalama. Bağlam sağlar; ilaçlama anındaki rüzgâr değildir.",
       "series": "Günlük ortalama rüzgâr",
       "unavailable": "NASA POWER'a ulaşılamadı; bölgesel rüzgâr gösterilmiyor."
+    },
+    "hero": {
+      "module": "AgriSpray modülü",
+      "title": "Zirai İlaçlama",
+      "emphasis": "Analizi",
+      "lead": "Tarladan toprak ölçümleri ve ilaçlama kartı taramaları, gerçek NASA Dünya verileriyle birleşir; her ilaçlama kararı kendi tarlanızdan gelen kanıta dayanır.",
+      "f1": "Püskürtme kalitesini ölçer",
+      "f2": "Saha verisi + NASA verisi",
+      "f3": "Daha bilinçli ilaçlama"
+    },
+    "device": {
+      "chip": "Prototip",
+      "title": "Sat2Soil cihazı",
+      "spec": "ESP32-S3 · makro kamera · değiştirilebilir toprak probu",
+      "body": "Tarlanın farklı noktalarında toprak nemini, sıcaklığını ve EC'yi ölçen, makro kamerasıyla ilaçlama kartlarını fotoğraflayan el tipi bir prob.",
+      "status": "Fiziksel prototip hazır · veri bağlantısı geliştiriliyor",
+      "alt": "Ekranlı, üç butonlu ve üç uçlu toprak problu Sat2Soil el tipi prototipi"
+    },
+    "how": {
+      "title": "Sistem nasıl çalışır?",
+      "s1": "Çiftçi tarlanın farklı noktalarında ölçüm yapar.",
+      "s2": "Cihaz toprak ölçümlerini ve kart görüntülerini Bluetooth veya Wi-Fi ile uygulamaya aktarır.",
+      "s3": "Saha ölçümleri aynı konum için NASA POWER verileriyle birlikte değerlendirilir.",
+      "s4": "Sat2Soil açıklanabilir bir ilaçlama raporu üretir.",
+      "planned": "Planlı"
+    },
+    "points": {
+      "title": "Ölçüm noktaları",
+      "legend": "{count} ölçüm noktası · örnek tarla ({area} ha)",
+      "moisture": "%{value} nem"
+    },
+    "scan": {
+      "title": "Kart taraması",
+      "before": "İlaçlama öncesi · temiz kart",
+      "after": "İlaçlama sonrası · püskürtme izi tespiti",
+      "showMask": "Tespiti göster",
+      "showCard": "Kartı göster"
+    },
+    "readings": {
+      "title": "Cihaz verileri",
+      "change": "24 sa öncesine göre",
+      "noChange": "değişim yok"
+    },
+    "nasa": {
+      "title": "NASA katkısı",
+      "lead": "Açık NASA verileri, tek bir saha ölçümünün veremeyeceği bölgesel iklim bağlamını ekler.",
+      "power": "Bölgesel iklim",
+      "powerBody": "Son 30 gün: {rain} mm yağış, ortalama nem %{rh}, ortalama rüzgâr {wind} m/s.",
+      "gpm": "Yağış",
+      "gpmBody": "Yarım saatlik uydu yağış verisi.",
+      "smap": "Toprak nemi",
+      "smapBody": "Probla karşılaştırmak için uydu toprak nemi."
+    },
+    "summary": {
+      "title": "Analiz özeti",
+      "coverage": "Püskürtme izi",
+      "coverageValue": "Kartta %{pct} kaplama, cm² başına {density} leke",
+      "coverageEmpty": "Kart analizini çalıştırın.",
+      "environment": "Koşullar",
+      "environmentValue": "Delta T {dt} °C · hava {temp} °C, nem %{rh}",
+      "plant": "Bitki gözlemi",
+      "plantValue": "Görünür lekeli yaprak: {checked} yapraktan {before} → {after}",
+      "advice": "Sonraki adım",
+      "adviceEven": "Kaplama düzgün. Ayarları koruyun ve her uygulamada bir kart koyarak karşılaştırın.",
+      "adviceSide": "Kaplama {side} yarıda daha yoğun: meme aralığını, basıncı ve bom yüksekliğini kontrol edin.",
+      "adviceLow": "Kaplama düşük: meme tipini, basıncı ve ilerleme hızını ürün etiketine göre kontrol edin.",
+      "adviceNote": "Püskürtme kalitesi geri bildirimidir, doz önerisi değildir. Her zaman ürün etiketine uyun.",
+      "left": "sol",
+      "right": "sağ"
+    },
+    "details": {
+      "title": "Ayrıntılar"
     }
   },
   "summary": {
@@ -731,7 +827,7 @@
       "none": "Senaryo için yeterli geçmiş sezon yok."
     },
     "spray": {
-      "title": "AgriSpray konsepti",
+      "title": "AgriSpray prototipi",
       "line": "Örnek kart: %{coverage} kaplama, cm² başına {density} leke, {uniformity}."
     },
     "open": "Aç",
@@ -786,5 +882,10 @@
     "previous": "Önceki adım",
     "next": "Sonraki adım",
     "end": "Demo akışını bitir"
+  },
+  "deviceHint": {
+    "soil": "Toprak suyu burada modellenmiyor. AgriSpray prototipi toprak nemini tarlada ölçecek.",
+    "wind": "İlaçlama anındaki rüzgâr uydudan bilinemez. AgriSpray ilaçlama anındaki koşulları kaydedecek.",
+    "cta": "AgriSpray'i gör"
   }
 }

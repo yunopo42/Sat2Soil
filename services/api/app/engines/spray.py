@@ -22,7 +22,9 @@ from functools import lru_cache
 
 # ---------------------------------------------------------------- device (simulated)
 
-DEVICE_ID = "SAT2SOIL_CONCEPT_01"
+# A physical prototype exists (ESP32-S3, macro camera, exchangeable soil probe) but does not send
+# data yet (D-030): every value below is still simulated.
+DEVICE_ID = "SAT2SOIL_PROTO_01"
 SAMPLE_TIME = datetime(2026, 11, 14, 12, 0, tzinfo=UTC)  # docs/ANALYSIS_AI.md sample JSON
 SAMPLE = {
     "soil_moisture_pct": 31.4,
@@ -60,6 +62,84 @@ def device_history(seed: str, days: int = 7, step_h: int = 3) -> list[DeviceRead
             moisture, temp = SAMPLE["soil_moisture_pct"], SAMPLE["soil_temp_c"]
         out.append(DeviceReading(at, round(moisture, 1), round(temp, 1)))  # type: ignore[arg-type]
     return out
+
+
+# Air readings 24 h before the sample (soil values come from the generated history).
+PREVIOUS_AIR = {"soil_ec_ds_m": 0.84, "air_temp_c": 22.6, "air_rh_pct": 53.0}
+
+
+def previous_sample(history: list[DeviceReading]) -> dict[str, float | None]:
+    """The simulated reading 24 h before the sample, for the change chips on the readings."""
+    day_before = SAMPLE_TIME - timedelta(hours=24)
+    earlier = next((r for r in history if r.at == day_before), history[0])
+    return {
+        "soil_moisture_pct": earlier.soil_moisture_pct,
+        "soil_temp_c": earlier.soil_temp_c,
+        **PREVIOUS_AIR,
+        "wind_ms": None,
+    }
+
+
+@dataclass(frozen=True)
+class MeasurementPoint:
+    code: str
+    lat: float
+    lon: float
+    soil_moisture_pct: float
+    soil_temp_c: float
+    soil_ec_ds_m: float
+
+
+def _inside(lon: float, lat: float, ring: list[list[float]]) -> bool:
+    """Ray casting point-in-polygon on lon/lat."""
+    inside = False
+    j = len(ring) - 1
+    for i in range(len(ring)):
+        xi, yi = ring[i][0], ring[i][1]
+        xj, yj = ring[j][0], ring[j][1]
+        if (yi > lat) != (yj > lat) and lon < (xj - xi) * (lat - yi) / (yj - yi) + xi:
+            inside = not inside
+        j = i
+    return inside
+
+
+def measurement_points(boundary: dict, seed: str, count: int = 7) -> list[MeasurementPoint]:
+    """Where a farmer would push the probe in: points spread inside the field (a jittered grid,
+    deterministic per field). Readings vary around the sample. Simulated, never measured."""
+    ring = boundary["coordinates"][0]
+    lons = [p[0] for p in ring]
+    lats = [p[1] for p in ring]
+    rng = random.Random(f"points-{seed}")
+    candidates: list[tuple[float, float]] = []
+    steps = 12
+    for i in range(steps):
+        for j in range(steps):
+            lon = min(lons) + (i + rng.uniform(0.25, 0.75)) / steps * (max(lons) - min(lons))
+            lat = min(lats) + (j + rng.uniform(0.25, 0.75)) / steps * (max(lats) - min(lats))
+            if _inside(lon, lat, ring):
+                candidates.append((lon, lat))
+    if not candidates:
+        return []
+    # Farthest-point sampling: an even spread, like a real sampling walk across the field.
+    chosen = [candidates[len(candidates) // 2]]
+    while len(chosen) < min(count, len(candidates)):
+        best = max(
+            candidates,
+            key=lambda c: min((c[0] - p[0]) ** 2 + (c[1] - p[1]) ** 2 for p in chosen),
+        )
+        chosen.append(best)
+    chosen.sort(key=lambda c: (-c[1], c[0]))
+    return [
+        MeasurementPoint(
+            code=f"P{k + 1}",
+            lat=round(lat, 6),
+            lon=round(lon, 6),
+            soil_moisture_pct=round(SAMPLE["soil_moisture_pct"] + rng.uniform(-3.5, 3.5), 1),  # type: ignore[operator]
+            soil_temp_c=round(SAMPLE["soil_temp_c"] + rng.uniform(-1.2, 1.2), 1),  # type: ignore[operator]
+            soil_ec_ds_m=round(SAMPLE["soil_ec_ds_m"] + rng.uniform(-0.15, 0.15), 2),  # type: ignore[operator]
+        )
+        for k, (lon, lat) in enumerate(chosen)
+    ]
 
 
 # ---------------------------------------------------------------- spray conditions
